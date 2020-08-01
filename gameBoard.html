@@ -151,10 +151,13 @@ class GameBoard{
             if(this.currentDistrictSize < this.maxDistrictSize){
                 let neighborhood = this.getNeighborhoodByMousePos();
                 if(neighborhood != null){
+                    // If neighborhood is not already part of a district, add it to the district being drawn
                     if(!neighborhood.selected){
                         neighborhood.selected = true;
                         this.currentDistrictSize += 1; 
                         this.currentDistrict.push(neighborhood);
+
+                    // If neighborhood is a part of a district, and we aren't currently drawing a district, delete the district
                     }else if(this.currentDistrictSize == 0){
                         let districtIndex = this.findNeighborhoodsCurrentDistrictIndex(neighborhood);
                         this.deSelectDistrict(this.districts[districtIndex]);
@@ -163,9 +166,12 @@ class GameBoard{
                     }
                 }
             }
-        }else if(!mouse.down){
-            this.justDeleted = false;
+        }
+        else if(!mouse.down){
+            this.justDeleted = false; // The mouse has been brought up, so we no longer just deleted a district
             this.currentDistrictSize = 0;
+
+            // If the selected district is valid, solidify it as an actual district, otherwise deselect it
             if(this.districts.length <= this.maxDistrictCount 
                                     && this.currentDistrict.length > 0
                                     && this.isDistrictConnected(this.currentDistrict)){
@@ -177,10 +183,12 @@ class GameBoard{
         }
     }
 
+    // Deselect all neighborhoods in a district
     deSelectDistrict(district){
         district.forEach(neighborhood => neighborhood.selected = false);
     }
 
+    // Find which district a neighborhood is in, and return it's index from the districts array
     findNeighborhoodsCurrentDistrictIndex(neighborhood){
         if(!neighborhood.selected){
             return null
@@ -195,7 +203,7 @@ class GameBoard{
         return foundDistrictIndex;
     }
 
-    // Essentially a bredth-first search
+    // Checks whether all selected neighborhoods in a district are all connected to one another
     isDistrictConnected(district){
         let foundConnectedPairs = 0;
         for(let i = 0; i < district.length; i++){
@@ -214,6 +222,7 @@ class GameBoard{
         
     }
 
+    // Checks if two neighborhoods are adjacent
     areNeighborhoodsAdjacent(firstNeighborhood, secondNeighborhood){
         let firstNeighborhoodCells = this.getCellsFromPixels(firstNeighborhood.xPos, firstNeighborhood.yPos);
         let secondNeighborhoodCells = this.getCellsFromPixels(secondNeighborhood.xPos, secondNeighborhood.yPos);
@@ -226,6 +235,7 @@ class GameBoard{
         }
     }
 
+    // Draw the gameboard
     draw(){
         this.cityGrid.forEach(element => {
             element.forEach(square => {
@@ -234,6 +244,7 @@ class GameBoard{
         });
     }
 
+    // Update the gameboard, designed to run in a loop
     update(){
         this.drawDistrict();
         this.draw();
@@ -242,7 +253,6 @@ class GameBoard{
 
 let squareSize = 100;
 let gameBoard = new GameBoard(Math.floor(canvas.width / squareSize), Math.floor(canvas.height / squareSize), squareSize, squareSize);
-
 
 animate = () => {
     context.clearRect(0, 0, canvas.width, canvas.height);
