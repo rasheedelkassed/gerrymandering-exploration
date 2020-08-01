@@ -154,6 +154,9 @@ class GameBoard{
                         neighborhood.selected = true;
                         this.currentDistrictSize += 1; 
                         this.currentDistrict.push(neighborhood);
+                    }else if(this.currentDistrictSize == 0){
+                        console.log(this.findNeighborhoodsCurrentDistrictIndex(neighborhood));
+                        this.deSelectDistrict(this.districts[this.findNeighborhoodsCurrentDistrictIndex(neighborhood)]);
                     }
                 }
             }
@@ -172,6 +175,20 @@ class GameBoard{
 
     deSelectDistrict(district){
         district.forEach(neighborhood => neighborhood.selected = false);
+    }
+
+    findNeighborhoodsCurrentDistrictIndex(neighborhood){
+        if(!neighborhood.selected){
+            return null
+        }
+        let foundDistrictIndex = null;
+        for(let i = 0; i < this.districts.length; i++){
+            if(this.districts[i].includes(neighborhood)){
+                foundDistrictIndex = i;
+                break;
+            }
+        }
+        return foundDistrictIndex;
     }
 
     // Essentially a bredth-first search
