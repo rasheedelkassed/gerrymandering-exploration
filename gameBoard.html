@@ -95,6 +95,7 @@ class GameBoard{
         this.districts = [];
         this.maxDistrictCount = 4;
         this.currentDistrict = [];
+        this.justDeleted = false;
 
         this.createCityGrid();
     }
@@ -146,7 +147,7 @@ class GameBoard{
 
     // TODO: Bring those if statements down to more acceptable levels
     drawDistrict(){
-        if(mouse.down){
+        if(mouse.down && !this.justDeleted){
             if(this.currentDistrictSize < this.maxDistrictSize){
                 let neighborhood = this.getNeighborhoodByMousePos();
                 if(neighborhood != null){
@@ -157,10 +158,12 @@ class GameBoard{
                     }else if(this.currentDistrictSize == 0){
                         console.log(this.findNeighborhoodsCurrentDistrictIndex(neighborhood));
                         this.deSelectDistrict(this.districts[this.findNeighborhoodsCurrentDistrictIndex(neighborhood)]);
+                        this.justDeleted = true;
                     }
                 }
             }
-        }else{
+        }else if(!mouse.down){
+            this.justDeleted = false;
             this.currentDistrictSize = 0;
             if(this.districts.length <= this.maxDistrictCount 
                                     && this.currentDistrict.length > 0
