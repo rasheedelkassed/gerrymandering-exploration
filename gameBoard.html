@@ -47,26 +47,34 @@ function(event) {
     mouse.down = false;
 })
 
+canvas.addEventListener('mouseleave', 
+function(event) {
+    mouse.down = false;
+})
+
 // Create a referencable rect object on a canvas
 class Neighborhood{
     constructor(xPos, yPos, width, height){
         this.xPos = xPos;
-        this.yPos = yPos;        
+        this.yPos = yPos;    
         this.width = width;
         this.height = height;
         this.filled = false;
+        this.selected = false;
+        this.color = null;
     }
-
-    setFill(bool){
-        //context.fillStyle = "#F0F0F0";
-        this.filled = bool;
-    }
-
+    
     draw(){
         if(this.filled){
             context.fillRect(this.xPos, this.yPos, this.width, this.height);
         }
+        else if(this.selected){
+            context.lineWidth = 3;
+        }
         context.strokeRect(this.xPos, this.yPos, this.width, this.height);
+        context.lineWidth = 1;
+        
+        
     }
 }
 
@@ -108,37 +116,89 @@ class GameBoard{
     }
 
     /// TODO: Make this not an abomination to humanity 
-    getNeighborhood(){
-        return{
-            xCell: Math.floor((mouse.x - Math.floor(xCenter - this.width * (this.cellWidth/2)) - 0.5) / this.cellWidth),
-            yCell: Math.floor((mouse.y - Math.floor(yCenter - this.height * (this.cellHeight/2)) - 0.5) / this.cellHeight)
+    /// TODO: Figure out way to change grid[y][x] to be grid[x][y] for better read
+    // Return the current neighborhood being pointed at by the mouse
+    getNeighborhoodByMousePos(){
+        let cellCoords = this.getCellsFromPixels(mouse.x, mouse.y);
+
+        return this.getNeighborhood(cellCoords.x, cellCoords.y);
+    }
+
+    // Get the neighborhood based on the city grid's cell coordinates
+    getNeighborhood(xCell, yCell){
+        if(this.cityGrid[yCell] != null && this.cityGrid[yCell][xCell] != null){
+            return this.cityGrid[yCell][xCell];
+        }else{
+            return null;
         }
+        
+    }
+
+    // Convert canvas coordinates to cell coordinates
+    getCellsFromPixels(x, y){
+        let xCell = Math.floor((x - Math.floor(xCenter - this.width * (this.cellWidth/2)) - 0.5) / this.cellWidth);
+        let yCell = Math.floor((y - Math.floor(yCenter - this.height * (this.cellHeight/2)) - 0.5) / this.cellHeight);
+        return {x: xCell, y: yCell};
     }
 
     // TODO: Bring those if statements down to more acceptable levels
     drawDistrict(){
         if(mouse.down){
             if(this.currentDistrictSize < this.maxDistrictSize){
-                let {xCell, yCell} = this.getNeighborhood();
-                if(this.cityGrid[yCell] != null && this.cityGrid[yCell][xCell] != null){
-                    if(this.shouldFill == null){
-                        this.shouldFill = !this.cityGrid[yCell][xCell].filled;
-                    }
-                    if(this.cityGrid[yCell][xCell].filled != this.shouldFill){
-                        this.cityGrid[yCell][xCell].setFill(this.shouldFill);
+                let neighborhood = this.getNeighborhoodByMousePos();
+                if(neighborhood != null){
+                    if(!neighborhood.selected){
+                        neighborhood.selected = true;
                         this.currentDistrictSize += 1; 
-                        this.currentDistrict.push(this.cityGrid[yCell][xCell]);
+                        this.currentDistrict.push(neighborhood);
                     }
                 }
             }
         }else{
             this.currentDistrictSize = 0;
-            this.shouldFill = null;
-            if(this.districts.length < this.maxDistrictCount && this.currentDistrict.length > 0){
+            if(this.districts.length <= this.maxDistrictCount 
+                                    && this.currentDistrict.length > 0
+                                    && this.isDistrictConnected(this.currentDistrict)){
                 this.districts.push(this.currentDistrict);
-                console.log(this.districts);
-                this.currentDistrict = [];
+            }else{
+                this.deSelectDistrict(this.currentDistrict);
             }
+            this.currentDistrict = [];
+        }
+    }
+
+    deSelectDistrict(district){
+        district.forEach(neighborhood => neighborhood.selected = false);
+    }
+
+    // Essentially a bredth-first search
+    isDistrictConnected(district){
+        let foundConnectedPairs = 0;
+        for(let i = 0; i < district.length; i++){
+            for(let j = i; j < district.length; j++){
+                if(this.areNeighborhoodsAdjacent(district[i], district[j])){
+                    foundConnectedPairs += 1;
+                }
+            }
+        }
+        if(foundConnectedPairs >= district.length - 1){
+            return true;
+        }else{
+            return false;
+        }
+        
+        
+    }
+
+    areNeighborhoodsAdjacent(firstNeighborhood, secondNeighborhood){
+        let firstNeighborhoodCells = this.getCellsFromPixels(firstNeighborhood.xPos, firstNeighborhood.yPos);
+        let secondNeighborhoodCells = this.getCellsFromPixels(secondNeighborhood.xPos, secondNeighborhood.yPos);
+
+        let diff = Math.abs(firstNeighborhoodCells.x - secondNeighborhoodCells.x) + Math.abs(firstNeighborhoodCells.y - secondNeighborhoodCells.y)
+        if(diff == 1){
+            return true;
+        }else{
+            return false;
         }
     }
 
