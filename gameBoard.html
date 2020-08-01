@@ -156,8 +156,9 @@ class GameBoard{
                         this.currentDistrictSize += 1; 
                         this.currentDistrict.push(neighborhood);
                     }else if(this.currentDistrictSize == 0){
-                        console.log(this.findNeighborhoodsCurrentDistrictIndex(neighborhood));
-                        this.deSelectDistrict(this.districts[this.findNeighborhoodsCurrentDistrictIndex(neighborhood)]);
+                        let districtIndex = this.findNeighborhoodsCurrentDistrictIndex(neighborhood);
+                        this.deSelectDistrict(this.districts[districtIndex]);
+                        this.districts.splice(districtIndex, 1);
                         this.justDeleted = true;
                     }
                 }
