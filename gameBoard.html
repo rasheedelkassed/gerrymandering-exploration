@@ -54,7 +54,7 @@ function(event) {
 
 // Create a referencable rect object on a canvas
 class Neighborhood{
-    constructor(xPos, yPos, width, height){
+    constructor(xPos, yPos, width, height, spriteSource=""){
         this.xPos = xPos;
         this.yPos = yPos;    
         this.width = width;
@@ -62,8 +62,10 @@ class Neighborhood{
         this.filled = false;
         this.selected = false;
         this.color = null;
+        this.sprite = new Image()
+        this.sprite.src = spriteSource;
     }
-    
+
     draw(){
         if(this.filled){
             context.fillRect(this.xPos, this.yPos, this.width, this.height);
@@ -72,6 +74,7 @@ class Neighborhood{
             context.lineWidth = 3;
         }
         context.strokeRect(this.xPos, this.yPos, this.width, this.height);
+        context.drawImage(this.sprite, this.xPos, this.yPos, this.width, this.height)
         context.lineWidth = 1;
         
         
