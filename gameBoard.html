@@ -1,0 +1,173 @@
+<canvas id="canvas" oncontextmenu="return false;"></canvas>
+<style type="text/css">
+    canvas{
+        position: absolute;
+        overflow: hidden;
+    }
+    body{
+        margin: 0;
+        overflow: hidden;
+    }
+</style>
+
+<script>
+
+// Get the canvas to draw on
+let canvas = document.getElementById("canvas");
+let context = canvas.getContext("2d");
+
+// Set canvas height to the size of the entire window
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let xCenter = canvas.width / 2;
+let yCenter = canvas.height / 2;
+
+// Intialize mouse tracking
+let mouse = {
+    x: undefined,
+    y: undefined,
+    down: false
+}
+
+// Add event listeners to track what the mouse is doing on the canvas
+canvas.addEventListener('mousemove', 
+function(event) {
+    mouse.x = event.x;
+    mouse.y = event.y;
+})
+
+canvas.addEventListener('mousedown', 
+function(event) {
+    mouse.down = true;
+})
+
+canvas.addEventListener('mouseup', 
+function(event) {
+    mouse.down = false;
+})
+
+// Create a referencable rect object on a canvas
+class Neighborhood{
+    constructor(xPos, yPos, width, height){
+        this.xPos = xPos;
+        this.yPos = yPos;        
+        this.width = width;
+        this.height = height;
+        this.filled = false;
+    }
+
+    setFill(bool){
+        //context.fillStyle = "#F0F0F0";
+        this.filled = bool;
+    }
+
+    draw(){
+        if(this.filled){
+            context.fillRect(this.xPos, this.yPos, this.width, this.height);
+        }
+        context.strokeRect(this.xPos, this.yPos, this.width, this.height);
+    }
+}
+
+// Create the "game" board
+class GameBoard{
+    constructor(width, height, cellWidth = 30, cellHeight = 30, maxDistrictSize = 4){
+        this.width = width;                     //The number of neighborhoods horizontally
+        this.height = height;                   //The number of neighborhoods vertically
+        this.cellWidth = cellWidth;             //The size of a neighborhood in pixels horizontally
+        this.cellHeight = cellHeight;           //The size of a neighborhood in pixels vertically
+        this.cityGrid = [];                     //The grid of neighborhoods used to reference specific neighborhoods
+        this.shouldFill = null;
+        this.maxDistrictSize = maxDistrictSize; //The number of squares that are changed in a single stroke
+        this.currentDistrictSize = 0;
+        this.districts = [];
+        this.maxDistrictCount = 4;
+        this.currentDistrict = [];
+
+        this.createCityGrid();
+    }
+
+    createCityGrid(){
+        let currentXCell = 0;
+        let currentYCell = 0;
+        while(currentYCell < this.height){
+            let row = []
+            while(currentXCell < this.width){
+                row.push(new Neighborhood(
+                    Math.floor(xCenter - this.width * (this.cellWidth/2)) + currentXCell * this.cellWidth + 0.5,
+                    Math.floor(yCenter - this.height * (this.cellHeight/2)) + currentYCell * this.cellHeight + 0.5,
+                    this.cellWidth,
+                    this.cellHeight))
+                currentXCell += 1;
+            }
+            this.cityGrid.push(row);
+            currentXCell = 0;
+            currentYCell += 1;
+        }
+    }
+
+    /// TODO: Make this not an abomination to humanity 
+    getNeighborhood(){
+        return{
+            xCell: Math.floor((mouse.x - Math.floor(xCenter - this.width * (this.cellWidth/2)) - 0.5) / this.cellWidth),
+            yCell: Math.floor((mouse.y - Math.floor(yCenter - this.height * (this.cellHeight/2)) - 0.5) / this.cellHeight)
+        }
+    }
+
+    // TODO: Bring those if statements down to more acceptable levels
+    drawDistrict(){
+        if(mouse.down){
+            if(this.currentDistrictSize < this.maxDistrictSize){
+                let {xCell, yCell} = this.getNeighborhood();
+                if(this.cityGrid[yCell] != null && this.cityGrid[yCell][xCell] != null){
+                    if(this.shouldFill == null){
+                        this.shouldFill = !this.cityGrid[yCell][xCell].filled;
+                    }
+                    if(this.cityGrid[yCell][xCell].filled != this.shouldFill){
+                        this.cityGrid[yCell][xCell].setFill(this.shouldFill);
+                        this.currentDistrictSize += 1; 
+                        this.currentDistrict.push(this.cityGrid[yCell][xCell]);
+                    }
+                }
+            }
+        }else{
+            this.currentDistrictSize = 0;
+            this.shouldFill = null;
+            if(this.districts.length < this.maxDistrictCount && this.currentDistrict.length > 0){
+                this.districts.push(this.currentDistrict);
+                console.log(this.districts);
+                this.currentDistrict = [];
+            }
+        }
+    }
+
+    draw(){
+        this.cityGrid.forEach(element => {
+            element.forEach(square => {
+                square.draw();
+            });
+        });
+    }
+
+    update(){
+        this.drawDistrict();
+        this.draw();
+    }
+}
+
+let squareSize = 100;
+let gameBoard = new GameBoard(Math.floor(canvas.width / squareSize), Math.floor(canvas.height / squareSize), squareSize, squareSize);
+
+
+animate = () => {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    gameBoard.update();
+
+
+    requestAnimationFrame(animate);
+}
+
+requestAnimationFrame(animate);
+
+</script>
