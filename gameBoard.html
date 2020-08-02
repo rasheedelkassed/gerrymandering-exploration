@@ -64,18 +64,26 @@ class Neighborhood{
         this.color = null;
         this.sprite = new Image()
         this.sprite.src = spriteSource;
+        this.politicalAlignment = 0;
+
+        this.setColor(["#A66D97", "#D9B573"]);
+    }
+
+    setColor(colorArray){
+        if(this.color == null){
+            this.color = colorArray[Math.floor(Math.random() * colorArray.length)];
+        }
     }
 
     draw(){
-        if(this.filled){
-            context.fillRect(this.xPos, this.yPos, this.width, this.height);
-        }
-        else if(this.selected){
-            context.lineWidth = 3;
-        }
+        context.fillStyle = this.color;
+        context.fillRect(this.xPos, this.yPos, this.width, this.height);
         context.strokeRect(this.xPos, this.yPos, this.width, this.height);
-        context.drawImage(this.sprite, this.xPos, this.yPos, this.width, this.height)
-        context.lineWidth = 1;
+        context.drawImage(this.sprite, this.xPos, this.yPos, this.width, this.height);
+        if(this.selected){
+            context.strokeRect(this.xPos + 2, this.yPos + 2, this.width - 4, this.height - 4)
+            context.strokeRect(this.xPos + 4, this.yPos + 4, this.width - 8, this.height - 8)
+        }
         
         
     }
