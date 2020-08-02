@@ -106,7 +106,7 @@ class Neighborhood{
 
 // Create the "game" board
 class GameBoard{
-    constructor(width, height, cellWidth = 30, cellHeight = 30, maxDistrictSize = 4){
+    constructor(width, height, cellWidth = 30, cellHeight = 30, maxDistrictCount = 4, maxDistrictSize = 4){
         this.width = width;                     //The number of neighborhoods horizontally
         this.height = height;                   //The number of neighborhoods vertically
         this.cellWidth = cellWidth;             //The size of a neighborhood in pixels horizontally
@@ -116,7 +116,7 @@ class GameBoard{
         this.maxDistrictSize = maxDistrictSize; //The number of squares that are changed in a single stroke
         this.currentDistrictSize = 0;
         this.districts = [];
-        this.maxDistrictCount = 4;
+        this.maxDistrictCount = maxDistrictCount;
         this.currentDistrict = [];
         this.justDeleted = false;
 
@@ -275,7 +275,11 @@ class GameBoard{
 }
 
 let squareSize = 100;
-let gameBoard = new GameBoard(Math.floor(canvas.width / squareSize), Math.floor(canvas.height / squareSize), squareSize, squareSize);
+let gridWidth = Math.floor(canvas.width / squareSize);
+let gridHeight = Math.floor(canvas.height / squareSize);
+let maxDistrictSize = 4;
+let maxDistrictCount = Math.ceil((gridWidth * gridHeight) / maxDistrictSize);
+let gameBoard = new GameBoard(gridWidth, gridHeight, squareSize, squareSize, maxDistrictCount, maxDistrictSize);
 
 animate = () => {
     context.clearRect(0, 0, canvas.width, canvas.height);
