@@ -52,6 +52,15 @@ function(event) {
     mouse.down = false;
 })
 
+const POLITICAL_ALIGNMENT = {
+    YELLOW: {name: "YELLOW", color: "#D9B573"},
+    PURPLE: {name: "PURPLE", color: "#A66D97"}
+}
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
 // Create a referencable rect object on a canvas
 class Neighborhood{
     constructor(xPos, yPos, width, height, spriteSource=""){
@@ -64,15 +73,21 @@ class Neighborhood{
         this.color = null;
         this.sprite = new Image()
         this.sprite.src = spriteSource;
-        this.politicalAlignment = 0;
+        this.politicalAlignment = null;
 
-        this.setColor(["#A66D97", "#D9B573"]);
+        this.setRandomPoliticalAlignment();
     }
 
-    setColor(colorArray){
-        if(this.color == null){
-            this.color = colorArray[Math.floor(Math.random() * colorArray.length)];
-        }
+    setRandomPoliticalAlignment(){
+        let possiblePoliticalAlignments = Object.keys(POLITICAL_ALIGNMENT);
+        let randomIndex = getRandomInt(possiblePoliticalAlignments.length);
+        
+        this.setPoliticalAlignment(possiblePoliticalAlignments[randomIndex]);
+    }
+
+    setPoliticalAlignment(politicalAlignment){        
+        this.politicalAlignment = politicalAlignment;
+        this.color = POLITICAL_ALIGNMENT[this.politicalAlignment].color;
     }
 
     draw(){
