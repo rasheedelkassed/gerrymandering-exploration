@@ -20,8 +20,8 @@ let context = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-let xCenter = canvas.width / 2;
-let yCenter = canvas.height / 2;
+let canvasCenterX = canvas.width / 2;
+let canvasCenterY = canvas.height / 2;
 
 // Intialize mouse tracking
 let mouse = {
@@ -61,11 +61,12 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
+// TODO: Better comment here
 // Create a referencable rect object on a canvas
 class Neighborhood{
     constructor(xPos, yPos, width, height, spriteSource=""){
         this.xPos = xPos;
-        this.yPos = yPos;    
+        this.yPos = yPos;
         this.width = width;
         this.height = height;
         this.filled = false;
@@ -74,6 +75,13 @@ class Neighborhood{
         this.sprite = new Image()
         this.sprite.src = spriteSource;
         this.politicalAlignment = null;
+        this.districted = false;
+        this.winningColor = null;
+
+        this.topLeft = {x: xPos, y: yPos};
+        this.bottomLeft = {x: xPos, y: ( yPos + height)};
+        this.topRight = {x: (xPos + width), y: yPos};
+        this.bottomRight = {x: (xPos + width), y: ( yPos + height)};
 
         this.setRandomPoliticalAlignment();
     }
@@ -90,17 +98,22 @@ class Neighborhood{
         this.color = POLITICAL_ALIGNMENT[this.politicalAlignment].color;
     }
 
+    drawUnstroked(){
+        context.fillStyle = this.color;
+        context.fillRect(this.xPos, this.yPos, this.width, this.height);
+        //context.strokeRect(this.xPos, this.yPos, this.width, this.height);
+        context.drawImage(this.sprite, this.xPos, this.yPos, this.width, this.height);
+    }
+
+    drawStroked(){
+        context.strokeRect(this.xPos, this.yPos, this.width, this.height);
+    }
+
     draw(){
         context.fillStyle = this.color;
         context.fillRect(this.xPos, this.yPos, this.width, this.height);
-        context.strokeRect(this.xPos, this.yPos, this.width, this.height);
+        //context.strokeRect(this.xPos, this.yPos, this.width, this.height);
         context.drawImage(this.sprite, this.xPos, this.yPos, this.width, this.height);
-        if(this.selected){
-            context.strokeRect(this.xPos + 2, this.yPos + 2, this.width - 4, this.height - 4)
-            context.strokeRect(this.xPos + 4, this.yPos + 4, this.width - 8, this.height - 8)
-        }
-        
-        
     }
 }
 
@@ -130,8 +143,8 @@ class GameBoard{
             let row = []
             while(currentXCell < this.width){
                 row.push(new Neighborhood(
-                    Math.floor(xCenter - this.width * (this.cellWidth/2)) + currentXCell * this.cellWidth + 0.5,
-                    Math.floor(yCenter - this.height * (this.cellHeight/2)) + currentYCell * this.cellHeight + 0.5,
+                    Math.floor(canvasCenterX - this.width * (this.cellWidth/2)) + currentXCell * this.cellWidth,
+                    Math.floor(canvasCenterY - this.height * (this.cellHeight/2)) + currentYCell * this.cellHeight,
                     this.cellWidth,
                     this.cellHeight))
                 currentXCell += 1;
@@ -163,8 +176,8 @@ class GameBoard{
 
     // Convert canvas coordinates to cell coordinates
     getCellsFromPixels(x, y){
-        let xCell = Math.floor((x - Math.floor(xCenter - this.width * (this.cellWidth/2)) - 0.5) / this.cellWidth);
-        let yCell = Math.floor((y - Math.floor(yCenter - this.height * (this.cellHeight/2)) - 0.5) / this.cellHeight);
+        let xCell = Math.floor((x - Math.floor(canvasCenterX - this.width * (this.cellWidth/2))) / this.cellWidth);
+        let yCell = Math.floor((y - Math.floor(canvasCenterY - this.height * (this.cellHeight/2))) / this.cellHeight);
         return {x: xCell, y: yCell};
     }
 
@@ -179,7 +192,6 @@ class GameBoard{
                         neighborhood.selected = true;
                         this.currentDistrictSize += 1; 
                         this.currentDistrict.push(neighborhood);
-
                     // If neighborhood is a part of a district, and we aren't currently drawing a district, delete the district
                     }else if(this.currentDistrictSize == 0){
                         let districtIndex = this.findNeighborhoodsCurrentDistrictIndex(neighborhood);
@@ -204,6 +216,24 @@ class GameBoard{
             }
             this.currentDistrict = [];
         }
+    }
+
+    drawCurrentDistrict(){
+        this.drawDistrictBorder(this.currentDistrict);
+    }
+
+    drawDistrictBorder(district){
+        district.forEach(neighborhood => {
+            neighborhood.drawStroked();
+        });
+        context.globalCompositeOperation = 'destination-out';
+        district.forEach(neighborhood => {
+            neighborhood.drawUnstroked();
+        });
+        context.globalCompositeOperation = 'source-over';
+        district.forEach(neighborhood => {
+            neighborhood.drawUnstroked();
+        });
     }
 
     // Deselect all neighborhoods in a district
@@ -265,12 +295,17 @@ class GameBoard{
                 square.draw();
             });
         });
+        this.districts.forEach(district => {
+            this.drawDistrictBorder(district);
+        });
+        
     }
 
     // Update the gameboard, designed to run in a loop
     update(){
         this.drawDistrict();
         this.draw();
+        this.drawCurrentDistrict()
     }
 }
 
