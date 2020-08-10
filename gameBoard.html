@@ -210,11 +210,12 @@
                 this.currentDistrictSize = 0;
 
                 // If the selected district is valid, solidify it as an actual district, otherwise deselect it
-                if (this.districts.length <= this.maxDistrictCount
+                if (this.districts.length < this.maxDistrictCount
                     && this.currentDistrict.length > 0
                     && this.isDistrictConnected(this.currentDistrict)) {
                     this.districts.push(this.currentDistrict);
-                    this.getWinningColor(this.currentDistrict)
+                    this.getWinningDistrictColor(this.currentDistrict)
+                    this.getWinningDistrictRatio(this.districts);
                 } else {
                     this.deSelectDistrict(this.currentDistrict);
                 }
@@ -233,22 +234,6 @@
                 this.drawDistrictCornerPiece(neighborhood.xPos + 2, neighborhood.yPos + 2, neighborhood.width - 4, neighborhood.height - 4, this.getSidesToDraw(neighborhood.districtConnections))
             });
             context.lineWidth = 1;
-        }
-
-        getWinningColor(district){
-            let counter = {}
-            let winner = null;
-            district.forEach(neighborhood => {
-                counter[neighborhood.politicalAlignment] = ++counter[neighborhood.politicalAlignment] || 1;
-            });
-            Object.keys(counter).forEach(item => {
-                if(counter[item] > counter[winner] || counter[winner] == null){
-                    winner = item;
-                }else if (counter[item] == counter[winner]){
-                    winner = POLITICAL_ALIGNMENT.UNALIGNED.name;
-                }
-            });
-            console.log(winner);
         }
 
         getSidesToDraw(missingSides){
@@ -418,6 +403,37 @@
             }
         }
 
+        getWinningDistrictColor(district){
+            let counter = {}
+            let winner = null;
+            district.forEach(neighborhood => {
+                counter[neighborhood.politicalAlignment] = ++counter[neighborhood.politicalAlignment] || 1;
+            });
+            Object.keys(counter).forEach(item => {
+                if(counter[item] > counter[winner] || counter[winner] == null){
+                    winner = item;
+                }else if (counter[item] == counter[winner]){
+                    winner = POLITICAL_ALIGNMENT.UNALIGNED.name;
+                }
+            });
+            return winner;
+        }
+
+        getWinningDistrictRatio(){
+            let counter = {};
+            let ratio = {};
+            this.districts.forEach(district => {
+                let winningColor = this.getWinningDistrictColor(district);
+                counter[winningColor] = ++counter[winningColor] || 1;
+            });
+            Object.keys(counter).forEach(item => {
+                ratio[item] = counter[item] / this.districts.length;
+            });
+            return ratio;
+        }
+
+
+
         // Draw the gameboard
         draw() {
             //context.beginPath();
@@ -437,7 +453,7 @@
         update() {
             this.drawDistrict();
             this.draw();
-            this.drawCurrentDistrict()
+            this.drawCurrentDistrict();
         }
     }
 
