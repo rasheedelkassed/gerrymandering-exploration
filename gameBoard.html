@@ -56,6 +56,7 @@
     const POLITICAL_ALIGNMENT = {
         YELLOW: { name: "YELLOW", color: "#D9B573" },
         PURPLE: { name: "PURPLE", color: "#A66D97" },
+        RED: { name: "RED", color: "#BF7154"},
         UNALIGNED: {name: 'UNALIGNED', color: "#F2F2F2"}
     }
 
@@ -85,7 +86,7 @@
             this.sprite.src = spriteSource;
             this.politicalAlignment = null;
             this.districted = false;
-            this.winningColor = null;
+            this.winningPoliticalAlignment = null;
 
             this.districtConnections = []; // What directions are part of the contained district
 
@@ -216,6 +217,7 @@
                     this.districts.push(this.currentDistrict);
                     this.getWinningDistrictColor(this.currentDistrict)
                     this.getWinningDistrictRatio(this.districts);
+                    this.setWinningDistrictColor(this.currentDistrict);
                 } else {
                     this.deSelectDistrict(this.currentDistrict);
                 }
@@ -231,7 +233,7 @@
             context.lineWidth = this.districtBorderWidth;
             district.forEach(neighborhood => {
                 this.drawNeighborhoodDistrictBorderByMissing(neighborhood.xPos + 2, neighborhood.yPos + 2, neighborhood.width - 4, neighborhood.height - 4, neighborhood.districtConnections);
-                this.drawDistrictCornerPiece(neighborhood.xPos + 2, neighborhood.yPos + 2, neighborhood.width - 4, neighborhood.height - 4, this.getSidesToDraw(neighborhood.districtConnections))
+                this.drawDistrictCornerPiece(neighborhood.xPos + 2, neighborhood.yPos + 2, neighborhood.width - 4, neighborhood.height - 4, this.getSidesToDraw(neighborhood.districtConnections));
             });
             context.lineWidth = 1;
         }
@@ -239,18 +241,18 @@
         getSidesToDraw(missingSides){
             let sidesToDraw = [];
             if(!missingSides.includes(DIRECTION.UP)){
-                sidesToDraw.push(DIRECTION.UP)
+                sidesToDraw.push(DIRECTION.UP);
             }
             if(!missingSides.includes(DIRECTION.DOWN)){
-                sidesToDraw.push(DIRECTION.DOWN)
+                sidesToDraw.push(DIRECTION.DOWN);
             }
             if(!missingSides.includes(DIRECTION.LEFT)){
-                sidesToDraw.push(DIRECTION.LEFT)
+                sidesToDraw.push(DIRECTION.LEFT);
             }
             if(!missingSides.includes(DIRECTION.RIGHT)){
-                sidesToDraw.push(DIRECTION.RIGHT)
+                sidesToDraw.push(DIRECTION.RIGHT);
             }
-            return sidesToDraw
+            return sidesToDraw;
         }
 
         drawNeighborhoodDistrictBorderByMissing(xPos, yPos, width, height, missingSides){
@@ -337,13 +339,14 @@
             district.forEach(neighborhood => {
                 neighborhood.selected = false;
                 neighborhood.districtConnections = [];
+                neighborhood.winningPoliticalAlignment = null;
             });
         }
 
         // Find which district a neighborhood is in, and return it's index from the districts array
         findNeighborhoodsCurrentDistrictIndex(neighborhood) {
             if (!neighborhood.selected) {
-                return null
+                return null;
             }
             let foundDistrictIndex = null;
             for (let i = 0; i < this.districts.length; i++) {
@@ -390,17 +393,24 @@
                 for(let j = 0; j < district.length; j++){
                     if(this.areNeighborhoodsAdjacent(district[i], district[j])){
                         if(district[j].xPos > district[i].xPos){
-                            district[i].districtConnections.push(DIRECTION.RIGHT)
+                            district[i].districtConnections.push(DIRECTION.RIGHT);
                         }else if(district[j].xPos < district[i].xPos){
-                            district[i].districtConnections.push(DIRECTION.LEFT)
+                            district[i].districtConnections.push(DIRECTION.LEFT);
                         }else if(district[j].yPos < district[i].yPos){
-                            district[i].districtConnections.push(DIRECTION.UP)
+                            district[i].districtConnections.push(DIRECTION.UP);
                         }else if(district[j].yPos > district[i].yPos){
-                            district[i].districtConnections.push(DIRECTION.DOWN)
+                            district[i].districtConnections.push(DIRECTION.DOWN);
                         }
                     }
                 }
             }
+        }
+
+        setWinningDistrictColor(district){
+            let winningPoliticalAlignment = this.getWinningDistrictColor(district);
+            district.forEach(neighborhood => {
+                neighborhood.winningPoliticalAlignment = POLITICAL_ALIGNMENT[winningPoliticalAlignment];
+            });
         }
 
         getWinningDistrictColor(district){
@@ -423,8 +433,8 @@
             let counter = {};
             let ratio = {};
             this.districts.forEach(district => {
-                let winningColor = this.getWinningDistrictColor(district);
-                counter[winningColor] = ++counter[winningColor] || 1;
+                let winningPoliticalAlignment = this.getWinningDistrictColor(district);
+                counter[winningPoliticalAlignment] = ++counter[winningPoliticalAlignment] || 1;
             });
             Object.keys(counter).forEach(item => {
                 ratio[item] = counter[item] / this.districts.length;
