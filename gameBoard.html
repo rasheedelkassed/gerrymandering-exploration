@@ -132,7 +132,7 @@
             this.maxDistrictCount = maxDistrictCount;
             this.currentDistrict = [];
             this.justDeleted = false;
-            this.districtBorderWidth = 5;
+            this.districtBorderWidth = 7;
 
             this.createCityGrid();
             context.translate(0.5, 0.5);
@@ -232,8 +232,16 @@
         drawDistrictBorder(district) {
             context.lineWidth = this.districtBorderWidth;
             district.forEach(neighborhood => {
-                this.drawNeighborhoodDistrictBorderByMissing(neighborhood.xPos + 2, neighborhood.yPos + 2, neighborhood.width - 4, neighborhood.height - 4, neighborhood.districtConnections);
-                this.drawDistrictCornerPiece(neighborhood.xPos + 2, neighborhood.yPos + 2, neighborhood.width - 4, neighborhood.height - 4, this.getSidesToDraw(neighborhood.districtConnections));
+                this.drawNeighborhoodDistrictBorderByMissing(neighborhood.xPos + Math.floor(this.districtBorderWidth/2),
+                    neighborhood.yPos + Math.floor(this.districtBorderWidth/2),
+                    neighborhood.width - (Math.floor(this.districtBorderWidth/2)*2),
+                    neighborhood.height - (Math.floor(this.districtBorderWidth/2)*2),
+                    neighborhood.districtConnections);
+                this.drawDistrictCornerPiece(neighborhood.xPos + Math.floor(this.districtBorderWidth/2),
+                    neighborhood.yPos + Math.floor(this.districtBorderWidth/2),
+                    neighborhood.width - (Math.floor(this.districtBorderWidth/2)*2),
+                    neighborhood.height - (Math.floor(this.districtBorderWidth/2)*2),
+                    this.getSidesToDraw(neighborhood.districtConnections));
             });
             context.lineWidth = 1;
         }
