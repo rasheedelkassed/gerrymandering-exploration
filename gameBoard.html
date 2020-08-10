@@ -1,10 +1,11 @@
 <canvas id="canvas" oncontextmenu="return false;"></canvas>
 <style type="text/css">
-    canvas{
+    canvas {
         position: absolute;
         overflow: hidden;
     }
-    body{
+
+    body {
         margin: 0;
         overflow: hidden;
     }
@@ -12,318 +13,449 @@
 
 <script>
 
-// Get the canvas to draw on
-let canvas = document.getElementById("canvas");
-let context = canvas.getContext("2d");
+    // Get the canvas to draw on
+    let canvas = document.getElementById("canvas");
+    let context = canvas.getContext("2d");
 
-// Set canvas height to the size of the entire window
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+    // Set canvas height to the size of the entire window
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-let canvasCenterX = canvas.width / 2;
-let canvasCenterY = canvas.height / 2;
+    let canvasCenterX = canvas.width / 2;
+    let canvasCenterY = canvas.height / 2;
 
-// Intialize mouse tracking
-let mouse = {
-    x: undefined,
-    y: undefined,
-    down: false
-}
-
-// Add event listeners to track what the mouse is doing on the canvas
-canvas.addEventListener('mousemove', 
-function(event) {
-    mouse.x = event.x;
-    mouse.y = event.y;
-})
-
-canvas.addEventListener('mousedown', 
-function(event) {
-    mouse.down = true;
-})
-
-canvas.addEventListener('mouseup', 
-function(event) {
-    mouse.down = false;
-})
-
-canvas.addEventListener('mouseleave', 
-function(event) {
-    mouse.down = false;
-})
-
-const POLITICAL_ALIGNMENT = {
-    YELLOW: {name: "YELLOW", color: "#D9B573"},
-    PURPLE: {name: "PURPLE", color: "#A66D97"}
-}
-
-function getRandomInt(max) {
-  return Math.floor(Math.random() * Math.floor(max));
-}
-
-// TODO: Better comment here
-// Create a referencable rect object on a canvas
-class Neighborhood{
-    constructor(xPos, yPos, width, height, spriteSource=""){
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.width = width;
-        this.height = height;
-        this.filled = false;
-        this.selected = false;
-        this.color = null;
-        this.sprite = new Image()
-        this.sprite.src = spriteSource;
-        this.politicalAlignment = null;
-        this.districted = false;
-        this.winningColor = null;
-
-        this.topLeft = {x: xPos, y: yPos};
-        this.bottomLeft = {x: xPos, y: ( yPos + height)};
-        this.topRight = {x: (xPos + width), y: yPos};
-        this.bottomRight = {x: (xPos + width), y: ( yPos + height)};
-
-        this.setRandomPoliticalAlignment();
+    // Intialize mouse tracking
+    let mouse = {
+        x: undefined,
+        y: undefined,
+        down: false
     }
 
-    setRandomPoliticalAlignment(){
-        let possiblePoliticalAlignments = Object.keys(POLITICAL_ALIGNMENT);
-        let randomIndex = getRandomInt(possiblePoliticalAlignments.length);
-        
-        this.setPoliticalAlignment(possiblePoliticalAlignments[randomIndex]);
+    // Add event listeners to track what the mouse is doing on the canvas
+    canvas.addEventListener('mousemove',
+        function (event) {
+            mouse.x = event.x;
+            mouse.y = event.y;
+        })
+
+    canvas.addEventListener('mousedown',
+        function (event) {
+            mouse.down = true;
+        })
+
+    canvas.addEventListener('mouseup',
+        function (event) {
+            mouse.down = false;
+        })
+
+    canvas.addEventListener('mouseleave',
+        function (event) {
+            mouse.down = false;
+        })
+
+    const POLITICAL_ALIGNMENT = {
+        YELLOW: { name: "YELLOW", color: "#D9B573" },
+        PURPLE: { name: "PURPLE", color: "#A66D97" },
+        UNALIGNED: {name: 'UNALIGNED', color: "#F2F2F2"}
     }
 
-    setPoliticalAlignment(politicalAlignment){        
-        this.politicalAlignment = politicalAlignment;
-        this.color = POLITICAL_ALIGNMENT[this.politicalAlignment].color;
+    const DIRECTION = {
+        UP: "UP",
+        DOWN: "DOWN",
+        LEFT: "LEFT",
+        RIGHT: "RIGHT"
     }
 
-    drawUnstroked(){
-        context.fillStyle = this.color;
-        context.fillRect(this.xPos, this.yPos, this.width, this.height);
-        //context.strokeRect(this.xPos, this.yPos, this.width, this.height);
-        context.drawImage(this.sprite, this.xPos, this.yPos, this.width, this.height);
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * Math.floor(max));
     }
 
-    drawStroked(){
-        context.strokeRect(this.xPos, this.yPos, this.width, this.height);
+    // TODO: Better comment here
+    // Create a referencable rect object on a canvas
+    class Neighborhood {
+        constructor(xPos, yPos, width, height, spriteSource = "") {
+            this.xPos = xPos;
+            this.yPos = yPos;
+            this.width = width;
+            this.height = height;
+            this.filled = false;
+            this.selected = false;
+            this.color = null;
+            this.sprite = new Image()
+            this.sprite.src = spriteSource;
+            this.politicalAlignment = null;
+            this.districted = false;
+            this.winningColor = null;
+
+            this.districtConnections = []; // What directions are part of the contained district
+
+            this.setRandomPoliticalAlignment();
+
+        }
+
+        setRandomPoliticalAlignment() {
+            let possiblePoliticalAlignments = Object.keys(POLITICAL_ALIGNMENT);
+            let randomIndex = getRandomInt(possiblePoliticalAlignments.length - 1);
+
+            this.setPoliticalAlignment(possiblePoliticalAlignments[randomIndex]);
+        }
+
+        setPoliticalAlignment(politicalAlignment) {
+            this.politicalAlignment = politicalAlignment;
+            this.color = POLITICAL_ALIGNMENT[this.politicalAlignment].color;
+        }
+
+        draw() {
+            context.fillStyle = this.color;
+            context.strokeStyle = this.color;
+            context.fillRect(this.xPos, this.yPos, this.width, this.height);
+            context.strokeRect(this.xPos, this.yPos, this.width, this.height);
+            context.drawImage(this.sprite, this.xPos, this.yPos, this.width, this.height);
+            context.strokeStyle = "black";
+
+        }
     }
 
-    draw(){
-        context.fillStyle = this.color;
-        context.fillRect(this.xPos, this.yPos, this.width, this.height);
-        //context.strokeRect(this.xPos, this.yPos, this.width, this.height);
-        context.drawImage(this.sprite, this.xPos, this.yPos, this.width, this.height);
-    }
-}
+    // Create the "game" board
+    class GameBoard {
+        constructor(width, height, cellWidth = 30, cellHeight = 30, maxDistrictCount = 4, maxDistrictSize = 4) {
+            this.width = width;                     //The number of neighborhoods horizontally
+            this.height = height;                   //The number of neighborhoods vertically
+            this.cellWidth = cellWidth;             //The size of a neighborhood in pixels horizontally
+            this.cellHeight = cellHeight;           //The size of a neighborhood in pixels vertically
+            this.cityGrid = [];                     //The grid of neighborhoods used to reference specific neighborhoods
+            this.shouldFill = null;
+            this.maxDistrictSize = maxDistrictSize; //The number of squares that are changed in a single stroke
+            this.currentDistrictSize = 0;
+            this.districts = [];
+            this.maxDistrictCount = maxDistrictCount;
+            this.currentDistrict = [];
+            this.justDeleted = false;
+            this.districtBorderWidth = 5;
 
-// Create the "game" board
-class GameBoard{
-    constructor(width, height, cellWidth = 30, cellHeight = 30, maxDistrictCount = 4, maxDistrictSize = 4){
-        this.width = width;                     //The number of neighborhoods horizontally
-        this.height = height;                   //The number of neighborhoods vertically
-        this.cellWidth = cellWidth;             //The size of a neighborhood in pixels horizontally
-        this.cellHeight = cellHeight;           //The size of a neighborhood in pixels vertically
-        this.cityGrid = [];                     //The grid of neighborhoods used to reference specific neighborhoods
-        this.shouldFill = null;
-        this.maxDistrictSize = maxDistrictSize; //The number of squares that are changed in a single stroke
-        this.currentDistrictSize = 0;
-        this.districts = [];
-        this.maxDistrictCount = maxDistrictCount;
-        this.currentDistrict = [];
-        this.justDeleted = false;
+            this.createCityGrid();
+            context.translate(0.5, 0.5);
+        }
 
-        this.createCityGrid();
-    }
-
-    createCityGrid(){
-        let currentXCell = 0;
-        let currentYCell = 0;
-        while(currentYCell < this.height){
-            let row = []
-            while(currentXCell < this.width){
-                row.push(new Neighborhood(
-                    Math.floor(canvasCenterX - this.width * (this.cellWidth/2)) + currentXCell * this.cellWidth,
-                    Math.floor(canvasCenterY - this.height * (this.cellHeight/2)) + currentYCell * this.cellHeight,
-                    this.cellWidth,
-                    this.cellHeight))
-                currentXCell += 1;
+        createCityGrid() {
+            let currentXCell = 0;
+            let currentYCell = 0;
+            while (currentYCell < this.height) {
+                let row = []
+                while (currentXCell < this.width) {
+                    row.push(new Neighborhood(
+                        (currentXCell) + Math.floor(canvasCenterX - this.width * (this.cellWidth / 2)) + currentXCell * this.cellWidth,
+                        (currentYCell) + Math.floor(canvasCenterY - this.height * (this.cellHeight / 2)) + currentYCell * this.cellHeight,
+                        this.cellWidth,
+                        this.cellHeight))
+                    currentXCell += 1;
+                }
+                this.cityGrid.push(row);
+                currentXCell = 0;
+                currentYCell += 1;
             }
-            this.cityGrid.push(row);
-            currentXCell = 0;
-            currentYCell += 1;
         }
-    }
 
-    /// TODO: Make this not an abomination to humanity 
-    /// TODO: Figure out way to change grid[y][x] to be grid[x][y] for better read
-    // Return the current neighborhood being pointed at by the mouse
-    getNeighborhoodByMousePos(){
-        let cellCoords = this.getCellsFromPixels(mouse.x, mouse.y);
+        /// TODO: Make this not an abomination to humanity 
+        /// TODO: Figure out way to change grid[y][x] to be grid[x][y] for better readability
+        // Return the current neighborhood being pointed at by the mouse
+        getNeighborhoodByMousePos() {
+            let cellCoords = this.getCellsFromPixels(mouse.x, mouse.y);
 
-        return this.getNeighborhood(cellCoords.x, cellCoords.y);
-    }
+            return this.getNeighborhood(cellCoords.x, cellCoords.y);
+        }
 
-    // Get the neighborhood based on the city grid's cell coordinates
-    getNeighborhood(xCell, yCell){
-        if(this.cityGrid[yCell] != null && this.cityGrid[yCell][xCell] != null){
-            return this.cityGrid[yCell][xCell];
-        }else{
-            return null;
+        // Get the neighborhood based on the city grid's cell coordinates
+        getNeighborhood(xCell, yCell) {
+            if (this.cityGrid[yCell] != null && this.cityGrid[yCell][xCell] != null) {
+                return this.cityGrid[yCell][xCell];
+            } else {
+                return null;
+            }
+
+        }
+
+        // Convert canvas coordinates to cell coordinates
+        getCellsFromPixels(x, y) {
+            let xCell = Math.floor((x - Math.floor(canvasCenterX - this.width * (this.cellWidth / 2))) / this.cellWidth);
+            let yCell = Math.floor((y - Math.floor(canvasCenterY - this.height * (this.cellHeight / 2))) / this.cellHeight);
+            return { x: xCell, y: yCell };
+        }
+
+        // TODO: Bring those if statements down to more acceptable levels
+        // TODO: Split this into multiple methods
+        drawDistrict() {
+            if (mouse.down && !this.justDeleted) {
+                if (this.currentDistrictSize < this.maxDistrictSize) {
+                    let neighborhood = this.getNeighborhoodByMousePos();
+                    if (neighborhood != null) {
+                        // If neighborhood is not already part of a district, add it to the district being drawn
+                        if (!neighborhood.selected) {
+                            neighborhood.selected = true;
+                            this.currentDistrictSize += 1;
+                            this.currentDistrict.push(neighborhood);
+                            this.setAdjacentDirections(this.currentDistrict);
+                            // If neighborhood is a part of a district, and we aren't currently drawing a district, delete the district
+                        } else if (this.currentDistrictSize == 0) {
+                            let districtIndex = this.findNeighborhoodsCurrentDistrictIndex(neighborhood);
+                            this.deSelectDistrict(this.districts[districtIndex]);
+                            this.districts.splice(districtIndex, 1);
+                            this.justDeleted = true;
+                        }
+                    }
+                }
+            }
+            else if (!mouse.down) {
+                this.justDeleted = false; // The mouse has been brought up, so we no longer just deleted a district
+                this.currentDistrictSize = 0;
+
+                // If the selected district is valid, solidify it as an actual district, otherwise deselect it
+                if (this.districts.length <= this.maxDistrictCount
+                    && this.currentDistrict.length > 0
+                    && this.isDistrictConnected(this.currentDistrict)) {
+                    this.districts.push(this.currentDistrict);
+                    this.getWinningColor(this.currentDistrict)
+                } else {
+                    this.deSelectDistrict(this.currentDistrict);
+                }
+                this.currentDistrict = [];
+            }
+        }
+
+        drawCurrentDistrict() {
+            this.drawDistrictBorder(this.currentDistrict);
+        }
+
+        drawDistrictBorder(district) {
+            context.lineWidth = this.districtBorderWidth;
+            district.forEach(neighborhood => {
+                this.drawNeighborhoodDistrictBorderByMissing(neighborhood.xPos + 2, neighborhood.yPos + 2, neighborhood.width - 4, neighborhood.height - 4, neighborhood.districtConnections);
+                this.drawDistrictCornerPiece(neighborhood.xPos + 2, neighborhood.yPos + 2, neighborhood.width - 4, neighborhood.height - 4, this.getSidesToDraw(neighborhood.districtConnections))
+            });
+            context.lineWidth = 1;
+        }
+
+        getWinningColor(district){
+            let counter = {}
+            let winner = null;
+            district.forEach(neighborhood => {
+                counter[neighborhood.politicalAlignment] = ++counter[neighborhood.politicalAlignment] || 1;
+            });
+            Object.keys(counter).forEach(item => {
+                if(counter[item] > counter[winner] || counter[winner] == null){
+                    winner = item;
+                }else if (counter[item] == counter[winner]){
+                    winner = POLITICAL_ALIGNMENT.UNALIGNED.name;
+                }
+            });
+            console.log(winner);
+        }
+
+        getSidesToDraw(missingSides){
+            let sidesToDraw = [];
+            if(!missingSides.includes(DIRECTION.UP)){
+                sidesToDraw.push(DIRECTION.UP)
+            }
+            if(!missingSides.includes(DIRECTION.DOWN)){
+                sidesToDraw.push(DIRECTION.DOWN)
+            }
+            if(!missingSides.includes(DIRECTION.LEFT)){
+                sidesToDraw.push(DIRECTION.LEFT)
+            }
+            if(!missingSides.includes(DIRECTION.RIGHT)){
+                sidesToDraw.push(DIRECTION.RIGHT)
+            }
+            return sidesToDraw
+        }
+
+        drawNeighborhoodDistrictBorderByMissing(xPos, yPos, width, height, missingSides){
+            this.drawNeighborhoodDistrictBorder(xPos, yPos, width, height, this.getSidesToDraw(missingSides));
+        }
+
+        drawDistrictCornerPiece(xPos, yPos, width, height, sides){
+            let topLeft = false;
+            let topRight = false;
+            let botLeft = false;
+            let botRight = false;
+
+            sides.forEach(side => {
+                switch (side) {
+                    case DIRECTION.UP:
+                        topLeft = true;
+                        topRight = true;
+                        break;
+                    case DIRECTION.RIGHT:
+                        topRight = true;
+                        botRight = true;
+                        break;
+                    case DIRECTION.DOWN:
+                        botRight = true;
+                        botLeft = true;
+                        break;
+                    case DIRECTION.LEFT:
+                        topLeft = true;
+                        botLeft = true;
+                        break;
+                    default:
+                        break;
+                }
+            });
+            context.fillStyle = "black";
+            if(topLeft){
+                context.fillRect(xPos - (this.districtBorderWidth / 2), yPos - (this.districtBorderWidth / 2), this.districtBorderWidth, this.districtBorderWidth);
+            }
+            if(topRight){
+                context.fillRect(xPos - (this.districtBorderWidth / 2) + width, yPos - (this.districtBorderWidth / 2), this.districtBorderWidth, this.districtBorderWidth);
+            }
+            if(botRight){
+                context.fillRect(xPos - (this.districtBorderWidth / 2) + width, yPos - (this.districtBorderWidth / 2) + height, this.districtBorderWidth, this.districtBorderWidth);
+            }
+            if(botLeft){
+                context.fillRect(xPos - (this.districtBorderWidth / 2), yPos - (this.districtBorderWidth / 2) + height, this.districtBorderWidth, this.districtBorderWidth);
+            }
         }
         
+        drawNeighborhoodDistrictBorder(xPos, yPos, width, height, sides) {
+            if(sides.length == 0){
+                return;
+            }
+            sides.forEach(side => {
+                context.beginPath();
+                switch (side) {
+                    case DIRECTION.UP:
+                        context.moveTo(xPos - 2, yPos);
+                        context.lineTo(xPos + width, yPos);
+                        break;
+                    case DIRECTION.RIGHT:
+                        context.moveTo(xPos + width, yPos - 2);
+                        context.lineTo(xPos + width, yPos + height);
+                        break;
+                    case DIRECTION.DOWN:
+                        context.moveTo(xPos + width + 2, yPos + height);
+                        context.lineTo(xPos, yPos + height);
+                        break;
+                    case DIRECTION.LEFT:
+                        context.moveTo(xPos, yPos + height + 2);
+                        context.lineTo(xPos, yPos);
+                        break;
+                    default:
+                        break;
+                }
+                context.closePath();
+                context.stroke();
+
+            });
     }
 
-    // Convert canvas coordinates to cell coordinates
-    getCellsFromPixels(x, y){
-        let xCell = Math.floor((x - Math.floor(canvasCenterX - this.width * (this.cellWidth/2))) / this.cellWidth);
-        let yCell = Math.floor((y - Math.floor(canvasCenterY - this.height * (this.cellHeight/2))) / this.cellHeight);
-        return {x: xCell, y: yCell};
-    }
+        // Deselect all neighborhoods in a district
+        deSelectDistrict(district) {
+            district.forEach(neighborhood => {
+                neighborhood.selected = false;
+                neighborhood.districtConnections = [];
+            });
+        }
 
-    // TODO: Bring those if statements down to more acceptable levels
-    drawDistrict(){
-        if(mouse.down && !this.justDeleted){
-            if(this.currentDistrictSize < this.maxDistrictSize){
-                let neighborhood = this.getNeighborhoodByMousePos();
-                if(neighborhood != null){
-                    // If neighborhood is not already part of a district, add it to the district being drawn
-                    if(!neighborhood.selected){
-                        neighborhood.selected = true;
-                        this.currentDistrictSize += 1; 
-                        this.currentDistrict.push(neighborhood);
-                    // If neighborhood is a part of a district, and we aren't currently drawing a district, delete the district
-                    }else if(this.currentDistrictSize == 0){
-                        let districtIndex = this.findNeighborhoodsCurrentDistrictIndex(neighborhood);
-                        this.deSelectDistrict(this.districts[districtIndex]);
-                        this.districts.splice(districtIndex, 1);
-                        this.justDeleted = true;
+        // Find which district a neighborhood is in, and return it's index from the districts array
+        findNeighborhoodsCurrentDistrictIndex(neighborhood) {
+            if (!neighborhood.selected) {
+                return null
+            }
+            let foundDistrictIndex = null;
+            for (let i = 0; i < this.districts.length; i++) {
+                if (this.districts[i].includes(neighborhood)) {
+                    foundDistrictIndex = i;
+                    break;
+                }
+            }
+            return foundDistrictIndex;
+        }
+
+        // Checks whether all selected neighborhoods in a district are all connected to one another
+        isDistrictConnected(district) {
+            let foundConnectedPairs = 0;
+            for (let i = 0; i < district.length; i++) {
+                for (let j = i; j < district.length; j++) {
+                    if (this.areNeighborhoodsAdjacent(district[i], district[j])) {
+                        foundConnectedPairs += 1;
+                    }
+                }
+            }
+            if (foundConnectedPairs >= district.length - 1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        // Checks if two neighborhoods are adjacent
+        areNeighborhoodsAdjacent(firstNeighborhood, secondNeighborhood) {
+            let firstNeighborhoodCells = this.getCellsFromPixels(firstNeighborhood.xPos, firstNeighborhood.yPos);
+            let secondNeighborhoodCells = this.getCellsFromPixels(secondNeighborhood.xPos, secondNeighborhood.yPos);
+
+            let diff = Math.abs(firstNeighborhoodCells.x - secondNeighborhoodCells.x) + Math.abs(firstNeighborhoodCells.y - secondNeighborhoodCells.y)
+            if (diff == 1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        setAdjacentDirections(district){
+            for(let i = 0; i < district.length; i++){
+                for(let j = 0; j < district.length; j++){
+                    if(this.areNeighborhoodsAdjacent(district[i], district[j])){
+                        if(district[j].xPos > district[i].xPos){
+                            district[i].districtConnections.push(DIRECTION.RIGHT)
+                        }else if(district[j].xPos < district[i].xPos){
+                            district[i].districtConnections.push(DIRECTION.LEFT)
+                        }else if(district[j].yPos < district[i].yPos){
+                            district[i].districtConnections.push(DIRECTION.UP)
+                        }else if(district[j].yPos > district[i].yPos){
+                            district[i].districtConnections.push(DIRECTION.DOWN)
+                        }
                     }
                 }
             }
         }
-        else if(!mouse.down){
-            this.justDeleted = false; // The mouse has been brought up, so we no longer just deleted a district
-            this.currentDistrictSize = 0;
 
-            // If the selected district is valid, solidify it as an actual district, otherwise deselect it
-            if(this.districts.length <= this.maxDistrictCount 
-                                    && this.currentDistrict.length > 0
-                                    && this.isDistrictConnected(this.currentDistrict)){
-                this.districts.push(this.currentDistrict);
-            }else{
-                this.deSelectDistrict(this.currentDistrict);
-            }
-            this.currentDistrict = [];
-        }
-    }
-
-    drawCurrentDistrict(){
-        this.drawDistrictBorder(this.currentDistrict);
-    }
-
-    drawDistrictBorder(district){
-        district.forEach(neighborhood => {
-            neighborhood.drawStroked();
-        });
-        context.globalCompositeOperation = 'destination-out';
-        district.forEach(neighborhood => {
-            neighborhood.drawUnstroked();
-        });
-        context.globalCompositeOperation = 'source-over';
-        district.forEach(neighborhood => {
-            neighborhood.drawUnstroked();
-        });
-    }
-
-    // Deselect all neighborhoods in a district
-    deSelectDistrict(district){
-        district.forEach(neighborhood => neighborhood.selected = false);
-    }
-
-    // Find which district a neighborhood is in, and return it's index from the districts array
-    findNeighborhoodsCurrentDistrictIndex(neighborhood){
-        if(!neighborhood.selected){
-            return null
-        }
-        let foundDistrictIndex = null;
-        for(let i = 0; i < this.districts.length; i++){
-            if(this.districts[i].includes(neighborhood)){
-                foundDistrictIndex = i;
-                break;
-            }
-        }
-        return foundDistrictIndex;
-    }
-
-    // Checks whether all selected neighborhoods in a district are all connected to one another
-    isDistrictConnected(district){
-        let foundConnectedPairs = 0;
-        for(let i = 0; i < district.length; i++){
-            for(let j = i; j < district.length; j++){
-                if(this.areNeighborhoodsAdjacent(district[i], district[j])){
-                    foundConnectedPairs += 1;
-                }
-            }
-        }
-        if(foundConnectedPairs >= district.length - 1){
-            return true;
-        }else{
-            return false;
-        }
-        
-        
-    }
-
-    // Checks if two neighborhoods are adjacent
-    areNeighborhoodsAdjacent(firstNeighborhood, secondNeighborhood){
-        let firstNeighborhoodCells = this.getCellsFromPixels(firstNeighborhood.xPos, firstNeighborhood.yPos);
-        let secondNeighborhoodCells = this.getCellsFromPixels(secondNeighborhood.xPos, secondNeighborhood.yPos);
-
-        let diff = Math.abs(firstNeighborhoodCells.x - secondNeighborhoodCells.x) + Math.abs(firstNeighborhoodCells.y - secondNeighborhoodCells.y)
-        if(diff == 1){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    // Draw the gameboard
-    draw(){
-        this.cityGrid.forEach(element => {
-            element.forEach(square => {
-                square.draw();
+        // Draw the gameboard
+        draw() {
+            //context.beginPath();
+            this.cityGrid.forEach(element => {
+                element.forEach(square => {
+                    square.draw();
+                });
             });
-        });
-        this.districts.forEach(district => {
-            this.drawDistrictBorder(district);
-        });
-        
+
+            this.districts.forEach(district => {
+                this.drawDistrictBorder(district);
+            });
+
+        }
+
+        // Update the gameboard, designed to run in a loop
+        update() {
+            this.drawDistrict();
+            this.draw();
+            this.drawCurrentDistrict()
+        }
     }
 
-    // Update the gameboard, designed to run in a loop
-    update(){
-        this.drawDistrict();
-        this.draw();
-        this.drawCurrentDistrict()
+    let squareSize = 100;
+    let gridWidth = Math.floor(canvas.width / squareSize);
+    let gridHeight = Math.floor(canvas.height / squareSize);
+    let maxDistrictSize = 10;
+    let maxDistrictCount = Math.ceil((gridWidth * gridHeight) / maxDistrictSize);
+    let gameBoard = new GameBoard(gridWidth, gridHeight, squareSize, squareSize, maxDistrictCount, maxDistrictSize);
+
+    animate = () => {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        gameBoard.update();
+
+
+        requestAnimationFrame(animate);
     }
-}
-
-let squareSize = 100;
-let gridWidth = Math.floor(canvas.width / squareSize);
-let gridHeight = Math.floor(canvas.height / squareSize);
-let maxDistrictSize = 4;
-let maxDistrictCount = Math.ceil((gridWidth * gridHeight) / maxDistrictSize);
-let gameBoard = new GameBoard(gridWidth, gridHeight, squareSize, squareSize, maxDistrictCount, maxDistrictSize);
-
-animate = () => {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    gameBoard.update();
-
 
     requestAnimationFrame(animate);
-}
-
-requestAnimationFrame(animate);
 
 </script>
