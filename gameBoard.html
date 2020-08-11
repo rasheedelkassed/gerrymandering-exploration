@@ -67,6 +67,13 @@
         RIGHT: "RIGHT"
     }
 
+    const DIAGONAL = {
+        TOP_LEFT: "TOP_LEFT",
+        TOP_RIGHT: "TOP_RIGHT",
+        BOTTOM_LEFT: "BOTTOM_LEFT",
+        BOTTOM_RIGHT: "BOTTOM_RIGHT"
+    }
+
     function getRandomInt(max) {
         return Math.floor(Math.random() * Math.floor(max));
     }
@@ -89,6 +96,7 @@
             this.winningPoliticalAlignment = POLITICAL_ALIGNMENT.NONE;
 
             this.districtAdjacencies = []; // What directions are part of the contained district
+            this.districtDiagonals = [];
 
             this.setRandomPoliticalAlignment();
 
@@ -196,6 +204,7 @@
                             this.currentDistrictSize += 1;
                             this.currentDistrict.push(neighborhood);
                             this.setAdjacentDirections(this.currentDistrict);
+                            this.setDiagonalDirections(this.currentDistrict);
                             // If neighborhood is a part of a district, and we aren't currently drawing a district, delete the district
                         } else if (this.currentDistrictSize == 0) {
                             let districtIndex = this.findNeighborhoodsCurrentDistrictIndex(neighborhood);
@@ -248,7 +257,8 @@
                     neighborhood.yPos + Math.floor(this.districtBorderWidth/2),
                     neighborhood.width - (Math.floor(this.districtBorderWidth/2)*2),
                     neighborhood.height - (Math.floor(this.districtBorderWidth/2)*2),
-                    this.getSidesToDraw(neighborhood.districtAdjacencies));
+                    this.getSidesToDraw(neighborhood.districtAdjacencies),
+                    this.getDiagonalsToDraw(neighborhood.districtDiagonals));
             });
             context.lineWidth = prevLineWidth;
             context.strokeStyle = prevStrokeStyle;
@@ -272,7 +282,24 @@
             return sidesToDraw;
         }
 
-        drawNeighborhoodDistrictCorners(xPos, yPos, width, height, sides){
+        getDiagonalsToDraw(missingDiagonals){
+            let diagonalsToDraw = [];
+            if(!missingDiagonals.includes(DIAGONAL.TOP_RIGHT)){
+                diagonalsToDraw.push(DIAGONAL.TOP_RIGHT);
+            }
+            if(!missingDiagonals.includes(DIAGONAL.TOP_LEFT)){
+                diagonalsToDraw.push(DIAGONAL.TOP_LEFT);
+            }
+            if(!missingDiagonals.includes(DIAGONAL.BOTTOM_RIGHT)){
+                diagonalsToDraw.push(DIAGONAL.BOTTOM_RIGHT);
+            }
+            if(!missingDiagonals.includes(DIAGONAL.BOTTOM_LEFT)){
+                diagonalsToDraw.push(DIAGONAL.BOTTOM_LEFT);
+            }
+            return diagonalsToDraw;
+        }
+
+        drawNeighborhoodDistrictCorners(xPos, yPos, width, height, sides, diagonals){
             let topLeft = false;
             let topRight = false;
             let botLeft = false;
@@ -294,6 +321,24 @@
                         break;
                     case DIRECTION.LEFT:
                         topLeft = true;
+                        botLeft = true;
+                        break;
+                    default:
+                        break;
+                }
+            });
+            diagonals.forEach(diagonal => {
+                switch (diagonal) {
+                    case DIAGONAL.TOP_RIGHT:
+                        topRight = true;
+                        break;
+                    case DIAGONAL.TOP_LEFT:
+                        topLeft = true;
+                        break;
+                    case DIAGONAL.BOTTOM_RIGHT:
+                        botRight = true;
+                        break;
+                    case DIAGONAL.BOTTOM_LEFT:
                         botLeft = true;
                         break;
                     default:
@@ -346,7 +391,7 @@
             });
         }
 
-        fillRectDiagonal(xPos, yPos, width, height, lines){
+        fillRectDiagonalLines(xPos, yPos, width, height, lines){
             let steps = lines/2;
             let horizontalStep = width/steps;
             let verticalStep = height/steps;
@@ -403,7 +448,7 @@
             //     }
 
             // });
-            this.fillRectDiagonal(xPos -0.5, yPos -0.5, w +1, h +1, lines)
+            this.fillRectDiagonalLines(xPos -0.5, yPos -0.5, w +1, h +1, lines)
         }
 
         // Deselect all neighborhoods in a district
@@ -447,12 +492,24 @@
             }
         }
 
+        areNeighborhoodsDiagonal(firstNeighborhood, secondNeighborhood){
+            let firstNeighborhoodCells = this.getCellsFromPixels(firstNeighborhood.xPos, firstNeighborhood.yPos);
+            let secondNeighborhoodCells = this.getCellsFromPixels(secondNeighborhood.xPos, secondNeighborhood.yPos);
+
+            let diff = Math.abs(firstNeighborhoodCells.x - secondNeighborhoodCells.x) + Math.abs(firstNeighborhoodCells.y - secondNeighborhoodCells.y);
+            if (diff == 2) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         // Checks if two neighborhoods are adjacent
         areNeighborhoodsAdjacent(firstNeighborhood, secondNeighborhood) {
             let firstNeighborhoodCells = this.getCellsFromPixels(firstNeighborhood.xPos, firstNeighborhood.yPos);
             let secondNeighborhoodCells = this.getCellsFromPixels(secondNeighborhood.xPos, secondNeighborhood.yPos);
 
-            let diff = Math.abs(firstNeighborhoodCells.x - secondNeighborhoodCells.x) + Math.abs(firstNeighborhoodCells.y - secondNeighborhoodCells.y)
+            let diff = Math.abs(firstNeighborhoodCells.x - secondNeighborhoodCells.x) + Math.abs(firstNeighborhoodCells.y - secondNeighborhoodCells.y);
             if (diff == 1) {
                 return true;
             } else {
@@ -462,6 +519,7 @@
 
         setAdjacentDirections(district){
             for(let i = 0; i < district.length; i++){
+                district[i].districtAdjacencies = [];
                 for(let j = 0; j < district.length; j++){
                     if(this.areNeighborhoodsAdjacent(district[i], district[j])){
                         if(district[j].xPos > district[i].xPos){
@@ -472,6 +530,25 @@
                             district[i].districtAdjacencies.push(DIRECTION.UP);
                         }else if(district[j].yPos > district[i].yPos){
                             district[i].districtAdjacencies.push(DIRECTION.DOWN);
+                        }
+                    }
+                }
+            }
+        }
+
+        setDiagonalDirections(district){
+            for(let i = 0; i < district.length; i++){
+                district[i].districtDiagonals = [];
+                for(let j = 0; j < district.length; j++){
+                    if(this.areNeighborhoodsDiagonal(district[i], district[j])){
+                        if(district[j].xPos > district[i].xPos && district[j].yPos < district[i].yPos){
+                            district[i].districtDiagonals.push(DIAGONAL.TOP_RIGHT);
+                        }else if(district[j].xPos > district[i].xPos && district[j].yPos > district[i].yPos){
+                            district[i].districtDiagonals.push(DIAGONAL.BOTTOM_RIGHT);
+                        }else if(district[j].xPos < district[i].xPos && district[j].yPos < district[i].yPos){
+                            district[i].districtDiagonals.push(DIAGONAL.TOP_LEFT);
+                        }else if(district[j].xPos < district[i].xPos && district[j].yPos > district[i].yPos){
+                            district[i].districtDiagonals.push(DIAGONAL.BOTTOM_LEFT);
                         }
                     }
                 }
