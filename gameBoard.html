@@ -153,8 +153,8 @@
                 let row = []
                 while (currentXCell < this.width) {
                     row.push(new Neighborhood(
-                        currentXCell + Math.floor(canvasCenterX - this.width * (this.cellWidth / 2)) + currentXCell * this.cellWidth,
-                        currentYCell + Math.floor(canvasCenterY - this.height * (this.cellHeight / 2)) + currentYCell * this.cellHeight,
+                        currentXCell + currentXCell * this.cellWidth,
+                        currentYCell + currentYCell * this.cellHeight,
                         this.cellWidth,
                         this.cellHeight))
                     currentXCell += 1;
@@ -186,8 +186,8 @@
 
         // Convert canvas coordinates to cell coordinates
         getCellsFromPixels(x, y) {
-            let xCell = Math.floor((x - Math.floor(canvasCenterX - this.width * (this.cellWidth / 2))) / this.cellWidth);
-            let yCell = Math.floor((y - Math.floor(canvasCenterY - this.height * (this.cellHeight / 2))) / this.cellHeight);
+            let xCell = Math.floor((x) / this.cellWidth);
+            let yCell = Math.floor((y) / this.cellHeight);
             return { x: xCell, y: yCell };
         }
 
@@ -627,6 +627,26 @@
             this.drawCurrentDistrict();
         }
     }
+
+    class Menu{
+        constructor(xPos, yPos, width, height, bgColor){
+            createMenu(xPos, yPos, width, height);
+        }
+
+        createMenu(xPos, yPos, width, height, bgColor="#FFFFFF"){
+            let prevFillStyle = context.fillStyle;
+            context.fillStyle = bgColor;
+
+            context.strokeRect(xPos, yPos, width, height);
+
+            context.fillStyle = prevFillStyle;
+        }
+
+        createSlider(xPos, yPos, width, height, percentage=0.50){
+
+        }
+    }
+
 
     let squareSize = 100;
     let gridWidth = Math.floor(canvas.width / squareSize);
