@@ -153,8 +153,8 @@
                 let row = []
                 while (currentXCell < this.width) {
                     row.push(new Neighborhood(
-                        (currentXCell) + Math.floor(canvasCenterX - this.width * (this.cellWidth / 2)) + currentXCell * this.cellWidth,
-                        (currentYCell) + Math.floor(canvasCenterY - this.height * (this.cellHeight / 2)) + currentYCell * this.cellHeight,
+                        currentXCell + Math.floor(canvasCenterX - this.width * (this.cellWidth / 2)) + currentXCell * this.cellWidth,
+                        currentYCell + Math.floor(canvasCenterY - this.height * (this.cellHeight / 2)) + currentYCell * this.cellHeight,
                         this.cellWidth,
                         this.cellHeight))
                     currentXCell += 1;
@@ -396,7 +396,7 @@
             let horizontalStep = width/steps;
             let verticalStep = height/steps;
             
-            for(let i = 0; i <= steps; i++){
+            for(let i = 1; i <= steps; i++){
                 context.beginPath();
                 context.moveTo(xPos, yPos + (verticalStep*i));
                 context.lineTo(xPos + (horizontalStep*i) -1, yPos);
@@ -413,13 +413,13 @@
         drawDistrictFill(district){
             let prevStrokeStyle = context.strokeStyle;
             let prevLineWidth = context.lineWidth;
-            context.lineWidth = 1;
+            context.lineWidth = 2;
             district.forEach(neighborhood => {
                 if(neighborhood.winningPoliticalAlignment == null){
                     return;
                 }
                 context.strokeStyle = neighborhood.winningPoliticalAlignment.districtColor;
-                this.drawNeighborhoodDistrictFill(neighborhood.xPos, neighborhood.yPos, neighborhood.width, neighborhood.height, 10, neighborhood.districtAdjacencies);
+                this.drawNeighborhoodDistrictFill(neighborhood.xPos, neighborhood.yPos, neighborhood.width, neighborhood.height, 8, neighborhood.districtAdjacencies);
             })
             context.strokeStyle = prevStrokeStyle;
             context.lineWidth = prevLineWidth;
@@ -429,26 +429,36 @@
             if(sides.length == 0){
                 return;
             }
+            let x = xPos;
+            let y = yPos;
             let w = width;
             let h = height;
-            // sides.forEach(side => {
-            //     switch (side) {
-            //         case DIRECTION.UP:
-            //             break;
-            //         case DIRECTION.RIGHT:
-            //             w = width + 1;
-            //             break;
-            //         case DIRECTION.DOWN:
-            //             h = height + 1;
-            //             break;
-            //         case DIRECTION.LEFT:
-            //             break;
-            //         default:
-            //             break;
-            //     }
+            sides.forEach(side => {
+                switch (side) {
+                    case DIRECTION.UP:
+                        // y -= 1;
+                        // h += 1;
+                        // x += 0.5;
+                        // w -= 0.5;
+                        break;
+                    case DIRECTION.RIGHT:
+                        //w += 1;
+                        break;
+                    case DIRECTION.DOWN:
+                        // h += 1;
+                        // x -= 0.5;
+                        // w += 0.5;
+                        break;
+                    case DIRECTION.LEFT:
+                        // x -= 1;
+                        // w += 1;
+                        break;
+                    default:
+                        break;
+                }
 
-            // });
-            this.fillRectDiagonalLines(xPos -0.5, yPos -0.5, w +1, h +1, lines)
+            });
+            this.fillRectDiagonalLines(x, y, w, h, lines)
         }
 
         // Deselect all neighborhoods in a district
