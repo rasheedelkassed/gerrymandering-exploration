@@ -17,6 +17,8 @@
     let canvas = document.getElementById("canvas");
     let context = canvas.getContext("2d");
 
+    context.translate(0.5, 0.5);
+
     // Set canvas height to the size of the entire window
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -60,6 +62,13 @@
         NONE: { name: 'NONE', color: "#000000", districtColor: "#000000" }
     }
 
+    const POLITICAL_ALIGNMENT_NUMERIC = {
+        0: POLITICAL_ALIGNMENT.YELLOW,
+        1: POLITICAL_ALIGNMENT.PURPLE,
+        2: POLITICAL_ALIGNMENT.UNALIGNED,
+        3: POLITICAL_ALIGNMENT.NONE,
+    }
+
     const DIRECTION = {
         UP: "UP",
         DOWN: "DOWN",
@@ -81,24 +90,24 @@
     // TODO: Better comment here
     // Create a referencable rect object on a canvas
     class Neighborhood {
-        constructor(xPos, yPos, width, height, spriteSource = "") {
+        constructor(xPos, yPos, width, height, politicalAlignment = POLITICAL_ALIGNMENT.NONE, spriteSource = "") {
             this.xPos = xPos;
             this.yPos = yPos;
             this.width = width;
             this.height = height;
             this.filled = false;
             this.selected = false;
-            this.color = POLITICAL_ALIGNMENT.NONE.color;
+            this.color = politicalAlignment.color;
             this.sprite = new Image()
             this.sprite.src = spriteSource;
-            this.politicalAlignment = null;
+            this.politicalAlignment = politicalAlignment.name;
             this.districted = false;
             this.winningPoliticalAlignment = POLITICAL_ALIGNMENT.NONE;
 
             this.districtAdjacencies = []; // What directions are part of the contained district
             this.districtDiagonals = [];
 
-            this.setRandomPoliticalAlignment();
+            //this.setRandomPoliticalAlignment();
 
         }
 
@@ -127,7 +136,7 @@
 
     // Create the "game" board
     class GameBoard {
-        constructor(width, height, cellWidth = 30, cellHeight = 30, maxDistrictCount = 4, maxDistrictSize = 4) {
+        constructor(width = 0, height = 0, cellWidth = 100, cellHeight = 100, maxDistrictCount = 0, maxDistrictSize = 0, array = []) {
             this.width = width;                     //The number of neighborhoods horizontally
             this.height = height;                   //The number of neighborhoods vertically
             this.cellWidth = cellWidth;             //The size of a neighborhood in pixels horizontally
@@ -141,9 +150,33 @@
             this.currentDistrict = [];
             this.justDeleted = false;
             this.districtBorderWidth = 7;
-
-            this.createCityGrid();
+            
+            if(array.length == 0){
+                //this.createCityGrid();
+            }else{
+                this.createCityGridByArray(array);
+            }
+            
             context.translate(0.5, 0.5);
+            
+        }
+
+        createCityGridByArray(array){
+            this.height = array.length;
+            this.width = array[0].length;
+
+            for(let currentYCell = 0; currentYCell < this.height; currentYCell++){
+                let row = [];
+                for(let currentXCell = 0; currentXCell < this.width; currentXCell++){
+                    row.push(new Neighborhood(
+                        currentXCell + currentXCell * this.cellWidth,
+                        currentYCell + currentYCell * this.cellHeight,
+                        this.cellWidth,
+                        this.cellHeight,
+                        POLITICAL_ALIGNMENT_NUMERIC[array[currentYCell][currentXCell]]));
+                }
+                this.cityGrid.push(row);
+            }
         }
 
         createCityGrid() {
@@ -153,8 +186,8 @@
                 let row = []
                 while (currentXCell < this.width) {
                     row.push(new Neighborhood(
-                        currentXCell + currentXCell * this.cellWidth,
-                        currentYCell + currentYCell * this.cellHeight,
+                        (currentXCell) + (currentXCell * this.cellWidth),
+                        (currentYCell) + (currentYCell * this.cellHeight),
                         this.cellWidth,
                         this.cellHeight))
                     currentXCell += 1;
@@ -426,9 +459,6 @@
         }
 
         drawNeighborhoodDistrictFill(xPos, yPos, width, height, lines, sides){
-            if(sides.length == 0){
-                return;
-            }
             let x = xPos;
             let y = yPos;
             let w = width;
@@ -649,11 +679,17 @@
 
 
     let squareSize = 100;
-    let gridWidth = Math.floor(canvas.width / squareSize);
-    let gridHeight = Math.floor(canvas.height / squareSize);
-    let maxDistrictSize = 10;
+    let gridArray = [
+                    [0, 1, 0, 1, 0],
+                    [0, 0, 0, 0, 0],
+                    [1, 0, 0, 0, 1],
+                    [0, 1, 1, 1, 0]
+                ];
+    let gridWidth = gridArray[0].length;
+    let gridHeight = gridArray.length;
+    let maxDistrictSize = 4;
     let maxDistrictCount = Math.ceil((gridWidth * gridHeight) / maxDistrictSize);
-    let gameBoard = new GameBoard(gridWidth, gridHeight, squareSize, squareSize, maxDistrictCount, maxDistrictSize);
+    let gameBoard = new GameBoard(gridWidth, gridHeight, squareSize, squareSize, maxDistrictCount, maxDistrictSize, gridArray);
 
     animate = () => {
         context.clearRect(0, 0, canvas.width, canvas.height);
