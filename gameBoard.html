@@ -257,8 +257,8 @@
                     && this.currentDistrict.length > 0
                     && this.isDistrictConnected(this.currentDistrict)) {
                     this.districts.push(this.currentDistrict);
-                    this.getWinningDistrictColor(this.currentDistrict)
-                    this.getWinningDistrictRatio(this.districts);
+                    //this.getWinningDistrictColor(this.currentDistrict)
+                    //console.log(this.getWinningDistrictRatio(this.districts));                    
                     this.setWinningDistrictColor(this.currentDistrict);
                 } else {
                     this.deSelectDistrict(this.currentDistrict);
@@ -458,6 +458,7 @@
             context.lineWidth = prevLineWidth;
         }
 
+        // TODO: Fix gird alignment due to pixel space between squares
         drawNeighborhoodDistrictFill(xPos, yPos, width, height, lines, sides){
             let x = xPos;
             let y = yPos;
@@ -631,9 +632,18 @@
             return ratio;
         }
 
-
+        getVoterCounts(){
+            let counter = {}
+            this.cityGrid.forEach(row => {
+                row.forEach(neighborhood => {
+                    counter[neighborhood.politicalAlignment] = ++counter[neighborhood.politicalAlignment] || 1;
+                });
+            });
+            return counter;
+        }
 
         // Draw the gameboard
+        // TODO rename element and square to more relevant names
         draw() {
             //context.beginPath();
             this.cityGrid.forEach(element => {
@@ -658,43 +668,95 @@
         }
     }
 
-    class Menu{
-        constructor(xPos, yPos, width, height, bgColor){
-            createMenu(xPos, yPos, width, height);
+    class MenuElement{
+        constructor(xPos, yPos, text){
+            this.xPos = xPos;
+            this.yPos = yPos;
+            this.text = text;
         }
 
-        createMenu(xPos, yPos, width, height, bgColor="#FFFFFF"){
+        drawElement(){
+            let prevFont = context.font;
+            let prevFillStyle = context.fillStyle;
+            context.fillStyle = "black";
+
+            context.font = "30px Arial";
+            context.fillText(this.text, this.xPos, this.yPos);
+
+            context.font = prevFont;
+            context.fillStyle = prevFillStyle;
+        }
+    }
+
+    class Menu{
+        constructor(xPos, yPos, width, height, bgColor="#000000"){
+            this.xPos = xPos;
+            this.yPos = yPos;
+            this.width = width;
+            this.height = height;
+            this.bgColor = bgColor;
+
+            this.elements = [];
+
+            this.updateMenu();
+        }
+
+        drawMenu(xPos, yPos, width, height, bgColor){
             let prevFillStyle = context.fillStyle;
             context.fillStyle = bgColor;
 
-            context.strokeRect(xPos, yPos, width, height);
+            //context.strokeRect(xPos, yPos, width, height);
+            context.fillRect(xPos, yPos, width, height);
 
+            this.elements.forEach(element => {
+                element.drawElement();
+            });
+            
             context.fillStyle = prevFillStyle;
         }
 
-        createSlider(xPos, yPos, width, height, percentage=0.50){
+        addStat(xPos, yPos, text){
+            this.elements.push(new MenuElement(xPos, yPos, text));
+        }
 
+        updateMenu(){
+            this.drawMenu(this.xPos, this.yPos, this.width, this.height, this.bgColor);
         }
     }
 
 
     let squareSize = 100;
     let gridArray = [
-                    [0, 1, 0, 1, 0],
                     [0, 0, 0, 0, 0],
-                    [1, 0, 0, 0, 1],
-                    [0, 1, 1, 1, 0]
+                    [0, 0, 0, 0, 0],
+                    [1, 1, 1, 1, 1],
+                    [1, 1, 1, 1, 1],
+                    [1, 1, 1, 1, 1]
                 ];
     let gridWidth = gridArray[0].length;
     let gridHeight = gridArray.length;
-    let maxDistrictSize = 4;
+    let maxDistrictSize = 5;
     let maxDistrictCount = Math.ceil((gridWidth * gridHeight) / maxDistrictSize);
     let gameBoard = new GameBoard(gridWidth, gridHeight, squareSize, squareSize, maxDistrictCount, maxDistrictSize, gridArray);
+    console.log(gameBoard.getVoterCounts());
+    
+    menuXPos = (gridWidth*squareSize) + gridWidth;
+    menuYPos = 0;
+    menuWidth = canvas.width*0.25;
+    menuHeight = (gridHeight*squareSize) + gridHeight-1;
 
+    let menu = new Menu(menuXPos, menuYPos, menuWidth, menuHeight, "#F2F2F2");
+
+    let yellowVoterCounts = gameBoard.getVoterCounts().YELLOW;
+    let purpleVoterCounts = gameBoard.getVoterCounts().PURPLE;
+
+    menu.addStat(menuXPos + 10, menuYPos + 30, "Yellow Voters: " + yellowVoterCounts.toString());
+    menu.addStat(menuXPos + 10, menuYPos + 70, "Purple Voters: " + purpleVoterCounts.toString());
     animate = () => {
         context.clearRect(0, 0, canvas.width, canvas.height);
         gameBoard.update();
-
+        menu.updateMenu();
+        
 
         requestAnimationFrame(animate);
     }
