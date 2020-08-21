@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+    <style type="text/css">
+        canvas {
+            position: absolute;
+            overflow: hidden;
+        }
+    
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+    
+    <script src="../js/gameBoard.js"></script>
+
+	<script>
+        // Set canvas height to the size of the entire window
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let squareSize = 100;
+        let gridArray = [
+                        [0, 0, 1, 0, 0], 
+                        [0, 0, 1, 0, 0], 
+                        [0, 1, 1, 1, 0], 
+                        [0, 1, 1, 1, 0], 
+                        [0, 1, 1, 0, 0]
+                    ];
+
+        let explanation = new CanvasExplanation(canvas, squareSize, gridArray, false);
+        explanation.animate();
+	</script>
+</body>
+</html>
