@@ -17,8 +17,6 @@
     let canvas = document.getElementById("canvas");
     let context = canvas.getContext("2d");
 
-    context.translate(0.5, 0.5);
-
     // Set canvas height to the size of the entire window
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -157,8 +155,6 @@
             }else{
                 this.createCityGridByArray(array);
             }
-            
-            context.translate(0.5, 0.5);
             
         }
 
@@ -754,6 +750,63 @@
         }
     }
 
+    class CanvasExplanation{
+        constructor(canvas, squareSize = 100, gridArray = [], isThereMenu = false){
+            this.canvas = canvas;
+            this.context = canvas.getContext("2d");
+            this.context.translate(0.5, 0.5);
+            this.squareSize = squareSize;
+            this.gridArray = gridArray;
+            this.gameBoard = null;
+            this.menu = null;
+            this.isThereMenu = isThereMenu;
+
+            this.gridWidth = this.gridArray[0].length;
+            this.gridHeight = this.gridArray.length;
+
+            this.menuXPos = (this.gridWidth*this.squareSize) + this.gridWidth;
+            this.menuYPos = 0;
+
+            this.createGameboard();
+            this.createMenu();
+        }
+
+        createGameboard(){
+            let districtSize = this.gridWidth;
+            let maxDistrictCount = Math.ceil((this.gridWidth * this.gridHeight) / districtSize);
+            this.gameBoard = new GameBoard(this.gridWidth, this.gridHeight, this.squareSize, this.squareSize, maxDistrictCount, districtSize, districtSize, this.gridArray);
+        }
+
+        createMenu(){
+            let menuWidth = this.canvas.width*0.25;
+            let menuHeight = (this.gridHeight*this.squareSize) + this.gridHeight-1;
+
+            this.menu = new Menu(this.menuXPos, this.menuYPos, menuWidth, menuHeight, "#F2F2F2");
+
+            let yellowVoterCounts = this.gameBoard.getVoterCounts().YELLOW;
+            let purpleVoterCounts = this.gameBoard.getVoterCounts().PURPLE;
+
+            this.menu.addElement("YellowVoterCount", this.menuXPos + 10, this.menuYPos + 30, "Yellow Voters: " + yellowVoterCounts.toString());
+            this.menu.addElement("PurpleVoterCount", this.menuXPos + 10, this.menuYPos + 70, "Purple Voters: " + purpleVoterCounts.toString());
+            this.menu.addElement("YellowRepresentatives", this.menuXPos + 10, this.menuYPos + 110, "Yellow Representatives: " + this.gameBoard.getWinningDistrictCount().YELLOW);
+            this.menu.addElement("PurpleRepresentatives", this.menuXPos + 10, this.menuYPos + 140, "Purple Representatives: " + this.gameBoard.getWinningDistrictCount().PURPLE);
+    
+        }
+
+        animate = () => {
+            this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.gameBoard.update();
+            this.menu.updateMenu();
+
+            this.menu.editElement("YellowRepresentatives", this.menuXPos + 10, this.menuYPos + 110, "Yellow Representatives: " + this.gameBoard.getWinningDistrictCount().YELLOW);
+            this.menu.editElement("PurpleRepresentatives", this.menuXPos + 10, this.menuYPos + 140, "Purple Representatives: " + this.gameBoard.getWinningDistrictCount().PURPLE);
+            
+
+            requestAnimationFrame(this.animate);
+        }
+
+    }
+
 
     let squareSize = 100;
     let gridArray = [
@@ -763,41 +816,8 @@
                     [1, 1, 1, 1, 1],
                     [1, 1, 1, 1, 1]
                 ];
-    let gridWidth = gridArray[0].length;
-    let gridHeight = gridArray.length;
-    let maxDistrictSize = 5;
-    let minDistrictSize = 5;
-    let maxDistrictCount = Math.ceil((gridWidth * gridHeight) / maxDistrictSize);
-    let gameBoard = new GameBoard(gridWidth, gridHeight, squareSize, squareSize, maxDistrictCount, maxDistrictSize, minDistrictSize, gridArray);
-    
-    menuXPos = (gridWidth*squareSize) + gridWidth;
-    menuYPos = 0;
-    menuWidth = canvas.width*0.25;
-    menuHeight = (gridHeight*squareSize) + gridHeight-1;
 
-    let menu = new Menu(menuXPos, menuYPos, menuWidth, menuHeight, "#F2F2F2");
-
-    let yellowVoterCounts = gameBoard.getVoterCounts().YELLOW;
-    let purpleVoterCounts = gameBoard.getVoterCounts().PURPLE;
-
-    menu.addElement("YellowVoterCount", menuXPos + 10, menuYPos + 30, "Yellow Voters: " + yellowVoterCounts.toString());
-    menu.addElement("PurpleVoterCount", menuXPos + 10, menuYPos + 70, "Purple Voters: " + purpleVoterCounts.toString());
-    menu.addElement("YellowRepresentatives", menuXPos + 10, menuYPos + 110, "Yellow Representatives: " + gameBoard.getWinningDistrictCount().YELLOW);
-    menu.addElement("PurpleRepresentatives", menuXPos + 10, menuYPos + 140, "Purple Representatives: " + gameBoard.getWinningDistrictCount().PURPLE);
-    menu.addElement("")
-    
-    animate = () => {
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        gameBoard.update();
-        menu.updateMenu();
-
-        menu.editElement("YellowRepresentatives", menuXPos + 10, menuYPos + 110, "Yellow Representatives: " + gameBoard.getWinningDistrictCount().YELLOW);
-        menu.editElement("PurpleRepresentatives", menuXPos + 10, menuYPos + 140, "Purple Representatives: " + gameBoard.getWinningDistrictCount().PURPLE);
-        
-
-        requestAnimationFrame(animate);
-    }
-
-    requestAnimationFrame(animate);
+    let explanation = new CanvasExplanation(canvas, squareSize, gridArray, true);
+    explanation.animate();
 
 </script>
