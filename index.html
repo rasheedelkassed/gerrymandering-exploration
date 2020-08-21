@@ -4,17 +4,68 @@
 <head>
   <meta charset="utf-8">
 
-  <title>It's Not Arbitrary: An explanation of the unexplanable electoral boundaries</title>
+  <title>It's Not Arbitrary: An explanation of unexplainable electoral boundaries</title>
   <meta name="description" content="A simplified explanation of gerrymandering">
   <meta name="author" content="Rasheed El Kassed">
 
 </head>
 
 <body>
-  <h1>It's Not Arbitrary</h1>
-  <h2>An explanation of the unexplanable electoral boundaries</h2>
-  <p>You've just been tasked with drawing the electoral boundaries for an entire state of the GSA, better known as The Grided States of America.</p>
-  <p>In an attempt to provide proper representation of the general population, the GSA divides its states with the usage of electoral districts. These districts are then given a representative with a political affiliation that matches the winning majority of the district. The number and size of the districts that a state gets are determined by their population.</p>
-  <p>Each state consists of a several square neighborhoods which follow one of the two main political parties: Purple or Yellow, and it's your job to draw the electoral boundaries such that there is a proper amount of representation.</p>
-</body>
+  <div class="title">
+    <h1>It's Not Arbitrary</h1>
+    <h2>An explanation of unexplainable electoral boundaries</h2>
+  </div>
+
+  <div class="chapter"> <!-- The Intro -->
+    <p>
+      Welcome to our fictitious country: the Grided Republic
+    </p>
+    <p>
+      You've just been tasked with drawing the district boundaries for one of the states in the Grided Republic.
+       A state in the Grided Republic is made up of neighborhoods that are each assigned a certain political party based on the voter base of said neighborhoods (the Purple and Orange political parties are the popular ones), and the districts must all contain <i>exactly</i> five connected neighborhoods:
+    </p>
+
+    <iframe></iframe> <!-- TODO: add game board of style: [0,0,0,1,1] -->
+    
+    <p>
+      The winning political party of a district dictates the political party of that district's representative, and ideally we would want perfect representation:
+    </p>
+
+    <iframe></iframe> <!-- TODO: add game board of style: [0,0,0,0,0],[1,1,1,1,1] -->
+
+    <p>
+      This seems completely fine! No matter how you decide to draw the two districts, there is no way to draw them in an unfair way. 50% of the neighborhoods side with the Purple party, and 50% of the representatives also side with the Purple party. The same is true with the Orange party.
+    </p>
+    <p>
+      Let's go ahead and increase the size of our state to something a tiny bit bigger and see what happens now. Let's also add some fun statistics to accompany our hypothetical state.</p>
+    <p>
+      <b>Try to draw the districts as fairly as you can</b>
+    </p>
+
+    <iframe></iframe> <!-- TODO: add game board of style: [0,0,0,0,0],[0,0,0,0,1],[1,1,1,1,1] -->
+    
+    <p>
+      This still seems completely fine, right? Chances are the districts you drew give the Orange party 2 representatives, and the Purple party 1 representative. This is a fair as it you can draw it as there are clearly more Orange aligned neighborhoods compared to Purple aligned ones. What if I told you that despite the numbers advantage that Orange has, we could give the Purple political party more representatives just by drawing the districts differently. The easy way to do it is to win districts by slimmer margins. See if you can get it:
+    </p>
+      
+    <iframe></iframe> <!-- TODO: add game board of style: [0,0,0,0,0],[0,0,0,0,1],[1,1,1,1,1] -->
+    
+    <p>
+      Isn't that just crazy?! Just by drawing the lines slightly differently, the state gets completely different representatives!
+    </p>
+
+    <p>
+      Taking this district drawing process to its extreme, we can draw districts that leave only one political party with representation. For example, the following state can have it's districts drawn in such a way that the Purple political party wins every district:
+    </p>
+    
+    <iframe></iframe> <!-- TODO: add game board of style: [0,0,0,0,0],[0,0,0,0,0],[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1] -->
+
+    <p>
+      And in the following example, the Orange political party can win every district (remember, try to make Orange win each district by the smallest possible margin):
+    </p>
+
+    <iframe></iframe> <!-- TODO: add game board of style: [0,0,1,0,0],[0,0,1,0,0],[0,1,1,1,0],[0,1,1,1,0],[0,1,1,0,0] -->
+  </div>
+  
+  </body>
 </html>
