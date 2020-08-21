@@ -136,7 +136,7 @@
 
     // Create the "game" board
     class GameBoard {
-        constructor(width = 0, height = 0, cellWidth = 100, cellHeight = 100, maxDistrictCount = 0, maxDistrictSize = 0, array = []) {
+        constructor(width = 0, height = 0, cellWidth = 100, cellHeight = 100, maxDistrictCount = 0, maxDistrictSize = 0, minDistrictSize = 0, array = []) {
             this.width = width;                     //The number of neighborhoods horizontally
             this.height = height;                   //The number of neighborhoods vertically
             this.cellWidth = cellWidth;             //The size of a neighborhood in pixels horizontally
@@ -144,6 +144,7 @@
             this.cityGrid = [];                     //The grid of neighborhoods used to reference specific neighborhoods
             this.shouldFill = null;
             this.maxDistrictSize = maxDistrictSize; //The number of squares that are changed in a single stroke
+            this.minDistrictSize = minDistrictSize;
             this.currentDistrictSize = 0;
             this.districts = [];
             this.maxDistrictCount = maxDistrictCount;
@@ -254,7 +255,7 @@
 
                 // If the selected district is valid, solidify it as an actual district, otherwise deselect it
                 if (this.districts.length < this.maxDistrictCount
-                    && this.currentDistrict.length > 0
+                    && this.currentDistrict.length >= this.minDistrictSize
                     && this.isDistrictConnected(this.currentDistrict)) {
                     this.districts.push(this.currentDistrict);
                     //this.getWinningDistrictColor(this.currentDistrict)
@@ -622,6 +623,11 @@
         getWinningDistrictRatio(){
             let counter = {};
             let ratio = {};
+
+            Object.keys(POLITICAL_ALIGNMENT).forEach(alignment => {
+                counter[alignment] = 0;
+            });
+
             this.districts.forEach(district => {
                 let winningPoliticalAlignment = this.getWinningDistrictColor(district);
                 counter[winningPoliticalAlignment] = ++counter[winningPoliticalAlignment] || 1;
@@ -632,8 +638,25 @@
             return ratio;
         }
 
+        getWinningDistrictCount(){
+            let counter = {};
+            Object.keys(POLITICAL_ALIGNMENT).forEach(alignment => {
+                counter[alignment] = 0;
+            });
+
+            this.districts.forEach(district => {
+                let winningPoliticalAlignment = this.getWinningDistrictColor(district);
+                counter[winningPoliticalAlignment] = ++counter[winningPoliticalAlignment] || 1;
+            });
+            return counter;
+        }
+
         getVoterCounts(){
             let counter = {}
+            Object.keys(POLITICAL_ALIGNMENT).forEach(alignment => {
+                counter[alignment] = 0;
+            });
+            
             this.cityGrid.forEach(row => {
                 row.forEach(neighborhood => {
                     counter[neighborhood.politicalAlignment] = ++counter[neighborhood.politicalAlignment] || 1;
@@ -669,10 +692,11 @@
     }
 
     class MenuElement{
-        constructor(xPos, yPos, text){
+        constructor(name, xPos, yPos, text){
             this.xPos = xPos;
             this.yPos = yPos;
             this.text = text;
+            this.name = name;
         }
 
         drawElement(){
@@ -696,7 +720,7 @@
             this.height = height;
             this.bgColor = bgColor;
 
-            this.elements = [];
+            this.elements = {};
 
             this.updateMenu();
         }
@@ -708,15 +732,21 @@
             //context.strokeRect(xPos, yPos, width, height);
             context.fillRect(xPos, yPos, width, height);
 
-            this.elements.forEach(element => {
-                element.drawElement();
+            Object.keys(this.elements).forEach(key => {
+                this.elements[key].drawElement();
             });
             
             context.fillStyle = prevFillStyle;
         }
 
-        addStat(xPos, yPos, text){
-            this.elements.push(new MenuElement(xPos, yPos, text));
+        addElement(name, xPos, yPos, text){
+            this.elements[name] = new MenuElement(name, xPos, yPos, text);
+        }
+
+        editElement(name, xPos, yPos, text){
+            this.elements[name].xPos = xPos;
+            this.elements[name].yPos = yPos;
+            this.elements[name].text = text;
         }
 
         updateMenu(){
@@ -736,9 +766,9 @@
     let gridWidth = gridArray[0].length;
     let gridHeight = gridArray.length;
     let maxDistrictSize = 5;
+    let minDistrictSize = 5;
     let maxDistrictCount = Math.ceil((gridWidth * gridHeight) / maxDistrictSize);
-    let gameBoard = new GameBoard(gridWidth, gridHeight, squareSize, squareSize, maxDistrictCount, maxDistrictSize, gridArray);
-    console.log(gameBoard.getVoterCounts());
+    let gameBoard = new GameBoard(gridWidth, gridHeight, squareSize, squareSize, maxDistrictCount, maxDistrictSize, minDistrictSize, gridArray);
     
     menuXPos = (gridWidth*squareSize) + gridWidth;
     menuYPos = 0;
@@ -750,12 +780,19 @@
     let yellowVoterCounts = gameBoard.getVoterCounts().YELLOW;
     let purpleVoterCounts = gameBoard.getVoterCounts().PURPLE;
 
-    menu.addStat(menuXPos + 10, menuYPos + 30, "Yellow Voters: " + yellowVoterCounts.toString());
-    menu.addStat(menuXPos + 10, menuYPos + 70, "Purple Voters: " + purpleVoterCounts.toString());
+    menu.addElement("YellowVoterCount", menuXPos + 10, menuYPos + 30, "Yellow Voters: " + yellowVoterCounts.toString());
+    menu.addElement("PurpleVoterCount", menuXPos + 10, menuYPos + 70, "Purple Voters: " + purpleVoterCounts.toString());
+    menu.addElement("YellowRepresentatives", menuXPos + 10, menuYPos + 110, "Yellow Representatives: " + gameBoard.getWinningDistrictCount().YELLOW);
+    menu.addElement("PurpleRepresentatives", menuXPos + 10, menuYPos + 140, "Purple Representatives: " + gameBoard.getWinningDistrictCount().PURPLE);
+    menu.addElement("")
+    
     animate = () => {
         context.clearRect(0, 0, canvas.width, canvas.height);
         gameBoard.update();
         menu.updateMenu();
+
+        menu.editElement("YellowRepresentatives", menuXPos + 10, menuYPos + 110, "Yellow Representatives: " + gameBoard.getWinningDistrictCount().YELLOW);
+        menu.editElement("PurpleRepresentatives", menuXPos + 10, menuYPos + 140, "Purple Representatives: " + gameBoard.getWinningDistrictCount().PURPLE);
         
 
         requestAnimationFrame(animate);
