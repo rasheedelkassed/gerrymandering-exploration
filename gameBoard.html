@@ -768,7 +768,10 @@
             this.menuYPos = 0;
 
             this.createGameboard();
-            this.createMenu();
+            if(this.isThereMenu){
+                this.createMenu();
+            }
+            
         }
 
         createGameboard(){
@@ -796,10 +799,11 @@
         animate = () => {
             this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.gameBoard.update();
-            this.menu.updateMenu();
-
-            this.menu.editElement("YellowRepresentatives", this.menuXPos + 10, this.menuYPos + 110, "Yellow Representatives: " + this.gameBoard.getWinningDistrictCount().YELLOW);
-            this.menu.editElement("PurpleRepresentatives", this.menuXPos + 10, this.menuYPos + 140, "Purple Representatives: " + this.gameBoard.getWinningDistrictCount().PURPLE);
+            if(this.isThereMenu){
+                this.menu.updateMenu();
+                this.menu.editElement("YellowRepresentatives", this.menuXPos + 10, this.menuYPos + 110, "Yellow Representatives: " + this.gameBoard.getWinningDistrictCount().YELLOW);
+                this.menu.editElement("PurpleRepresentatives", this.menuXPos + 10, this.menuYPos + 140, "Purple Representatives: " + this.gameBoard.getWinningDistrictCount().PURPLE);
+            }
             
 
             requestAnimationFrame(this.animate);
