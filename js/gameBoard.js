@@ -778,7 +778,7 @@ class CanvasExplanation {
 
     }
 
-    animate = () => {
+    animate(){
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.gameBoard.update();
         if (this.isThereMenu) {
@@ -788,7 +788,8 @@ class CanvasExplanation {
         }
 
 
-        requestAnimationFrame(this.animate);
+        requestAnimationFrame(this.animate.bind(this));
+
     }
 
 }
