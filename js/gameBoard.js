@@ -787,6 +787,8 @@ class CanvasExplanation {
             this.menu.editElement("PurpleRepresentatives", this.menuXPos + 10, this.menuYPos + 140, "Purple Representatives: " + this.gameBoard.getWinningDistrictCount().PURPLE);
         }
 
+        alert("I'm Running");
+
 
         requestAnimationFrame(this.animate.bind(this));
 
