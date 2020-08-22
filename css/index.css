@@ -6,7 +6,7 @@ body {
 .header {
     position: relative;
     min-height: 100vh;
-    background-image: url("../sprites/website_background.png");
+    background-image: url("../sprites/header_background.png");
     background-color: #D9B573;
     background-size: 100%;
 }
@@ -20,7 +20,7 @@ body {
 
     border-radius: 50%;
 
-    background-color: rgb(34, 28, 28);
+    background-color: #3c3030;
     color: white;
     text-align: center;
     position: absolute;
@@ -42,19 +42,27 @@ body {
 }
 
 .chapter {
-    text-align: center;
     margin-top: 5vh;
-    margin-left: 20vw;
-    margin-right: 20vw;
+    text-align: center;
 }
 
 .chapter p {
+    margin-left: 20vw;
+    margin-right: 20vw;
     font-size: 20px;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    text-align: left;
+}
+
+.chapter iframe {
+    margin-left: 20vw;
+    margin-right: 20vw;
     margin-top: 5vh;
     margin-bottom: 5vh;
 }
 
-.chapter iframe {
-    margin-top: 5vh;
-    margin-bottom: 5vh;
+.playable {
+    background-color: #3c3030;
+    width: 100%;
 }
