@@ -60,6 +60,8 @@ body {
     margin-right: 20vw;
     margin-top: 5vh;
     margin-bottom: 5vh;
+
+    touch-action: none;
 }
 
 .exploration {
