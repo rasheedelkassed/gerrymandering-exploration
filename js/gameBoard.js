@@ -22,6 +22,8 @@ canvas.addEventListener('mousemove',
 
 canvas.addEventListener('mousedown',
     function (event) {
+        mouse.x = event.x;
+        mouse.y = event.y;
         mouse.down = true;
     })
 
@@ -34,6 +36,30 @@ canvas.addEventListener('mouseleave',
     function (event) {
         mouse.down = false;
     })
+
+canvas.addEventListener('touchmove',
+    function (event) {
+        mouse.x = event.touches[0].clientX;
+        mouse.y = event.touches[0].clientY;
+    })
+
+canvas.addEventListener('touchstart',
+    function (event) {
+        mouse.x = event.touches[0].clientX;
+        mouse.y = event.touches[0].clientY;
+        mouse.down = true;
+    })
+
+canvas.addEventListener('touchend',
+    function (event) {
+        mouse.down = false;
+    })
+
+canvas.addEventListener('touchleave',
+    function (event) {
+        mouse.down = false;
+    })
+
 
 const POLITICAL_ALIGNMENT = {
     YELLOW: { name: "YELLOW", color: "#D9B573", districtColor: "#c89537" },
