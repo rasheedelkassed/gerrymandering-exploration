@@ -108,7 +108,7 @@ class Neighborhood {
         context.strokeStyle = this.color;
         context.fillRect(this.xPos, this.yPos, this.width, this.height);
         context.strokeRect(this.xPos, this.yPos, this.width, this.height);
-        context.drawImage(this.sprite, this.xPos, this.yPos, this.width, this.height);
+        //context.drawImage(this.sprite, this.xPos, this.yPos, this.width, this.height);
         context.strokeStyle = "black";
 
     }
@@ -786,9 +786,6 @@ class CanvasExplanation {
             this.menu.editElement("YellowRepresentatives", this.menuXPos + 10, this.menuYPos + 110, "Yellow Representatives: " + this.gameBoard.getWinningDistrictCount().YELLOW);
             this.menu.editElement("PurpleRepresentatives", this.menuXPos + 10, this.menuYPos + 140, "Purple Representatives: " + this.gameBoard.getWinningDistrictCount().PURPLE);
         }
-
-        alert("I'm Running");
-
 
         requestAnimationFrame(this.animate.bind(this));
 
