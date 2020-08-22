@@ -41,6 +41,7 @@ canvas.addEventListener('touchmove',
     function (event) {
         mouse.x = event.touches[0].clientX;
         mouse.y = event.touches[0].clientY;
+        event.preventDefault();
     })
 
 canvas.addEventListener('touchstart',
