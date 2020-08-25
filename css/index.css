@@ -78,7 +78,7 @@ body {
 .navigation-bar {
     display: table;
     background-color: #3c3030;
-    height: 50px;
+    height: 8vh;
     overflow: hidden;
     text-align: center;
     position: fixed;

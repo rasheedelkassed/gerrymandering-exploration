@@ -14,7 +14,20 @@
 </head>
 
 <body>
-  <div class="header">
+<script>
+  function slideShow(slideIndex){
+    let idString = "slide-" + slideIndex;
+    let slidesToHide = document.getElementsByClassName("slide");
+    let slideToShow = document.getElementById(idString);
+    for(let i = 0; i < slidesToHide.length; i++){
+      slidesToHide[i].style.display = "none";
+    }
+
+    slideToShow.style.display = "block";
+  }
+
+</script>
+  <div class="header slide" id="slide-0">
     <div class="title">
       <div class="title-text">
         <h1>It's Not Arbitrary</h1>
@@ -25,75 +38,16 @@
     </div>
   </div>
 
-  <div class="chapter"> <!-- The Intro -->
+  <div class="chapter slide" id="slide-1"> <!-- The Intro -->
     <p>
-      Welcome to a fictitious country I'm calling the Grided Republic.
+      In 1744, the redrawing 
     </p>
-    <p>
-      You've just been tasked with drawing the district boundaries for one of the states in the Grided Republic.
-       A state in the Grided Republic is made up of neighborhoods that are each assigned a certain political party based on the voter base of said neighborhoods (the Purple and Orange political parties are the popular ones), and the districts must all contain <i>exactly</i> five connected neighborhoods:
-    </p>
-
-    <div class="exploration">
-      <iframe src="playables/introduction.html" width="505" height="101"></iframe>
-    </div>
-
-    <p>
-      The winning political party of a district dictates the political party of that district's representative, and ideally we would want perfect representation:
-    </p>
-
-    <div class="exploration">
-      <iframe src="playables/perfection.html" width="505" height="202"></iframe>
-    </div>
-    <p>
-      This seems completely fine! No matter how you decide to draw the two districts, there is no way to draw them in an unfair way. 50% of the neighborhoods side with the Purple party, and 50% of the representatives also side with the Purple party. The same is true with the Orange party.
-    </p>
-    <p>
-      Let's go ahead and increase the size of our state to something a tiny bit bigger and see what happens now. Let's also add some fun statistics to accompany our hypothetical state.</p>
-    <p>
-      <b>Try to draw the districts as fairly as you can</b>
-    </p>
-
-    <div class="exploration">
-      <iframe src="playables/complications.html" width="505" height="303"></iframe>
-    </div>
-    <p>
-      This still seems completely fine! Chances are the districts you just drew give the Orange party 2 representatives, and the Purple party 1 representative, a totally fair way to draw these districts as there are clearly more Orange aligned neighborhoods compared to Purple aligned ones. 
-    </p>
-
-    <p>
-      What if I told you that despite the numbers advantage that Orange has, we could give the Purple political party more representatives just by drawing the districts differently. The easy way to do it is to win districts by slimmer margins. See if you can get it:
-    </p>
-      
-    <div class="exploration">
-      <iframe src="playables/complications.html" width="505" height="303"></iframe>
-    </div>
-
-    <p>
-      Isn't that just crazy?! Just by drawing the lines slightly differently, the state gets completely different representatives!
-    </p>
-
-    <p>
-      Taking this district drawing process to its extreme, we can draw districts that leave only one political party with representation. For example, the following state can have it's districts drawn in such a way that the Purple political party wins every district:
-    </p>
-    
-    <div class="exploration">
-      <iframe src="playables/takeover1.html" width="505" height="505"></iframe>
-    </div>
-    
-    <p>
-      And in the following example, the Orange political party can win every district (remember, the easy way is to have Orange win each district by the smallest possible margin):
-    </p>
-
-    <div class="exploration">
-      <iframe src="playables/takeover2.html" width="505" height="505"></iframe>
-    </div>
   </div>
 
   <div class="navigation-bar">
     <div class="navigation-content">
-      <span href="#slide-0">0</span>
-      <span href="#slide-1">1</span>
+      <span onclick="slideShow(0)" id="slide-0-select">0</span>
+      <span onclick="slideShow(1)" id="slide-1-select">1</span>
     </div>
   </div>
     
