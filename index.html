@@ -27,7 +27,7 @@
   }
 
 </script>
-  <div class="header slide" id="slide-0">
+  <div class="header slide" id="slide-0" style="display: block;">
     <div class="title">
       <div class="title-text">
         <h1>It's Not Arbitrary</h1>
@@ -38,16 +38,35 @@
     </div>
   </div>
 
-  <div class="chapter slide" id="slide-1"> <!-- The Intro -->
+  <div class="chapter slide" id="slide-1" style="display: none;"> <!-- The Intro -->
     <p>
-      In 1744, the redrawing 
+      Is it possible to make a vote no longer matter?
     </p>
+    <p>
+      Imagine this: a system that elects representatives for districts
+    </p>
+  </div>
+
+  <div class="chapter slide" id="slide-2" style="display: none;"> <!-- The Intro -->
+    <p>
+      Welcome to a small state in a fictitious country I'm calling the "Grided Republic."
+    </p>
+    <p>
+      You have the ability to do two things to this state: draw new districts and delete old districts, and, unfortunately for you,
+       you've been the unfortunate fellow tasked with drawing the electoral districts for this particular state:
+    </p>
+    <div class="exploration tutorial-explanation">
+      <div>Cool Text</div>
+      <iframe src="playables/introduction.html" width="505" height="101"></iframe>
+      <div>Other Stuff</div>
+    </div>
   </div>
 
   <div class="navigation-bar">
     <div class="navigation-content">
       <span onclick="slideShow(0)" id="slide-0-select">0</span>
       <span onclick="slideShow(1)" id="slide-1-select">1</span>
+      <span onclick="slideShow(2)" id="slide-2-select">2</span>
     </div>
   </div>
     

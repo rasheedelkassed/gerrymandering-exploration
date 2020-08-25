@@ -62,17 +62,27 @@ body {
 }
 
 .chapter iframe {
-    margin-left: 20vw;
-    margin-right: 20vw;
     margin-top: 5vh;
     margin-bottom: 5vh;
-
+    display: table-cell;
     touch-action: none;
 }
 
 .exploration {
     background-color: #3c3030;
     width: 100%;
+    display: table;
+}
+
+.tutorial-explanation {
+    display: table;
+}
+
+.tutorial-explanation div{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    width: 33%;
 }
 
 .navigation-bar {
