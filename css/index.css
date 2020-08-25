@@ -43,7 +43,8 @@ body {
 }
 
 .title-text{
-    display: table-cell; vertical-align: middle;
+    display: table-cell;
+    vertical-align: middle;
 }
 
 .chapter {
@@ -72,4 +73,39 @@ body {
 .exploration {
     background-color: #3c3030;
     width: 100%;
+}
+
+.navigation-bar {
+    display: table;
+    background-color: #3c3030;
+    height: 50px;
+    overflow: hidden;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.navigation-bar .navigation-content {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.navigation-bar span {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 25px;
+    font-style: none;
+    text-decoration: none;
+    color: white;
+    border-style: solid;
+    border-color: white;
+    border-width: 2px;
+}
+
+
+.navigation-bar span:hover {
+    background-color: #584646;
 }
