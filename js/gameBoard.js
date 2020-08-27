@@ -784,7 +784,6 @@ class CanvasExplanation {
     constructor(canvas, squareSize = 100, gridArray = [], isThereMenu = false) {
         this.canvas = canvas;
         this.context = canvas.getContext("2d");
-        this.context.translate(0.5, 0.5);
         this.squareSize = squareSize;
         this.gridArray = gridArray;
         this.gameBoard = null;
@@ -827,6 +826,7 @@ class CanvasExplanation {
     }
 
     animate(){
+        this.context.translate(0.5, 0.5);
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.gameBoard.update();
         if (this.isThereMenu) {
@@ -834,7 +834,7 @@ class CanvasExplanation {
             this.menu.editElement("YellowRepresentatives", this.menuXPos + 10, this.menuYPos + 110, "Yellow Representatives: " + this.gameBoard.getWinningDistrictCount().YELLOW);
             this.menu.editElement("PurpleRepresentatives", this.menuXPos + 10, this.menuYPos + 140, "Purple Representatives: " + this.gameBoard.getWinningDistrictCount().PURPLE);
         }
-
+        context.setTransform(1, 0, 0, 1, 0, 0);
         requestAnimationFrame(this.animate.bind(this));
 
     }
