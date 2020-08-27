@@ -13,13 +13,13 @@ body {
 
 
 .title {
-    width: 300px;
-    height: 300px;
+    width: 500px;
+    height: 500px;
 
     text-align:center;
     display: table;
 
-    border-radius: 50%;
+    border-radius: 100px;
 
     background-color: #3c3030;
     color: #F2F2F2;
@@ -30,21 +30,33 @@ body {
     transform: translate(-50%,-50%);
 }
 
-.title h1 {
-    font-size: 30px;
+h1 {
+    font-size: 2.5em;
 }
 
-.title h2 {
-    font-size: 25px;
+h2 {
+    font-size: 1.5em;
 }
 
-.title h3 {
-    font-size: 20px;
+h3 {
+    font-size: 1em;
+}
+
+b {
+    font-weight: bold;
 }
 
 .title-text{
     display: table-cell;
     vertical-align: middle;
+}
+
+.title-button {
+    padding: 25px;
+    border-radius: 25px;
+    border-style: solid;
+    border-color: #F2F2F2;
+    border-width: 1px;
 }
 
 .chapter {
@@ -53,17 +65,30 @@ body {
 }
 
 .chapter p {
-    margin-left: 20vw;
-    margin-right: 20vw;
-    font-size: 20px;
+    margin-left: 25vw;
+    margin-right: 25vw;
+    font-size: 1em;
     margin-top: 5vh;
     margin-bottom: 5vh;
     text-align: left;
 }
 
+.chapter-button {
+    padding: 25px;
+    border-radius: 25px;
+    border-style: solid;
+    border-color:  #3c3030;
+    border-width: 1px;
+}
+
+.chapter-button:hover {
+    background-color: #584646;
+    color: #F2F2F2;
+}
+
 .chapter iframe {
-    margin-top: 5vh;
-    margin-bottom: 5vh;
+    margin-top: 15px;
+    margin-bottom: 15px;
     touch-action: none;
 }
 
@@ -106,7 +131,7 @@ body {
 .navigation-bar {
     display: table;
     background-color: #3c3030;
-    height: 8vh;
+    height: 50px;
     overflow: hidden;
     text-align: center;
     position: fixed;
@@ -122,10 +147,10 @@ body {
 
 .navigation-bar span {
     display: inline-block;
-    width: 5vh;
-    height: 5vh;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
-    font-size: 5vh;
+    font-size: 30px;
     font-style: none;
     text-decoration: none;
     color: white;
@@ -136,12 +161,12 @@ body {
 }
 
 
-.navigation-bar span:hover {
+span:hover {
     background-color: #584646;
 }
 
 .clear {
     clear: both;
-    height: 8vh; 
+    height: 50px; 
     
 }

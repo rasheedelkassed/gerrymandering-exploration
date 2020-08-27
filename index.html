@@ -20,23 +20,23 @@
     let idString = "slide-" + slideIndex;
     let slidesToHide = document.getElementsByClassName("slide");
     let buttonsToDeselect = document.getElementsByClassName("slide-select");
-    console.log(buttonsToDeselect);
 
     let slideToShow = document.getElementById(idString);
     let selectedButton = document.getElementById(idString + "-select");
-
-    for(let i = 0; i < buttonsToDeselect.length; i++){
-      buttonsToDeselect[i].style.backgroundColor = "#3C3030";
-      buttonsToDeselect[i].style.color = "#F2F2F2";
-    }
 
     for(let i = 0; i < slidesToHide.length; i++){
         slidesToHide[i].style.opacity = 0;
         slidesToHide[i].style.display = "none";
     }
-    selectedButton.style.backgroundColor = "#F2F2F2";
-    selectedButton.style.color = "#3C3030";
-
+    if(selectedButton != null){
+      for(let i = 0; i < buttonsToDeselect.length; i++){
+      buttonsToDeselect[i].style.backgroundColor = "#3C3030";
+      buttonsToDeselect[i].style.color = "#F2F2F2";
+      }
+      selectedButton.style.backgroundColor = "#F2F2F2";
+      selectedButton.style.color = "#3C3030";
+    }
+    
     slideToShow.style.display = "block";
     slideToShow.style.opacity = 1;
     
@@ -44,6 +44,7 @@
   }
 
 </script>
+
   <div class="header slide fade" id="slide-0" style="display: block; opacity: 1;">
     <div class="title">
       <div class="title-text">
@@ -51,58 +52,171 @@
         <h2>An explanation of unexplainable electoral boundaries</h2>
         <br/>
         <h3>By Rasheed El Kassed</h3>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <span onclick="slideShow(1)" class="title-button">
+          <b>PLAY →</b>
+        </span>
       </div>
+      
     </div>
   </div>
 
   <!-- Slide 1: The Introduction -->
-  <div class="chapter slide fade" id="slide-1" style="display: none; opacity: 0"> 
+  <div class="chapter slide fade" id="slide-1" style="display: none; opacity: 0">
     <p>
-      Is it possible to make a vote no longer matter?
+      In 1812, the state of Massachusetts was forced to adopt the idea of electoral district boundaries.</p>
+    <p>
+      Also in 1812, the state governor of Massachusetts, Elbridge Gerry, signed a bill that drew the newly required electoral districts of Massachusetts in a way that favored his Democratic-Republican Party
+      <br/>
+      (There was also a war, but we're not talking about that here).
     </p>
     <p>
-      Imagine this: a lot of writing here that sounds fricking amazing
+      The new districts proved to be a huge success for the Democratic-Republican Party, helping secure the majority of control in the state's senate. Funnily enough, our man Gerry ended up losing his job due to the over-whelming support for the Federalist party.
     </p>
+    <p>
+      This begs the question: <b>How exactly does just drawing some borders influence an election?</b>
+    </p>
+    <p>
+      I think looking at pictures and diagrams is great and all, but I don't think it really sells it well enough. There is only one thing I think can really clear this up:
+    </p>
+    <br/>
+    <span onclick="slideShow(2)" class="chapter-button">
+      <b>Playing a game!</b>
+    </span>
   </div>
 
   <!-- Slide 2: Introduce Mechanics -->
   <div class="chapter slide fade" id="slide-2" style="display: none; opacity: 0">
+    <h2>A Game of Borders</h2>
     <p>
-      Welcome to a small state in a fictitious country I'm calling the "Grided Republic."
+      You have a state in front of you that you have to draw the electoral districts for. In this case, it's being represented by a collection of neighborhoods on a square grid.
+      <b>Here are the rules:</b>
+      <br/>
+      <br/>
+      ◘ Click & Drag to draw a district.
+      <br/>
+      <br/>
+      ◘ Click an existing district to delete it.
+      <br/>
+      <br/>
+      ◘ Each district must contain exactly <b>FIVE CONTINUOUS</b> squares. 
+      <br/>
+      <br/>
+      ◘ Each district elects a representative on a simple majority system, meaning that a district with 3 Orange and 2 Purple neighborhoods elects an Orange sided representative.
     </p>
-    <p>
-      The Grided Republic is currently being dominated by two powerful political parties: Purple and Orange.
-    </p>
-    <p>
-      You have the ability to do two things to this state: draw new districts and delete old districts, and, unfortunately for you,
-       you've been the unfortunate fellow tasked with drawing the electoral districts for this particular state:
-    </p>
-    <div class="exploration tutorial-explanation">
-      <div>CLICK & DRAG TO DRAW DISTRICTS</div>
-      <iframe src="playables/introduction.html" width="505" height="101"></iframe>
-      <div>CLICK TO DELETE DISTRICTS</div>
-    </div>
-    <p>
-      Each district consists of <b>exactly five <i>continuous</i></b> neighborhoods, which makes the above state have only one district. 
-      The district also automatically changes colors to the majority party!
-    </p>
+    <br/>
+    <br/>
+    <span onclick="slideShow(2.1)" class="chapter-button">
+      <b>Simple enough!</b>
+    </span>
   </div>
 
-    <!-- Slide 3: Further Mechanic Understanding -->
-  <div class="chapter slide fade" id="slide-3" style="display: none; opacity: 0">
+    <!-- Slide 2.1: Further Mechanic Understanding -->
+  <div class="chapter slide fade" id="slide-2.1" style="display: none; opacity: 0">
     <p>
-      Let's take a look at a different state that requires <b>two</b> districts to be drawn.
+      Let's try applying those rules!
     </p>
     <p>
-      Like the first state, it doesn't really matter how the districts are drawn, the outcome is the same.
+      To start with here's a small state with five neighborhoods.
+      Remember that each district requires five neighborhoods, which implies that this state only has one district:
+    </p>
+    <p>
+      <b>Draw the single possible district for this state!</b>
     </p>
     <div class="exploration">
-      <iframe src="playables/perfection.html" width="505" height="202"></iframe>
+      <iframe src="playables/introduction.html" width="505" height="101" id="iframe"></iframe>
     </div>
     <p>
-      Given all the rules we currently have to work with, is there a point where how the districts are drawn begins to matter?
+      Seems easy enough. Since there is only one district, there is really no wa
     </p>
+    <span onclick="slideShow(2.2)" class="chapter-button">
+      <b>Sounds good!</b>
+    </span>
   </div>
+
+  <!-- Slide 2.2: Further Mechanic Understanding -->
+  <div class="chapter slide fade" id="slide-2.2" style="display: none; opacity: 0">
+    <p>
+      Let's get <em>slightly</em> more complicated. In this state, we have the ability to draw two districts in various formations:
+      <br/>
+      <b>Draw this state's two districts!</b>
+    </p>
+    
+    <div class="exploration">
+      <iframe src="playables/perfection.html" width="505" height="202" id="iframe"></iframe>
+    </div>
+    <p>
+      It still doesn't seem like we can influence the elected officials through this. To do that we need to...
+    </p>
+    <span onclick="slideShow(3)" class="chapter-button">
+      <b>...go bigger.</b>
+    </span>
+  </div>
+
+    <!-- Slide 3: Things start to go wrong -->
+    <div class="chapter slide fade" id="slide-3" style="display: none; opacity: 0">
+      <p>
+        Here we have an ever so slightly bigger state, a state where we are finally able to influence how many districts each political party wins.
+      </p>
+      <p>
+        <b>Try drawing the districts in this state so that Orange wins <b>two</b> and Purple wins <b>one</b>!</b>
+      </p>
+      <div class="exploration">
+        <iframe src="playables/complications.html" width="505" height="303"></iframe>
+      </div>
+      <br/>
+      <br/>
+      <span onclick="slideShow(3.1)" class="chapter-button">
+        <b>Seems easy enough!</b>
+      </span>
+    </div>
+
+    <!-- Slide 3.1: Things start looking worse -->
+    <div class="chapter slide fade" id="slide-3.1" style="display: none; opacity: 0">
+      <p>
+        Having Orange win two districts makes it seem pretty fair, but what about making it unfair?
+        <br/>
+        <b>Try drawing the districts so that Orange wins <b>all three</b> districts!</b>
+      </p>
+      <div class="exploration">
+        <iframe src="playables/complications.html" width="505" height="303"></iframe>
+      </div>
+      <br/>
+      <br/>
+      <span onclick="slideShow(3.2)" class="chapter-button">
+        <b>That was a little harder!</b>
+      </span>
+    </div>
+
+    <!-- Slide 3.2: Things are the worst -->
+    <div class="chapter slide fade" id="slide-3.2" style="display: none; opacity: 0">
+      <p>
+        Having Orange win everything means that Purple didn't get any representation, but what if Purple got too much representation?
+        <br/>
+        <b>Try drawing the districts so that Orange wins <b>one</b> districts and Purple wins <b>two</b>!</b>
+      </p>
+      <div class="exploration">
+        <iframe src="playables/complications.html" width="505" height="303"></iframe>
+      </div>
+      <br/>
+      <br/>
+      <span onclick="slideShow(3.3)" class="chapter-button">
+        <b>That was even harder!</b>
+      </span>
+    </div>
+
+    <!-- Slide 3.3: What just happened? -->
+    <div class="chapter slide fade" id="slide-3.2" style="display: none; opacity: 0">
+      <p>That's simply crazy. Just by drawing a state's districts in a different way, we changed how the state gets represented.</p>
+      <br/>
+      <br/>
+      <span onclick="slideShow(3.3)" class="chapter-button">
+        <b>That was even harder!</b>
+      </span>
+    </div>
 
   <!-- Slide 4: Things start to go wrong -->
   <div class="chapter slide fade" id="slide-4" style="display: none; opacity: 0">
