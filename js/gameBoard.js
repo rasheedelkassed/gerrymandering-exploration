@@ -167,6 +167,26 @@ class GameBoard {
 
     }
 
+    fillDistrictsByArray(array) {
+        for(let i = 0; i < this.maxDistrictCount; i++){
+            let currentDistrict = [];
+            for(let currentYCell = 0; currentYCell < this.height; currentYCell++){
+                for(let currentXCell = 0; currentXCell < this.width; currentXCell++){
+                    if(array[currentYCell][currentXCell] == i){
+                        currentDistrict.push(this.cityGrid[currentYCell][currentXCell]);
+                        this.cityGrid[currentYCell][currentXCell].selected = true;
+                    }
+                }
+            }
+            
+            this.setAdjacentDirections(currentDistrict);
+            this.setDiagonalDirections(currentDistrict);
+            this.setWinningDistrictColor(currentDistrict);
+            this.districts.push(currentDistrict);
+        }
+        
+    }
+
     createCityGridByArray(array) {
         this.height = array.length;
         this.width = array[0].length;
@@ -244,8 +264,9 @@ class GameBoard {
                         this.currentDistrict.push(neighborhood);
                         this.setAdjacentDirections(this.currentDistrict);
                         this.setDiagonalDirections(this.currentDistrict);
-                        // If neighborhood is a part of a district, and we aren't currently drawing a district, delete the district
+                    // If neighborhood is a part of a district, and we aren't currently drawing a district, delete the district
                     } else if (this.currentDistrictSize == 0) {
+                        
                         let districtIndex = this.findNeighborhoodsCurrentDistrictIndex(neighborhood);
                         this.deSelectDistrict(this.districts[districtIndex]);
                         this.districts.splice(districtIndex, 1);
