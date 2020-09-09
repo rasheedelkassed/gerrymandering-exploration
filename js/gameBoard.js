@@ -453,21 +453,31 @@ class GameBoard {
 
     fillRectDiagonalLines(xPos, yPos, width, height, lines) {
         let steps = lines / 2;
-        let horizontalStep = width / steps;
-        let verticalStep = height / steps;
+
+        let x = xPos;
+        let y = yPos;
+        let w = width;
+        let h = height;
+
+        let horizontalStep = w / steps;
+        let verticalStep = h / steps;
 
         for (let i = 1; i <= steps; i++) {
             context.beginPath();
-            context.moveTo(xPos, yPos + (verticalStep * i));
-            context.lineTo(xPos + (horizontalStep * i) - 1, yPos);
+            context.moveTo(x, y + (verticalStep * i));
+            context.lineTo(x + (horizontalStep * i), y);
+            context.lineCap = 'butt';
             context.stroke();
         }
+
         for (let j = 1; j <= steps; j++) {
             context.beginPath();
-            context.moveTo(xPos + (horizontalStep * j), yPos + height);
-            context.lineTo(xPos + width, yPos + (verticalStep * j));
+            context.moveTo(x + w, y + (verticalStep * j));
+            context.lineTo(x + (horizontalStep * j), y + h);
+            context.lineCap = 'butt';
             context.stroke();
         }
+        context.restore();
     }
 
     drawDistrictFill(district) {
@@ -479,44 +489,22 @@ class GameBoard {
                 return;
             }
             context.strokeStyle = neighborhood.winningPoliticalAlignment.districtColor;
-            this.drawNeighborhoodDistrictFill(neighborhood.xPos, neighborhood.yPos, neighborhood.width, neighborhood.height, 8, neighborhood.districtAdjacencies);
+
+            context.save();
+            this.createDistrictClip(district);
+            this.fillRectDiagonalLines(0, 0, canvas.width, canvas.width, 100, neighborhood.districtAdjacencies);
+            context.restore();
         })
         context.strokeStyle = prevStrokeStyle;
         context.lineWidth = prevLineWidth;
     }
 
-    // TODO: Fix gird alignment due to pixel space between squares
-    drawNeighborhoodDistrictFill(xPos, yPos, width, height, lines, sides) {
-        let x = xPos;
-        let y = yPos;
-        let w = width;
-        let h = height;
-        sides.forEach(side => {
-            switch (side) {
-                case DIRECTION.UP:
-                    // y -= 1;
-                    // h += 1;
-                    // x += 0.5;
-                    // w -= 0.5;
-                    break;
-                case DIRECTION.RIGHT:
-                    //w += 1;
-                    break;
-                case DIRECTION.DOWN:
-                    // h += 1;
-                    // x -= 0.5;
-                    // w += 0.5;
-                    break;
-                case DIRECTION.LEFT:
-                    // x -= 1;
-                    // w += 1;
-                    break;
-                default:
-                    break;
-            }
-
+    createDistrictClip(district) {
+        context.beginPath();
+        district.forEach(neighborhood => {
+            context.rect(neighborhood.xPos, neighborhood.yPos, neighborhood.width, neighborhood.height);
         });
-        this.fillRectDiagonalLines(x, y, w, h, lines)
+        context.clip();
     }
 
     // Deselect all neighborhoods in a district
@@ -806,7 +794,7 @@ class CanvasExplanation {
     createGameboard() {
         let districtSize = this.gridWidth;
         let maxDistrictCount = Math.ceil((this.gridWidth * this.gridHeight) / districtSize);
-        this.gameBoard = new GameBoard(this.gridWidth, this.gridHeight, this.squareSize, this.squareSize, maxDistrictCount, districtSize, districtSize, this.gridArray);
+        this.gameBoard = new GameBoard(this.gridWidth, this.gridHeight, this.squareSize, this.squareSize, maxDistrictCount, districtSize, 2, this.gridArray);
     }
 
     createMenu() {
