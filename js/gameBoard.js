@@ -225,8 +225,6 @@ class GameBoard {
         }
     }
 
-    /// TODO: Make this not an abomination to humanity 
-    /// TODO: Figure out way to change grid[y][x] to be grid[x][y] for better readability
     // Return the current neighborhood being pointed at by the mouse
     getNeighborhoodByMousePos() {
         let cellCoords = this.getCellsFromPixels(mouse.x, mouse.y);
@@ -251,8 +249,6 @@ class GameBoard {
         return { x: xCell, y: yCell };
     }
 
-    // TODO: Bring those if statements down to more acceptable levels
-    // TODO: Split this into multiple methods
     drawDistrict() {
         if (mouse.down && !this.justDeleted) {
             if (this.currentDistrictSize < this.maxDistrictSize) {
