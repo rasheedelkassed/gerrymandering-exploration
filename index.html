@@ -127,11 +127,14 @@
       <b>Draw the single possible district for this state!</b>
     </p>
     <div class="exploration">
-      <iframe src="playables/introduction.html" width="505" height="101" id="iframe"></iframe>
+      <iframe src="playables/introduction.html" width="505" height="101" id="introFrame"></iframe>
     </div>
     <p>
       Seems easy enough. Since there is only one district, there is really no wa
     </p>
+    <span onclick="document.getElementById('introFrame').contentWindow.solveForMe();" class="chapter-button">
+      <b>Solve for me!</b>
+    </span>
     <span onclick="slideShow(2.2)" class="chapter-button">
       <b>Sounds good!</b>
     </span>
@@ -169,6 +172,9 @@
       </div>
       <br/>
       <br/>
+      <span onclick="solverForMe()" class="chapter-button">
+        <b>Solve for me!</b>
+      </span>
       <span onclick="slideShow(3.1)" class="chapter-button">
         <b>Seems easy enough!</b>
       </span>

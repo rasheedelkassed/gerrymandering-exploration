@@ -492,7 +492,7 @@ class GameBoard {
 
             context.save();
             this.createDistrictClip(district);
-            this.fillRectDiagonalLines(0, 0, canvas.width, canvas.width, 100, neighborhood.districtAdjacencies);
+            this.fillRectDiagonalLines(0, 0, 1000, 1000, 60, neighborhood.districtAdjacencies);
             context.restore();
         })
         context.strokeStyle = prevStrokeStyle;
@@ -794,7 +794,7 @@ class CanvasExplanation {
     createGameboard() {
         let districtSize = this.gridWidth;
         let maxDistrictCount = Math.ceil((this.gridWidth * this.gridHeight) / districtSize);
-        this.gameBoard = new GameBoard(this.gridWidth, this.gridHeight, this.squareSize, this.squareSize, maxDistrictCount, districtSize, 2, this.gridArray);
+        this.gameBoard = new GameBoard(this.gridWidth, this.gridHeight, this.squareSize, this.squareSize, maxDistrictCount, districtSize, districtSize, this.gridArray);
     }
 
     createMenu() {
