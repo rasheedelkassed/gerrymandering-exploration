@@ -135,7 +135,7 @@ class Neighborhood {
         context.strokeStyle = this.color;
         context.fillRect(this.xPos, this.yPos, this.width, this.height);
         context.strokeRect(this.xPos, this.yPos, this.width, this.height);
-        //context.drawImage(this.sprite, this.xPos, this.yPos, this.width, this.height);
+        context.drawImage(this.sprite, this.xPos, this.yPos, this.width, this.height);
         context.strokeStyle = "black";
 
     }
@@ -199,7 +199,8 @@ class GameBoard {
                     currentYCell + currentYCell * this.cellHeight,
                     this.cellWidth,
                     this.cellHeight,
-                    POLITICAL_ALIGNMENT_NUMERIC[array[currentYCell][currentXCell]]));
+                    POLITICAL_ALIGNMENT_NUMERIC[array[currentYCell][currentXCell]],
+                    "../sprites/House.png"));
             }
             this.cityGrid.push(row);
         }
@@ -483,7 +484,7 @@ class GameBoard {
     drawDistrictFill(district) {
         let prevStrokeStyle = context.strokeStyle;
         let prevLineWidth = context.lineWidth;
-        context.lineWidth = 2;
+        context.lineWidth = 6;
         district.forEach(neighborhood => {
             if (neighborhood.winningPoliticalAlignment == null) {
                 return;
