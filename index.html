@@ -132,7 +132,7 @@
     <p>
       Seems easy enough. Since there is only one district, there is really no wa
     </p>
-    <span onclick="document.getElementById('introFrame').contentWindow.solveForMe();" class="chapter-button">
+    <span onclick="document.getElementById('introFrame').contentWindow.solveForMe();" class="solve-button">
       <b>Solve for me!</b>
     </span>
     <span onclick="slideShow(2.2)" class="chapter-button">
@@ -149,11 +149,14 @@
     </p>
     
     <div class="exploration">
-      <iframe src="playables/perfection.html" width="505" height="202" id="iframe"></iframe>
+      <iframe src="playables/perfection.html" width="505" height="202" id="perfectionFrame"></iframe>
     </div>
     <p>
       It still doesn't seem like we can influence the elected officials through this. To do that we need to...
     </p>
+    <span onclick="document.getElementById('perfectionFrame').contentWindow.solveForMe();" class="solve-button">
+      <b>Solve for me!</b>
+    </span>
     <span onclick="slideShow(3)" class="chapter-button">
       <b>...go bigger.</b>
     </span>
@@ -168,11 +171,11 @@
         <b>Try drawing the districts in this state so that Orange wins <b>two</b> and Purple wins <b>one</b>!</b>
       </p>
       <div class="exploration">
-        <iframe src="playables/complications.html" width="505" height="303"></iframe>
+        <iframe src="playables/complications.html" width="405" height="240" id="complicationsFrame"></iframe>
       </div>
       <br/>
       <br/>
-      <span onclick="solverForMe()" class="chapter-button">
+      <span onclick="document.getElementById('complicationsFrame').contentWindow.solveForMe(1);" class="solve-button">
         <b>Solve for me!</b>
       </span>
       <span onclick="slideShow(3.1)" class="chapter-button">
@@ -188,10 +191,13 @@
         <b>Try drawing the districts so that Orange wins <b>all three</b> districts!</b>
       </p>
       <div class="exploration">
-        <iframe src="playables/complications.html" width="505" height="303"></iframe>
+        <iframe src="playables/complications.html" width="405" height="240"></iframe>
       </div>
       <br/>
       <br/>
+      <span onclick="document.getElementById('complicationsFrame').contentWindow.solveForMe(2);" class="solve-button">
+        <b>Solve for me!</b>
+      </span>
       <span onclick="slideShow(3.2)" class="chapter-button">
         <b>That was a little harder!</b>
       </span>
@@ -205,10 +211,13 @@
         <b>Try drawing the districts so that Orange wins <b>one</b> districts and Purple wins <b>two</b>!</b>
       </p>
       <div class="exploration">
-        <iframe src="playables/complications.html" width="505" height="303"></iframe>
+        <iframe src="playables/complications.html" width="405" height="240"></iframe>
       </div>
       <br/>
       <br/>
+      <span onclick="document.getElementById('complicationsFrame').contentWindow.solveForMe(3);" class="solve-button">
+        <b>Solve for me!</b>
+      </span>
       <span onclick="slideShow(3.3)" class="chapter-button">
         <b>That was even harder!</b>
       </span>
@@ -233,7 +242,7 @@
       Take the following state, for example. Depending on how the districts are drawn you can either have either Orange or Purple when two districts.
     </p>
     <div class="exploration">
-      <iframe src="playables/complications.html" width="505" height="303"></iframe>
+      <iframe src="playables/complications.html" width="405" height="240"></iframe>
     </div>
   </div>
 
@@ -243,7 +252,7 @@
       If you were given the goal of making a chosen political party win more districts, there are several ways in which we can make it much easier.
     </p>
     <div class="exploration">
-      <iframe src="playables/complications.html" width="505" height="303"></iframe>
+      <iframe src="playables/complications.html" width="405" height="240"></iframe>
     </div>
   </div>
 
@@ -253,7 +262,7 @@
       There's also this example, where you can 
     </p>
     <div class="exploration">
-      <iframe src="playables/complications.html" width="505" height="303"></iframe>
+      <iframe src="playables/complications.html" width="405" height="240"></iframe>
     </div>
   </div>
 

@@ -22,15 +22,51 @@
 
 	<script>
         // Set canvas height to the size of the entire window
-        canvas.width = 505;
-        canvas.height = 303;
+        canvas.width = 405;
+        canvas.height = 243;
 
-        let squareSize = 100;
+        let squareSize = 80;
         let gridArray = [
                         [0, 0, 0, 0, 0], 
                         [0, 0, 0, 0, 1], 
                         [1, 1, 1, 1, 1]
                     ];
+
+        let solution1 = [
+            [0, 0, 0, 0, 0],
+            [1, 1, 1, 1, 1],
+            [2, 2, 2, 2, 2]
+        ];
+
+        let solution2 = [
+            [0, 1, 1, 2, 2],
+            [0, 0, 1, 2, 2],
+            [0, 0, 1, 1, 2]
+        ];
+
+        let solution3 = [
+            [0, 0, 0, 2, 2],
+            [0, 0, 1, 1, 2],
+            [1, 1, 1, 2, 2]
+        ];
+
+        function solveForMe(solutionNumber){
+            switch(solutionNumber){
+                case 1:
+                    explanation.gameBoard.fillDistrictsByArray(solution1);
+                    break;
+                case 2:
+                    explanation.gameBoard.fillDistrictsByArray(solution2);
+                    break;
+                case 3:
+                    explanation.gameBoard.fillDistrictsByArray(solution3);
+                    break;
+                default:
+                    explanation.gameBoard.fillDistrictsByArray(solution1);
+                    break;
+            }
+            
+        }
 
         let explanation = new CanvasExplanation(canvas, squareSize, gridArray, false);
         explanation.animate();

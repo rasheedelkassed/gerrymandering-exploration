@@ -1,6 +1,7 @@
 body {
     background: #F2F2F2;
     font-family: Sans-serif;
+    padding-bottom: 65px;
 }
 
 .header {
@@ -78,7 +79,19 @@ b {
     border-radius: 25px;
     border-style: solid;
     border-color:  #3c3030;
+    display: inline-block;
     border-width: 1px;
+}
+
+.solve-button {
+    padding: 25px;
+    border-radius: 25px;
+    border-style: solid;
+    border-color:  #3c3030;
+    border-width: 1px;
+    display: inline-block;
+    position: absolute;
+    left: 25px;
 }
 
 .chapter-button:hover {
@@ -98,10 +111,6 @@ b {
     display: table;
 }
 
-.tutorial-explanation {
-    display: table;
-}
-
 .fade {
     -webkit-animation-name: fade;
     -webkit-animation-duration: 0.5s;
@@ -118,15 +127,6 @@ b {
     from {opacity: 0}
     to {opacity: 1}
   }
-
-.tutorial-explanation div{
-    display: table-cell;
-    vertical-align: middle;
-    text-align: center;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    width: 30%;
-    color: #F2F2F2;
-}
 
 .navigation-bar {
     display: table;
@@ -163,10 +163,4 @@ b {
 
 span:hover {
     background-color: #584646;
-}
-
-.clear {
-    clear: both;
-    height: 50px; 
-    
 }
