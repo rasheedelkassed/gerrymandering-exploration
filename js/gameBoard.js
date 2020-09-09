@@ -227,9 +227,9 @@ class GameBoard {
 
     // Return the current neighborhood being pointed at by the mouse
     getNeighborhoodByMousePos() {
-        let cellCoords = this.getCellsFromPixels(mouse.x, mouse.y);
-
-        return this.getNeighborhood(cellCoords.x, cellCoords.y);
+        //let cellCoords = this.getCellsFromPixels(mouse.x, mouse.y);
+        let neighborhood = this.getNeighborhoodFromPixels(mouse.x, mouse.y);
+        return neighborhood;
     }
 
     // Get the neighborhood based on the city grid's cell coordinates
@@ -247,6 +247,20 @@ class GameBoard {
         let xCell = Math.floor((x-this.width) / this.cellWidth);
         let yCell = Math.floor((y-this.height) / this.cellHeight);
         return { x: xCell, y: yCell };
+    }
+
+    getNeighborhoodFromPixels(x, y) {
+        let neighborhoodToReturn = null;
+        this.cityGrid.forEach(row => {
+            row.forEach(neighborhood => {
+                if(neighborhood.xPos <= x && x <= neighborhood.xPos + neighborhood.width &&
+                    neighborhood.yPos <= y && y <= neighborhood.yPos + neighborhood.height){
+                        neighborhoodToReturn = neighborhood;
+                        return;
+                    }
+            });
+        });
+        return neighborhoodToReturn;
     }
 
     drawDistrict() {
