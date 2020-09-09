@@ -171,6 +171,10 @@ class GameBoard {
         this.districts.forEach(district => {
             this.deSelectDistrict(district);
         });
+
+        this.districts = [];
+
+        
         for(let i = 0; i < this.maxDistrictCount; i++){
             let currentDistrict = [];
             for(let currentYCell = 0; currentYCell < this.height; currentYCell++){
