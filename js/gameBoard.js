@@ -244,8 +244,8 @@ class GameBoard {
 
     // Convert canvas coordinates to cell coordinates
     getCellsFromPixels(x, y) {
-        let xCell = Math.floor((x) / this.cellWidth);
-        let yCell = Math.floor((y) / this.cellHeight);
+        let xCell = Math.floor((x-this.width) / this.cellWidth);
+        let yCell = Math.floor((y-this.height) / this.cellHeight);
         return { x: xCell, y: yCell };
     }
 
