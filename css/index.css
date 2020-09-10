@@ -61,7 +61,7 @@ b {
 }
 
 .chapter {
-    margin-top: 5vh;
+    margin-top: 20px;
     text-align: center;
 }
 
@@ -69,8 +69,8 @@ b {
     margin-left: 25vw;
     margin-right: 25vw;
     font-size: 1em;
-    margin-top: 5vh;
-    margin-bottom: 5vh;
+    margin-top: 20px;
+    margin-bottom: 20px;
     text-align: left;
 }
 
