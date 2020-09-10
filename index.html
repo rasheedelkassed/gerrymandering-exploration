@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
 
@@ -14,53 +15,53 @@
 </head>
 
 <body scroll="no" style="overflow: hidden">
-<script>
+  <script>
 
-  function slideShow(slideIndex){
-    let idString = "slide-" + slideIndex;
-    let slidesToHide = document.getElementsByClassName("slide");
-    let buttonsToDeselect = document.getElementsByClassName("slide-select");
+    function slideShow(slideIndex) {
+      let idString = "slide-" + slideIndex;
+      let slidesToHide = document.getElementsByClassName("slide");
+      let buttonsToDeselect = document.getElementsByClassName("slide-select");
 
-    let slideToShow = document.getElementById(idString);
-    let selectedButton = document.getElementById(idString + "-select");
+      let slideToShow = document.getElementById(idString);
+      let selectedButton = document.getElementById(idString + "-select");
 
-    for(let i = 0; i < slidesToHide.length; i++){
+      for (let i = 0; i < slidesToHide.length; i++) {
         slidesToHide[i].style.opacity = 0;
         slidesToHide[i].style.display = "none";
-    }
-    if(selectedButton != null){
-      for(let i = 0; i < buttonsToDeselect.length; i++){
-      buttonsToDeselect[i].style.backgroundColor = "#3C3030";
-      buttonsToDeselect[i].style.color = "#F2F2F2";
       }
-      selectedButton.style.backgroundColor = "#F2F2F2";
-      selectedButton.style.color = "#3C3030";
-    }
-    
-    slideToShow.style.display = "block";
-    slideToShow.style.opacity = 1;
-    
-    
-  }
+      if (selectedButton != null) {
+        for (let i = 0; i < buttonsToDeselect.length; i++) {
+          buttonsToDeselect[i].style.backgroundColor = "#3C3030";
+          buttonsToDeselect[i].style.color = "#F2F2F2";
+        }
+        selectedButton.style.backgroundColor = "#F2F2F2";
+        selectedButton.style.color = "#3C3030";
+      }
 
-</script>
+      slideToShow.style.display = "block";
+      slideToShow.style.opacity = 1;
+
+
+    }
+
+  </script>
 
   <div class="header slide fade" id="slide-0" style="display: block; opacity: 1;">
     <div class="title">
       <div class="title-text">
         <h1>It's Not Arbitrary</h1>
         <h2>An explanation of unexplainable electoral boundaries</h2>
-        <br/>
+        <br />
         <h3>By Rasheed El Kassed</h3>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
+        <br />
+        <br />
+        <br />
+        <br />
         <span onclick="slideShow(1)" class="title-button">
           <b>PLAY →</b>
         </span>
       </div>
-      
+
     </div>
   </div>
 
@@ -68,22 +69,25 @@
   <div class="chapter slide fade" id="slide-1" style="display: none; opacity: 0">
     <div class="chapter-content">
       <p>
-        In 1812, the state of Massachusetts was forced to adopt the idea of electoral district boundaries.</p>
-      <p>
-        Also in 1812, the state governor of Massachusetts, Elbridge Gerry, signed a bill that drew the newly required electoral districts of Massachusetts in a way that favored his Democratic-Republican Party
-        <br/>
-        (There was also a war, but we're not talking about that here).
-      </p>
-      <p>
-        The new districts proved to be a huge success for the Democratic-Republican Party, helping secure the majority of control in the state's senate. Funnily enough, our man Gerry ended up losing his job due to the over-whelming support for the Federalist party.
-      </p>
-      <p>
+        In 1812, the state of Massachusetts was forced to adopt the idea of electoral district boundaries.
+        <br />
+        <br />
+        Also in 1812, the state governor of Massachusetts, Elbridge Gerry, signed a bill that drew the newly required
+        electoral districts of Massachusetts in a way that favored his Democratic-Republican Party
+        <br />
+        <br />
+        The new districts proved to be a huge success for the Democratic-Republican Party, helping secure the majority
+        of control in the state's senate. Funnily enough, our man Gerry ended up losing his job due to the over-whelming
+        support for the Federalist party.
+        <br />
+        <br />
         This begs the question: <b>How exactly does just drawing some borders influence an election?</b>
+        <br />
+        <br />
+        I think looking at pictures and diagrams is great and all, but I don't think it really sells it well enough.
+        There is only one thing I think can really clear this up:
       </p>
-      <p>
-        I think looking at pictures and diagrams is great and all, but I don't think it really sells it well enough. There is only one thing I think can really clear this up:
-      </p>
-      <br/>
+      <br />
       <span onclick="slideShow(2)" class="chapter-button">
         <b>Playing a game!</b>
       </span>
@@ -92,91 +96,110 @@
 
   <!-- Slide 2: Introduce Mechanics -->
   <div class="chapter slide fade" id="slide-2" style="display: none; opacity: 0">
-    <h2>A Game of Borders</h2>
-    <p>
-      You have a state in front of you that you have to draw the electoral districts for. In this case, it's being represented by a collection of neighborhoods on a square grid.
-      <b>Here are the rules:</b>
-      <br/>
-      <br/>
-      ◘ Click & Drag to draw a district.
-      <br/>
-      <br/>
-      ◘ Click an existing district to delete it.
-      <br/>
-      <br/>
-      ◘ Each district must contain exactly <b>FIVE CONTINUOUS</b> squares. 
-      <br/>
-      <br/>
-      ◘ Each district elects a representative on a simple majority system, meaning that a district with 3 Orange and 2 Purple neighborhoods elects an Orange sided representative.
-    </p>
-    <br/>
-    <br/>
-    <span onclick="slideShow(2.1)" class="chapter-button">
-      <b>Simple enough!</b>
-    </span>
+    <div class="chapter-content">
+      <h2>A Game of Borders</h2>
+      <br />
+      <p>
+        You have a state in front of you that you have to draw the electoral districts for. In this case, it's being
+        represented by a collection of neighborhoods on a square grid.
+        <b>Here are the rules:</b>
+        <br />
+        <br />
+        ◘ Click & Drag to draw a district.
+        <br />
+        <br />
+        ◘ Click an existing district to delete it.
+        <br />
+        <br />
+        ◘ Each district must contain exactly <b>FIVE CONTINUOUS</b> squares.
+        <br />
+        <br />
+        ◘ Each district elects a representative on a simple majority system, meaning that a district with 3 Orange and 2
+        Purple neighborhoods elects an Orange sided representative.
+      </p>
+      <br />
+      <br />
+      <span onclick="slideShow(2.1)" class="chapter-button">
+        <b>Simple enough!</b>
+      </span>
+    </div>
   </div>
 
-    <!-- Slide 2.1: Further Mechanic Understanding -->
+  <!-- Slide 2.1: Further Mechanic Understanding -->
   <div class="chapter slide fade" id="slide-2.1" style="display: none; opacity: 0">
-    <p>
-      Let's try applying those rules!
-    </p>
-    <p>
-      To start with here's a small state with five neighborhoods.
-      Remember that each district requires five neighborhoods, which implies that this state only has one district:
-    </p>
-    <p>
-      <b>Draw the single possible district for this state!</b>
-    </p>
-    <div class="exploration">
-      <iframe src="playables/introduction.html" width="505" height="101" id="introFrame"></iframe>
+    <div class="chapter-content">
+      <p>
+        Let's try applying those rules!
+        <br />
+        <br />
+        To start with here's a small state with five neighborhoods.
+        Remember that each district requires five neighborhoods, which implies that this state only has one district:
+        <br />
+        <br />
+        <b>Draw the single possible district for this state:</b>
+      </p>
+      <br />
+      <div class="exploration">
+        <iframe src="playables/introduction.html" width="505" height="101" id="introFrame"></iframe>
+      </div>
+      <br />
+      <p>
+        Seems easy enough. Since there is only one district, there is really no wa
+      </p>
+      <br />
+      <span onclick="document.getElementById('introFrame').contentWindow.solveForMe();" class="solve-button">
+        <b>Solve for me!</b>
+      </span>
+      <span onclick="slideShow(2.2)" class="chapter-button">
+        <b>Sounds good!</b>
+      </span>
     </div>
-    <p>
-      Seems easy enough. Since there is only one district, there is really no wa
-    </p>
-    <span onclick="document.getElementById('introFrame').contentWindow.solveForMe();" class="solve-button">
-      <b>Solve for me!</b>
-    </span>
-    <span onclick="slideShow(2.2)" class="chapter-button">
-      <b>Sounds good!</b>
-    </span>
   </div>
 
   <!-- Slide 2.2: Further Mechanic Understanding -->
   <div class="chapter slide fade" id="slide-2.2" style="display: none; opacity: 0">
-    <p>
-      Let's get <em>slightly</em> more complicated. In this state, we have the ability to draw two districts in various formations:
-      <br/>
-      <b>Draw this state's two districts!</b>
-    </p>
-    
-    <div class="exploration">
-      <iframe src="playables/perfection.html" width="505" height="202" id="perfectionFrame"></iframe>
+    <div class="chapter-content">
+      <p>
+        Let's get <em>slightly</em> more complicated. In this state, we have the ability to draw two districts in
+        various
+        formations:
+        <br />
+        <br />
+        <b>Draw this state's two districts:</b>
+      </p>
+      <br />
+      <div class="exploration">
+        <iframe src="playables/perfection.html" width="505" height="202" id="perfectionFrame"></iframe>
+      </div>
+      <br />
+      <p>
+        It still doesn't seem like we can influence the elected officials through this. To do that we need to...
+      </p>
+      <br />
+      <span onclick="document.getElementById('perfectionFrame').contentWindow.solveForMe();" class="solve-button">
+        <b>Solve for me!</b>
+      </span>
+      <span onclick="slideShow(3)" class="chapter-button">
+        <b>...go bigger.</b>
+      </span>
     </div>
-    <p>
-      It still doesn't seem like we can influence the elected officials through this. To do that we need to...
-    </p>
-    <span onclick="document.getElementById('perfectionFrame').contentWindow.solveForMe();" class="solve-button">
-      <b>Solve for me!</b>
-    </span>
-    <span onclick="slideShow(3)" class="chapter-button">
-      <b>...go bigger.</b>
-    </span>
   </div>
 
-    <!-- Slide 3: Things start to go wrong -->
-    <div class="chapter slide fade" id="slide-3" style="display: none; opacity: 0">
+  <!-- Slide 3: Things start to go wrong -->
+  <div class="chapter slide fade" id="slide-3" style="display: none; opacity: 0">
+    <div class="chapter-content">
       <p>
-        Here we have an ever so slightly bigger state, a state where we are finally able to influence how many districts each political party wins.
+        Here we have an ever so slightly bigger state, a state where we are finally able to influence how many districts
+        each political party wins.
+        <br />
+        <br />
+        <b>Try drawing the districts in this state so that Orange wins <em>two</em> and Purple wins <em>one</em>:</b>
       </p>
-      <p>
-        <b>Try drawing the districts in this state so that Orange wins <b>two</b> and Purple wins <b>one</b>!</b>
-      </p>
+      <br />
       <div class="exploration">
         <iframe src="playables/complications1.html" width="405" height="240" id="complications1Frame"></iframe>
       </div>
-      <br/>
-      <br/>
+      <br />
       <span onclick="document.getElementById('complications1Frame').contentWindow.solveForMe(1);" class="solve-button">
         <b>Solve for me!</b>
       </span>
@@ -184,19 +207,22 @@
         <b>Seems easy enough!</b>
       </span>
     </div>
+  </div>
 
-    <!-- Slide 3.1: Things start looking worse -->
-    <div class="chapter slide fade" id="slide-3.1" style="display: none; opacity: 0">
+  <!-- Slide 3.1: Things start looking worse -->
+  <div class="chapter slide fade" id="slide-3.1" style="display: none; opacity: 0">
+    <div class="chapter-content">
       <p>
         Having Orange win two districts makes it seem pretty fair, but what about making it unfair?
-        <br/>
-        <b>Try drawing the districts so that Orange wins <b>all three</b> districts!</b>
+        <br />
+        <br />
+        <b>Try drawing the districts so that Orange wins <em>all three</em> districts!</b>
       </p>
+      <br />
       <div class="exploration">
         <iframe src="playables/complications2.html" width="405" height="240" id="complications2Frame"></iframe>
       </div>
-      <br/>
-      <br/>
+      <br />
       <span onclick="document.getElementById('complications2Frame').contentWindow.solveForMe(2);" class="solve-button">
         <b>Solve for me!</b>
       </span>
@@ -205,18 +231,24 @@
       </span>
     </div>
 
-    <!-- Slide 3.2: Things are the worst -->
-    <div class="chapter slide fade" id="slide-3.2" style="display: none; opacity: 0">
+  </div>
+
+  <!-- Slide 3.2: Things are the worst -->
+  <div class="chapter slide fade" id="slide-3.2" style="display: none; opacity: 0">
+    <div class="chapter-content">
       <p>
-        Having Orange win everything means that Purple didn't get any representation, but what if Purple got too much representation?
-        <br/>
+        Having Orange win everything means that Purple didn't get any representation, but what if Purple got too much
+        representation?
+        <br />
+        <br />
         <b>Try drawing the districts so that Orange wins <b>one</b> districts and Purple wins <b>two</b>!</b>
       </p>
+      <br />
       <div class="exploration">
         <iframe src="playables/complications3.html" width="405" height="240" id="complications3Frame"></iframe>
       </div>
-      <br/>
-      <br/>
+      <br />
+      <br />
       <span onclick="document.getElementById('complications3Frame').contentWindow.solveForMe(3);" class="solve-button">
         <b>Solve for me!</b>
       </span>
@@ -225,15 +257,21 @@
       </span>
     </div>
 
-    <!-- Slide 3.3: What just happened? -->
-    <div class="chapter slide fade" id="slide-3.3" style="display: none; opacity: 0">
-      <p>That's simply crazy. Just by drawing a state's districts in a different way, we changed how the state gets represented.</p>
-      <br/>
-      <br/>
+  </div>
+
+  <!-- Slide 3.3: What just happened? -->
+  <div class="chapter slide fade" id="slide-3.3" style="display: none; opacity: 0">
+    <div class="chapter-content">
+      <p>That's simply crazy. Just by drawing a state's districts in a different way, we changed how the state gets
+        represented.</p>
+      <br />
+      <br />
       <span onclick="slideShow(4)" class="chapter-button">
         <b>That was even harder!</b>
       </span>
     </div>
+
+  </div>
 
   <!-- Slide 4: Things start to go wrong -->
   <div class="chapter slide fade" id="slide-4" style="display: none; opacity: 0">
@@ -241,7 +279,8 @@
       YES!
     </p>
     <p>
-      Take the following state, for example. Depending on how the districts are drawn you can either have either Orange or Purple when two districts.
+      Take the following state, for example. Depending on how the districts are drawn you can either have either Orange
+      or Purple when two districts.
     </p>
     <div class="exploration">
       <iframe src="playables/complications.html" width="405" height="240"></iframe>
@@ -251,7 +290,8 @@
   <!-- Slide 5: How to gerrymander -->
   <div class="chapter slide fade" id="slide-5" style="display: none; opacity: 0">
     <p>
-      If you were given the goal of making a chosen political party win more districts, there are several ways in which we can make it much easier.
+      If you were given the goal of making a chosen political party win more districts, there are several ways in which
+      we can make it much easier.
     </p>
     <div class="exploration">
       <iframe src="playables/complications.html" width="405" height="240"></iframe>
@@ -261,7 +301,7 @@
   <!-- Slide 6: Things go very wrong -->
   <div class="chapter slide fade" id="slide-6" style="display: none; opacity: 0">
     <p>
-      There's also this example, where you can 
+      There's also this example, where you can
     </p>
     <div class="exploration">
       <iframe src="playables/complications.html" width="405" height="240"></iframe>
@@ -272,13 +312,15 @@
 
   <div class="navigation-bar">
     <div class="navigation-content">
-      <span onclick="slideShow(0)" class="slide-select" id="slide-0-select" style="background-color: #F2F2F2; color: #3C3030">0</span>
+      <span onclick="slideShow(0)" class="slide-select" id="slide-0-select"
+        style="background-color: #F2F2F2; color: #3C3030">0</span>
       <span onclick="slideShow(1)" class="slide-select" id="slide-1-select">1</span>
       <span onclick="slideShow(2)" class="slide-select" id="slide-2-select">2</span>
       <span onclick="slideShow(3)" class="slide-select" id="slide-3-select">3</span>
       <span onclick="slideShow(4)" class="slide-select" id="slide-4-select">4</span>
     </div>
   </div>
-    
-  </body>
+
+</body>
+
 </html>

@@ -64,16 +64,21 @@ b {
 }
 
 .chapter {
-    margin-top: 20px;
     text-align: center;
 }
 
+.chapter-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translateX(-50%) translateY(-55%);
+    -o-transform: translate(-50%, -55%);
+    -webkit-transform: translate(-50%,-55%);
+    transform: translate(-50%,-55%);
+}
+
 .chapter p {
-    margin-left: 25vw;
-    margin-right: 25vw;
     font-size: 1em;
-    margin-top: 20px;
-    margin-bottom: 20px;
     text-align: left;
 }
 
