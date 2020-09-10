@@ -72,24 +72,24 @@
         In 1812, the state of Massachusetts was forced to adopt the idea of electoral district boundaries.
         <br />
         <br />
-        Also in 1812, the state governor of Massachusetts, Elbridge Gerry, signed a bill that drew the newly required
-        electoral districts of Massachusetts in a way that favored his Democratic-Republican Party
+        Funnily enough, also in 1812, the state governor of Massachusetts, Elbridge Gerry, signed a bill that drew the newly required
+        electoral districts of Massachusetts in a way that favored his Democratic-Republican Party.
         <br />
         <br />
         The new districts proved to be a huge success for the Democratic-Republican Party, helping secure the majority
-        of control in the state's senate. Funnily enough, our man Gerry ended up losing his job due to the over-whelming
-        support for the Federalist party.
+        of control in the state's senate. What really sucks is that despite Elbridge Gerry sharing his disapproval of the underhanded tactic,
+        he nevertheless became the namesake of what we now call <b><em>Gerrymandering</em></b>.
         <br />
         <br />
-        This begs the question: <b>How exactly does just drawing some borders influence an election?</b>
+        This, however, begs the question: <b>How exactly does just drawing some borders on a map influence anything, let alone an election?</b>
         <br />
         <br />
         I think looking at pictures and diagrams is great and all, but I don't think it really sells it well enough.
-        There is only one thing I think can really clear this up:
+        There is only one thing I think can really clear this up...
       </p>
       <br />
       <span onclick="slideShow(2)" class="chapter-button">
-        <b>Playing a game!</b>
+        <b>...playing a game!</b>
       </span>
     </div>
   </div>
@@ -100,8 +100,8 @@
       <h2>A Game of Borders</h2>
       <br />
       <p>
-        You have a state in front of you that you have to draw the electoral districts for. In this case, it's being
-        represented by a collection of neighborhoods on a square grid.
+        We are about to display a hypothetical state in front of you that you have to draw the electoral districts for. In this case, it's being
+        represented by a collection of squares on a grid where each square represents a neighborhood.
         <b>Here are the rules:</b>
         <br />
         <br />
@@ -120,7 +120,7 @@
       <br />
       <br />
       <span onclick="slideShow(2.1)" class="chapter-button">
-        <b>Simple enough!</b>
+        <b>Let's get to it!</b>
       </span>
     </div>
   </div>
@@ -129,14 +129,14 @@
   <div class="chapter slide fade" id="slide-2.1" style="display: none; opacity: 0">
     <div class="chapter-content">
       <p>
-        Let's try applying those rules!
+        Let's start by trying to apply those rules that were just sort of thrown at you!
         <br />
         <br />
-        To start with here's a small state with five neighborhoods.
+        Here we have a small state with five neighborhoods (square with a house on it).
         Remember that each district requires five neighborhoods, which implies that this state only has one district:
         <br />
         <br />
-        <b>Draw the single possible district for this state:</b>
+        <b>Click & drag to draw the single possible district for this state</b> (There is also a button that does this for you in the bottom left):
       </p>
       <br />
       <div class="exploration">
@@ -144,14 +144,16 @@
       </div>
       <br />
       <p>
-        Seems easy enough. Since there is only one district, there is really no wa
+        That was fairly simple. Our fake state is not large enough to warrant multiple districts, so no manipulation by border drawing here.
+        <br />
+        What happens if we go just a tiny bit bigger?
       </p>
       <br />
       <span onclick="document.getElementById('introFrame').contentWindow.solveForMe();" class="solve-button">
-        <b>Solve for me!</b>
+        <b>Help me solve this!</b>
       </span>
       <span onclick="slideShow(2.2)" class="chapter-button">
-        <b>Sounds good!</b>
+        <b>Let's find out</b>
       </span>
     </div>
   </div>
@@ -160,9 +162,7 @@
   <div class="chapter slide fade" id="slide-2.2" style="display: none; opacity: 0">
     <div class="chapter-content">
       <p>
-        Let's get <em>slightly</em> more complicated. In this state, we have the ability to draw two districts in
-        various
-        formations:
+        We've got a bigger state for you to draw borders for! There looks to be 10 neighborhoods this time, so go ahead and draw its two districts.
         <br />
         <br />
         <b>Draw this state's two districts:</b>
@@ -173,14 +173,16 @@
       </div>
       <br />
       <p>
-        It still doesn't seem like we can influence the elected officials through this. To do that we need to...
+        You might notice that despite increasing in size, we still can't really change how many of each color's representative gets elected.
+        <br />
+        It seems as though we need to...
       </p>
       <br />
       <span onclick="document.getElementById('perfectionFrame').contentWindow.solveForMe();" class="solve-button">
-        <b>Solve for me!</b>
+        <b>Help me solve this!</b>
       </span>
       <span onclick="slideShow(3)" class="chapter-button">
-        <b>...go bigger.</b>
+        <b>...go bigger!</b>
       </span>
     </div>
   </div>
@@ -189,11 +191,13 @@
   <div class="chapter slide fade" id="slide-3" style="display: none; opacity: 0">
     <div class="chapter-content">
       <p>
-        Here we have an ever so slightly bigger state, a state where we are finally able to influence how many districts
-        each political party wins.
+        This is more like it! We've now got a total of 15 neighborhoods to play around with which means we can draw a total of three districts!
         <br />
         <br />
-        <b>Try drawing the districts in this state so that Orange wins <em>two</em> and Purple wins <em>one</em>:</b>
+        This is also where the fun starts to begin:
+        <br />
+        <br />
+        <b>Let's start by drawing three horizontal bars for our districts:</b>
       </p>
       <br />
       <div class="exploration">
@@ -201,10 +205,10 @@
       </div>
       <br />
       <span onclick="document.getElementById('complications1Frame').contentWindow.solveForMe(1);" class="solve-button">
-        <b>Solve for me!</b>
+        <b>Help me solve this!</b>
       </span>
       <span onclick="slideShow(3.1)" class="chapter-button">
-        <b>Seems easy enough!</b>
+        <b>Orange has a majority!</b>
       </span>
     </div>
   </div>
@@ -213,7 +217,7 @@
   <div class="chapter slide fade" id="slide-3.1" style="display: none; opacity: 0">
     <div class="chapter-content">
       <p>
-        Having Orange win two districts makes it seem pretty fair, but what about making it unfair?
+        With the semi-logical three rows of districts, we see a set of districts that look pretty normal. Now using the same "state":
         <br />
         <br />
         <b>Try drawing the districts so that Orange wins <em>all three</em> districts!</b>
@@ -224,10 +228,10 @@
       </div>
       <br />
       <span onclick="document.getElementById('complications2Frame').contentWindow.solveForMe(2);" class="solve-button">
-        <b>Solve for me!</b>
+        <b>Help me solve this!</b>
       </span>
       <span onclick="slideShow(3.2)" class="chapter-button">
-        <b>That was a little harder!</b>
+        <b>Poor purple.</b>
       </span>
     </div>
 
@@ -237,11 +241,10 @@
   <div class="chapter slide fade" id="slide-3.2" style="display: none; opacity: 0">
     <div class="chapter-content">
       <p>
-        Having Orange win everything means that Purple didn't get any representation, but what if Purple got too much
-        representation?
+        Having Orange win everything means that Purple didn't get any representation. Let's now have it so purple gets too much representation:
         <br />
         <br />
-        <b>Try drawing the districts so that Orange wins <b>one</b> districts and Purple wins <b>two</b>!</b>
+        <b>Try drawing the districts so that Orange wins <b>one</b> district and Purple wins <b>two</b>!</b>
       </p>
       <br />
       <div class="exploration">
@@ -250,10 +253,10 @@
       <br />
       <br />
       <span onclick="document.getElementById('complications3Frame').contentWindow.solveForMe(3);" class="solve-button">
-        <b>Solve for me!</b>
+        <b>Help me solve this!</b>
       </span>
       <span onclick="slideShow(3.3)" class="chapter-button">
-        <b>That was even harder!</b>
+        <b>That's kind of crazy!</b>
       </span>
     </div>
 
@@ -262,12 +265,18 @@
   <!-- Slide 3.3: What just happened? -->
   <div class="chapter slide fade" id="slide-3.3" style="display: none; opacity: 0">
     <div class="chapter-content">
-      <p>That's simply crazy. Just by drawing a state's districts in a different way, we changed how the state gets
-        represented.</p>
+      <p>
+        What we just did there is take advantage of something called the <em>wasted vote</em>. 
+        When we draw a district and designate one color as the winner, this, in a way, causes the other color to "waste" their votes in that district.
+        The votes aren't <em>literally</em> wasted, but they fail to contribute to a winning color.
+        <br />
+        <br />
+        Let's go bigger with our fake state so this idea becomes even more obvious.
+      </p>
       <br />
       <br />
       <span onclick="slideShow(4)" class="chapter-button">
-        <b>That was even harder!</b>
+        <b>To the bigger state</b>
       </span>
     </div>
 
@@ -286,29 +295,6 @@
       <iframe src="playables/complications.html" width="405" height="240"></iframe>
     </div>
   </div>
-
-  <!-- Slide 5: How to gerrymander -->
-  <div class="chapter slide fade" id="slide-5" style="display: none; opacity: 0">
-    <p>
-      If you were given the goal of making a chosen political party win more districts, there are several ways in which
-      we can make it much easier.
-    </p>
-    <div class="exploration">
-      <iframe src="playables/complications.html" width="405" height="240"></iframe>
-    </div>
-  </div>
-
-  <!-- Slide 6: Things go very wrong -->
-  <div class="chapter slide fade" id="slide-6" style="display: none; opacity: 0">
-    <p>
-      There's also this example, where you can
-    </p>
-    <div class="exploration">
-      <iframe src="playables/complications.html" width="405" height="240"></iframe>
-    </div>
-  </div>
-
-  <div class="clear"></div>
 
   <div class="navigation-bar">
     <div class="navigation-content">
