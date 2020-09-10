@@ -50,6 +50,10 @@ b {
     font-weight: bold;
 }
 
+em {
+    font-style: italic;
+}
+
 .title-text{
     display: table-cell;
     vertical-align: middle;
@@ -65,6 +69,7 @@ b {
 
 .chapter {
     text-align: center;
+    width: 100%;
 }
 
 .chapter-content {
@@ -89,10 +94,12 @@ b {
     border-color:  #3c3030;
     display: inline-block;
     border-width: 1px;
+    cursor: pointer;
 }
 
 .solve-button {
-    padding: 25px;
+    font-size: 0.75em;
+    padding: 10px;
     border-radius: 25px;
     border-style: solid;
     border-color:  #3c3030;
@@ -100,6 +107,7 @@ b {
     display: inline-block;
     position: absolute;
     left: 25px;
+    cursor: pointer;
 }
 
 .chapter-button:hover {
@@ -153,7 +161,7 @@ b {
     vertical-align: middle;
 }
 
-.navigation-bar span {
+.navigation-bar .slide-select {
     display: inline-block;
     width: 30px;
     height: 30px;
@@ -166,8 +174,25 @@ b {
     border-color: white;
     border-width: 2px;
     user-select: none;
+    cursor: pointer;
 }
 
+.navigation-bar .slide-selected {
+    display: inline-block;
+    width: 30px;
+    background-color: #F2F2F2;
+    color: #3C3030;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 30px;
+    font-style: none;
+    text-decoration: none;
+    border-style: solid;
+    border-color: white;
+    border-width: 2px;
+    user-select: none;
+    cursor: pointer;
+}
 
 span:hover {
     background-color: #584646;

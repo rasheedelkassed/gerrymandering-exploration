@@ -29,13 +29,12 @@
         slidesToHide[i].style.opacity = 0;
         slidesToHide[i].style.display = "none";
       }
+
       if (selectedButton != null) {
         for (let i = 0; i < buttonsToDeselect.length; i++) {
-          buttonsToDeselect[i].style.backgroundColor = "#3C3030";
-          buttonsToDeselect[i].style.color = "#F2F2F2";
+          buttonsToDeselect[i].className = buttonsToDeselect[i].className.replace(/\bslide-selected\b/g, "");
         }
-        selectedButton.style.backgroundColor = "#F2F2F2";
-        selectedButton.style.color = "#3C3030";
+        selectedButton.className += " slide-selected"
       }
 
       slideToShow.style.display = "block";
@@ -298,8 +297,7 @@
 
   <div class="navigation-bar">
     <div class="navigation-content">
-      <span onclick="slideShow(0)" class="slide-select" id="slide-0-select"
-        style="background-color: #F2F2F2; color: #3C3030">0</span>
+      <span onclick="slideShow(0)" class="slide-select slide-selected" id="slide-0-select">0</span>
       <span onclick="slideShow(1)" class="slide-select" id="slide-1-select">1</span>
       <span onclick="slideShow(2)" class="slide-select" id="slide-2-select">2</span>
       <span onclick="slideShow(3)" class="slide-select" id="slide-3-select">3</span>
