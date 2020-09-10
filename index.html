@@ -186,7 +186,7 @@
     </div>
   </div>
 
-  <!-- Slide 3: Things start to go wrong -->
+  <!-- Slide 3: We can now start cracking -->
   <div class="chapter slide fade" id="slide-3" style="display: none; opacity: 0">
     <div class="chapter-content">
       <p>
@@ -203,7 +203,7 @@
         <iframe src="playables/complications1.html" width="405" height="240" id="complications1Frame"></iframe>
       </div>
       <br />
-      <span onclick="document.getElementById('complications1Frame').contentWindow.solveForMe(1);" class="solve-button">
+      <span onclick="document.getElementById('complications1Frame').contentWindow.solveForMe();" class="solve-button">
         <b>Help me solve this!</b>
       </span>
       <span onclick="slideShow(3.1)" class="chapter-button">
@@ -212,7 +212,7 @@
     </div>
   </div>
 
-  <!-- Slide 3.1: Things start looking worse -->
+  <!-- Slide 3.1: Cracking part 2 -->
   <div class="chapter slide fade" id="slide-3.1" style="display: none; opacity: 0">
     <div class="chapter-content">
       <p>
@@ -226,7 +226,7 @@
         <iframe src="playables/complications2.html" width="405" height="240" id="complications2Frame"></iframe>
       </div>
       <br />
-      <span onclick="document.getElementById('complications2Frame').contentWindow.solveForMe(2);" class="solve-button">
+      <span onclick="document.getElementById('complications2Frame').contentWindow.solveForMe();" class="solve-button">
         <b>Help me solve this!</b>
       </span>
       <span onclick="slideShow(3.2)" class="chapter-button">
@@ -236,7 +236,7 @@
 
   </div>
 
-  <!-- Slide 3.2: Things are the worst -->
+  <!-- Slide 3.2: Cracking part 3 -->
   <div class="chapter slide fade" id="slide-3.2" style="display: none; opacity: 0">
     <div class="chapter-content">
       <p>
@@ -251,7 +251,7 @@
       </div>
       <br />
       <br />
-      <span onclick="document.getElementById('complications3Frame').contentWindow.solveForMe(3);" class="solve-button">
+      <span onclick="document.getElementById('complications3Frame').contentWindow.solveForMe();" class="solve-button">
         <b>Help me solve this!</b>
       </span>
       <span onclick="slideShow(3.3)" class="chapter-button">
@@ -261,39 +261,73 @@
 
   </div>
 
-  <!-- Slide 3.3: What just happened? -->
+  <!-- Slide 3.3: Explaining cracking -->
   <div class="chapter slide fade" id="slide-3.3" style="display: none; opacity: 0">
     <div class="chapter-content">
       <p>
-        What we just did there is take advantage of something called the <em>wasted vote</em>. 
-        When we draw a district and designate one color as the winner, this, in a way, causes the other color to "waste" their votes in that district.
-        The votes aren't <em>literally</em> wasted, but they fail to contribute to a winning color.
+        Nothing about that state changed, but we were still able to cause three <b>totally</b> different results.
         <br />
         <br />
-        Let's go bigger with our fake state so this idea becomes even more obvious.
+        What we just did there is take advantage of something known as the <b><em>wasted vote effect</em></b>. 
+        When we draw a district and designate one color as the winner, you can, in a way, think about the vote that did not go towards a winning color as a wasted vote.
+        <br />
+        <br />
+        Purposefully taking advantage of the wasted vote effect is called <b><em>cracking</em></b>. Instead of winning a district with 100% of the vote, why not draw the district so that you win with only 60%, thus wasting the 40% of that district's votes.
+        <br />
+        <br />
+        That, however, leads to a completely different tactic that can be used so...
+        <br />
+        <br />
       </p>
       <br />
       <br />
       <span onclick="slideShow(4)" class="chapter-button">
-        <b>To the bigger state</b>
+        <b>Let's get <em>packing</em>.</b>
       </span>
     </div>
 
   </div>
 
-  <!-- Slide 4: Things start to go wrong -->
+  <!-- Slide 4: Displaying packing -->
   <div class="chapter slide fade" id="slide-4" style="display: none; opacity: 0">
-    <p>
-      YES!
-    </p>
-    <p>
-      Take the following state, for example. Depending on how the districts are drawn you can either have either Orange
-      or Purple when two districts.
-    </p>
-    <div class="exploration">
-      <iframe src="playables/complications.html" width="405" height="240"></iframe>
+    <div class="chapter-content">
+      <p>
+        Here we have a state where we have a fairly even split between the two colors. What I want you to do is:
+        <br />
+        <br />
+        <b>Give purple a 100% winning district (as in, five purple neighborhoods), and then have orange win all other districts.</b>
+      </p>
+      <br />
+      <div class="exploration">
+        <iframe src="playables/packing.html" width="305" height="305" id="packingFrame"></iframe>
+      </div>
+      <br />
+      <span onclick="document.getElementById('packingFrame').contentWindow.solveForMe();" class="solve-button">
+        <b>Help me solve this!</b>
+      </span>
+      <span onclick="slideShow(4.1)" class="chapter-button">
+        <b>What was that?</b>
+      </span>
     </div>
   </div>
+
+    <!-- Slide 4.1: Explaining about packing -->
+    <div class="chapter slide fade" id="slide-4.1" style="display: none; opacity: 0">
+      <div class="chapter-content">
+        <p>
+          In most real world scenarios, it's impossible to <em>completely</em> shut out the opposing party.
+          <br />
+          <br />
+          To get around this, we needed to stuff as many voters as we could into a single district so that we could use the cracking technique we learned earlier.
+          <br />
+          <br />
+          This act of purposefully stuffing voters into certain districts is known as <b><em>packing</em></b>!
+          <br />
+          <br />
+          This packing is what we used on the previous state. We forced as many purple votes into a single district, which in turn reduced the amount of votes that could be distributed to other districts.
+        </p>
+      </div>
+    </div>
 
   <div class="navigation-bar">
     <div class="navigation-content">
@@ -308,3 +342,5 @@
 </body>
 
 </html>
+
+
