@@ -35,18 +35,18 @@
         ];
 
         let solution = [
-            [3, 3, 3, 4, 4],
-            [3, 3, 1, 4, 4],
-            [2, 1, 1, 4, 0],
-            [2, 2, 1, 1, 0],
-            [2, 2, 0, 0, 0]
+            [4, 4, 2, 1, 1],
+            [4, 3, 2, 2, 1],
+            [4, 3, 3, 2, 1],
+            [4, 3, 3, 2, 1],
+            [0, 0, 0, 0, 0]
         ];
 
         function solveForMe(){
             explanation.gameBoard.fillDistrictsByArray(solution1);
         }
 
-        let explanation = new CanvasExplanation(canvas, squareSize, gridArray, false);
+        let explanation = new CanvasExplanation(canvas, squareSize, gridArray, false, true);
         explanation.animate();
 	</script>
 </body>
