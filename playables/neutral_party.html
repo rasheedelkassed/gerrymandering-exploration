@@ -49,6 +49,11 @@
 
         let explanation = new CanvasExplanation(canvas, squareSize, gridArray, false, true);
         explanation.animate();
+
+        // Disable scrolling.
+        document.ontouchmove = function (e) {
+            e.preventDefault();
+        }
 	</script>
 </body>
 </html>
