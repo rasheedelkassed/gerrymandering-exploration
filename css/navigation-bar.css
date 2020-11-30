@@ -1,0 +1,91 @@
+.navigation-bar {
+    display: table;
+    background-color: #3c3030;
+    height: 50px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    user-select: none;
+}
+
+.navigation-content {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.slide-selector {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 40px;
+    font-size: 30px;
+    font-style: none;
+    text-decoration: none;
+    color: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    user-select: none;
+    cursor: pointer;
+    position: relative;
+}
+
+.slide-selected {
+    display: inline-block;
+    width: 30px;
+    background-color: #F2F2F2;
+    color: #3C3030;
+    height: 30px;
+    border-radius: 40px;
+    font-size: 30px;
+    font-style: none;
+    text-decoration: none;
+    border: 1px solid #FFFFFF;
+    user-select: none;
+    cursor: pointer;
+}
+
+.slide-selector:hover {
+    background-color: #584646;
+}
+
+.slide-selected:hover {
+    background-color: #FFFFFF;
+}
+
+.tooltip {
+    visibility: hidden;
+    opacity: 0;
+    width: 120px;
+    background-color: black;
+    color: #FFFFFF;
+    text-align: center;
+    border-radius: 6px;
+    font-size: 0.5em;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -60px;
+    transform: translateY(20px);
+    transition-delay: 0.25s;
+    transition: visibility 0s, opacity 0.25s, transform 0.1s ease-in-out;
+  }
+  
+.tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+  }
+
+.slide-selector:hover .tooltip {
+    visibility: visible;
+    opacity: 0.8;
+    transform: translateY(0px);
+    
+}
