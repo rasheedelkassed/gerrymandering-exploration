@@ -4,6 +4,7 @@ body {
     padding-bottom: 50px;
     height:100%;
     touch-action: manipulation;
+    pointer-events: none;
 }
 
 .header {
