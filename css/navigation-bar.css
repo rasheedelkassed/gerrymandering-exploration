@@ -9,6 +9,7 @@
     user-select: none;
     font-size: 20px;
     line-height: 30px;
+    pointer-events: auto;
 }
 
 .navigation-content {
