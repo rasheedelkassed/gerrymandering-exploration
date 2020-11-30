@@ -69,6 +69,7 @@ em {
     border-color: #F2F2F2;
     border-width: 1px;
     user-select: none;
+    pointer-events: auto;
 }
 
 .chapter {
