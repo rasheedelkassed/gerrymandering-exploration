@@ -1,0 +1,8 @@
+body {
+    background-color: #FBFBF8;
+    font-family: Sans-serif;
+    padding-bottom: 50px;
+    height:100%;
+    touch-action: manipulation;
+    pointer-events: none;
+}
