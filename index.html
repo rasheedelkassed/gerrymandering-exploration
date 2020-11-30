@@ -11,6 +11,7 @@
 
   <link href="css/reset.css" rel="stylesheet" type="text/css">
   <link href="css/index.css" rel="stylesheet" type="text/css">
+  <link href="css/navigation-bar.css" rel="stylesheet" type="text/css">
 
 </head>
 
@@ -20,14 +21,14 @@
     function slideShow(slideIndex) {
       let idString = "slide-" + slideIndex;
       let slidesToHide = document.getElementsByClassName("slide");
-      let buttonsToDeselect = document.getElementsByClassName("slide-select");
+      let buttonsToDeselect = document.getElementsByClassName("slide-selector");
 
       let slideToShow = document.getElementById(idString);
       let selectedButton = document.getElementById(idString + "-select");
 
       for (let i = 0; i < slidesToHide.length; i++) {
+        slidesToHide[i].style.visibility = "hidden";
         slidesToHide[i].style.opacity = 0;
-        slidesToHide[i].style.display = "none";
       }
 
       if (selectedButton != null) {
@@ -37,15 +38,13 @@
         selectedButton.className += " slide-selected"
       }
 
-      slideToShow.style.display = "block";
+      slideToShow.style.visibility = "visible";
       slideToShow.style.opacity = 1;
-
-
     }
 
   </script>
 
-  <div class="header slide fade" id="slide-0" style="display: block; opacity: 1;">
+  <div class="header slide fade" id="slide-0" style="display: block; opacity: 1; visibility: visible;">
     <div class="title">
       <div class="title-text">
         <h1>It's Not Arbitrary</h1>
@@ -65,7 +64,7 @@
   </div>
 
   <!-- Slide 1: The Introduction -->
-  <div class="chapter slide fade" id="slide-1" style="display: none; opacity: 0">
+  <div class="chapter slide fade" id="slide-1" style="display: block; visibility: hidden; opacity: 0">
     <div class="chapter-content">
       <p>
         In 1812, the state of Massachusetts was forced to adopt the idea of electoral district boundaries.
@@ -94,7 +93,7 @@
   </div>
 
   <!-- Slide 2: Introduce Mechanics -->
-  <div class="chapter slide fade" id="slide-2" style="display: none; opacity: 0">
+  <div class="chapter slide fade" id="slide-2" style="display: block; visibility: hidden; opacity: 0">
     <div class="chapter-content">
       <h2>A Game of Borders</h2>
       <br />
@@ -118,14 +117,14 @@
       </p>
       <br />
       <br />
-      <span onclick="slideShow(2.1)" class="chapter-button">
+      <span onclick="slideShow(3)" class="chapter-button">
         <b>Let's get to it!</b>
       </span>
     </div>
   </div>
 
-  <!-- Slide 2.1: Further Mechanic Understanding -->
-  <div class="chapter slide fade" id="slide-2.1" style="display: none; opacity: 0">
+  <!-- Slide 3: Further Mechanic Understanding -->
+  <div class="chapter slide fade" id="slide-3" style="display: block; visibility: hidden; opacity: 0">
     <div class="chapter-content">
       <p>
         Let's start by trying to apply those rules that were just sort of thrown at you!
@@ -151,14 +150,14 @@
       <span onclick="document.getElementById('introFrame').contentWindow.solveForMe();" class="solve-button">
         <b>Help me solve this!</b>
       </span>
-      <span onclick="slideShow(2.2)" class="chapter-button">
+      <span onclick="slideShow(4)" class="chapter-button">
         <b>Let's find out</b>
       </span>
     </div>
   </div>
 
-  <!-- Slide 2.2: Further Mechanic Understanding -->
-  <div class="chapter slide fade" id="slide-2.2" style="display: none; opacity: 0">
+  <!-- Slide 4: Further Mechanic Understanding -->
+  <div class="chapter slide fade" id="slide-4" style="display: block; visibility: hidden; opacity: 0">
     <div class="chapter-content">
       <p>
         We've got a bigger state for you to draw borders for! There looks to be 10 neighborhoods this time, so go ahead and draw its two districts.
@@ -180,14 +179,14 @@
       <span onclick="document.getElementById('perfectionFrame').contentWindow.solveForMe();" class="solve-button">
         <b>Help me solve this!</b>
       </span>
-      <span onclick="slideShow(3)" class="chapter-button">
+      <span onclick="slideShow(5)" class="chapter-button">
         <b>...go bigger!</b>
       </span>
     </div>
   </div>
 
-  <!-- Slide 3: We can now start cracking -->
-  <div class="chapter slide fade" id="slide-3" style="display: none; opacity: 0">
+  <!-- Slide 5: We can now start cracking -->
+  <div class="chapter slide fade" id="slide-5" style="display: block; visibility: hidden; opacity: 0">
     <div class="chapter-content">
       <p>
         This is more like it! We've now got a total of 15 neighborhoods to play around with which means we can draw a total of three districts!
@@ -206,14 +205,14 @@
       <span onclick="document.getElementById('complications1Frame').contentWindow.solveForMe();" class="solve-button">
         <b>Help me solve this!</b>
       </span>
-      <span onclick="slideShow(3.1)" class="chapter-button">
+      <span onclick="slideShow(6)" class="chapter-button">
         <b>Orange wins more!</b>
       </span>
     </div>
   </div>
 
-  <!-- Slide 3.1: Cracking part 2 -->
-  <div class="chapter slide fade" id="slide-3.1" style="display: none; opacity: 0">
+  <!-- Slide 6: Cracking part 2 -->
+  <div class="chapter slide fade" id="slide-6" style="display: block; visibility: hidden; opacity: 0">
     <div class="chapter-content">
       <p>
         With the semi-logical three rows of districts, we see a set of districts that look pretty normal. Now using the same "state":
@@ -229,18 +228,18 @@
       <span onclick="document.getElementById('complications2Frame').contentWindow.solveForMe();" class="solve-button">
         <b>Help me solve this!</b>
       </span>
-      <span onclick="slideShow(3.2)" class="chapter-button">
-        <b>Poor purple.</b>
+      <span onclick="slideShow(7)" class="chapter-button">
+        <b>Poor Purple.</b>
       </span>
     </div>
 
   </div>
 
-  <!-- Slide 3.2: Cracking part 3 -->
-  <div class="chapter slide fade" id="slide-3.2" style="display: none; opacity: 0">
+  <!-- Slide 7: Cracking part 3 -->
+  <div class="chapter slide fade" id="slide-7" style="display: block; visibility: hidden; opacity: 0">
     <div class="chapter-content">
       <p>
-        Having Orange win everything means that Purple didn't get any representation. Let's now have it so purple gets too much representation:
+        Having Orange win everything means that Purple didn't get any representation. Let's now have it so Purple gets too much representation:
         <br />
         <br />
         <b>Try drawing the districts so that Orange wins <b>one</b> district and Purple wins <b>two</b>!</b>
@@ -254,88 +253,157 @@
       <span onclick="document.getElementById('complications3Frame').contentWindow.solveForMe();" class="solve-button">
         <b>Help me solve this!</b>
       </span>
-      <span onclick="slideShow(3.3)" class="chapter-button">
+      <span onclick="slideShow(8)" class="chapter-button">
         <b>That's kind of crazy!</b>
       </span>
     </div>
 
   </div>
 
-  <!-- Slide 3.3: Explaining cracking -->
-  <div class="chapter slide fade" id="slide-3.3" style="display: none; opacity: 0">
+  <!-- Slide 8: Introduce two used methods -->
+  <div class="chapter slide fade" id="slide-8" style="display: block; visibility: hidden; opacity: 0">
     <div class="chapter-content">
       <p>
-        Nothing about that state changed, but we were still able to cause three <b>totally</b> different results.
+        Nothing about that state changed, but we were still able to cause three <b>totally different results</b>, two of which could be considered unfair.
         <br />
         <br />
-        What we just did there is take advantage of something known as the <b><em>wasted vote effect</em></b>. 
-        When we draw a district and designate one color as the winner, you can, in a way, think about the vote that did not go towards a winning color as a wasted vote.
+        How could that be?
         <br />
         <br />
-        Purposefully taking advantage of the wasted vote effect is called <b><em>cracking</em></b>. Instead of winning a district with 100% of the vote, why not draw the district so that you win with only 60%, thus wasting the 40% of that district's votes.
-        <br />
-        <br />
-        That, however, leads to a completely different tactic that can be used so...
-        <br />
-        <br />
+        The reason this is possible is due to something known as the <em>wasted vote effect</em>. If a district is split 3:2, it seems as though the 2 votes that were cast did not contribute towards electing any sort of representative and were completely wasted!
+      </p>
+      <div>
+        <img src="sprites/wasted_vote_effect.png"/>
+      </div>
+      <p>
+        We can use this fact to dilute one parties voters over several districts, thus diminishing their voting power. Purposefully taking advantage of the wasted vote effect in this way is called <em>cracking</em>.
       </p>
       <br />
       <br />
-      <span onclick="slideShow(4)" class="chapter-button">
-        <b>Let's get <em>packing</em>.</b>
+      <span onclick="slideShow(9)" class="chapter-button">
+        <b>Let's try out cracking!</b>
       </span>
     </div>
 
   </div>
 
-  <!-- Slide 4: Displaying packing -->
-  <div class="chapter slide fade" id="slide-4" style="display: none; opacity: 0">
+  <!-- Slide 9: Displaying cracking -->
+  <div class="chapter slide fade" id="slide-9" style="display: block; visibility: hidden; opacity: 0">
     <div class="chapter-content">
       <p>
-        Here we have a state where we have a fairly even split between the two colors. What I want you to do is:
+        Here we have a state that favors Orange 3 to 2 (15 Orange neighborhoods to 10 Purple ones). Instead of keeping the ratio of representative equal to the ratio of voters, I want you to give Orange full control of all <em>five</em> possible districts. In short:
         <br />
         <br />
-        <b>Give purple a 100% winning district (as in, five purple neighborhoods), and then have orange win all other districts.</b>
+        <b>Have Orange win all districts. (Try and barely win the districts)</b>
       </p>
       <br />
       <div class="exploration">
-        <iframe src="playables/packing.html" width="305" height="305" id="packingFrame"></iframe>
+        <iframe src="playables/cracking.html" width="305" height="305" id="packingFrame"></iframe>
       </div>
       <br />
       <span onclick="document.getElementById('packingFrame').contentWindow.solveForMe();" class="solve-button">
         <b>Help me solve this!</b>
       </span>
-      <span onclick="slideShow(4.1)" class="chapter-button">
-        <b>What was that?</b>
+      <span onclick="slideShow(10)" class="chapter-button">
+        <b>Total Control</b>
       </span>
     </div>
   </div>
 
-    <!-- Slide 4.1: Explaining about packing -->
-    <div class="chapter slide fade" id="slide-4.1" style="display: none; opacity: 0">
+  <!-- Slide 10: Explaining packing -->
+  <div class="chapter slide fade" id="slide-10" style="display: block; visibility: hidden; opacity: 0">
+    <div class="chapter-content">
+      <p>
+        While cracking does a good job, it's not always possible to achieve 100% control of a state (in reality, it's pretty much impossible).
+        <br />
+        <br />
+        To get around this, we can use a different method along with cracking called <b><em>packing</em></b>.
+        <br />
+        <br />
+        Packing is the intentional stuffing of many votes in as concentrated a place as possible.        
+      </p>
+      <img src="sprites/packing.png"/>
+      <span onclick="slideShow(11)" class="chapter-button">
+        <b>Let's try out packing.</b>
+      </span>
+    </div>
+  </div>
+
+    <!-- Slide 11: Displaying packing -->
+    <div class="chapter slide fade" id="slide-11" style="display: block; visibility: hidden; opacity: 0">
       <div class="chapter-content">
         <p>
-          In most real world scenarios, it's impossible to <em>completely</em> shut out the opposing party.
+          Here we have a state where we have a fairly even split between the two colors. What I want you to do is:
           <br />
           <br />
-          To get around this, we needed to stuff as many voters as we could into a single district so that we could use the cracking technique we learned earlier.
-          <br />
-          <br />
-          This act of purposefully stuffing voters into certain districts is known as <b><em>packing</em></b>!
-          <br />
-          <br />
-          This packing is what we used on the previous state. We forced as many purple votes into a single district, which in turn reduced the amount of votes that could be distributed to other districts.
+          <b>Give Purple a fully winning district (as in, five Purple neighborhoods), and then have Orange win all other districts.</b>
         </p>
+        <br />
+        <div class="exploration">
+          <iframe src="playables/packing.html" width="305" height="305" id="packingFrame"></iframe>
+        </div>
+        <br />
+        <span onclick="document.getElementById('packingFrame').contentWindow.solveForMe();" class="solve-button">
+          <b>Help me solve this!</b>
+        </span>
+        <span onclick="slideShow(12)" class="chapter-button">
+          <b>So...how do we fix this?</b>
+        </span>
       </div>
     </div>
 
+        <!-- Slide 12: Explaining solutions -->
+        <div class="chapter slide fade" id="slide-12" style="display: block; visibility: hidden; opacity: 0">
+          <div class="chapter-content">
+            <p>
+              It is clear that these methods of political influence change the democratic dynamic from people picking their representatives to representatives picking their people. 
+              Plain and simple, elections are no longer competitive if these systems exist.
+            </p>
+            <br />
+            <span onclick="slideShow(13)" class="chapter-button">
+              <b>So...in review</b>
+            </span>
+          </div>
+        </div>
+
   <div class="navigation-bar">
     <div class="navigation-content">
-      <span onclick="slideShow(0)" class="slide-select slide-selected" id="slide-0-select">0</span>
-      <span onclick="slideShow(1)" class="slide-select" id="slide-1-select">1</span>
-      <span onclick="slideShow(2)" class="slide-select" id="slide-2-select">2</span>
-      <span onclick="slideShow(3)" class="slide-select" id="slide-3-select">3</span>
-      <span onclick="slideShow(4)" class="slide-select" id="slide-4-select">4</span>
+      <span onclick="slideShow(0)" class="slide-selector slide-selected" id="slide-0-select">
+        <span class="tooltip">0. Title Screen</span>
+      </span>
+      <span onclick="slideShow(1)" class="slide-selector" id="slide-1-select">
+        <span class="tooltip">1. Introduction</span>
+      </span>
+      <span onclick="slideShow(2)" class="slide-selector" id="slide-2-select">
+        <span class="tooltip">2. Rules</span>
+      </span>
+      <span onclick="slideShow(3)" class="slide-selector" id="slide-3-select">
+        <span class="tooltip">3. Tutorial</span>
+      </span>
+      <span onclick="slideShow(4)" class="slide-selector" id="slide-4-select">
+        <span class="tooltip">4. Tutorial 2</span>
+      </span>
+      <span onclick="slideShow(5)" class="slide-selector" id="slide-5-select">
+        <span class="tooltip">5. A Common Sense Approach</span>
+      </span>
+      <span onclick="slideShow(6)" class="slide-selector" id="slide-6-select">
+        <span class="tooltip">6. Complete Takeover</span>
+      </span>
+      <span onclick="slideShow(7)" class="slide-selector" id="slide-7-select">
+        <span class="tooltip">7. Winning From Behind</span>
+      </span>
+      <span onclick="slideShow(8)" class="slide-selector" id="slide-8-select">
+        <span class="tooltip">8. Cracking</span>
+      </span>
+      <span onclick="slideShow(9)" class="slide-selector" id="slide-9-select">
+        <span class="tooltip">9. Cracking In Action</span>
+      </span>
+      <span onclick="slideShow(10)" class="slide-selector" id="slide-10-select">
+        <span class="tooltip">10. Packing</span>
+      </span>
+      <span onclick="slideShow(11)" class="slide-selector" id="slide-11-select">
+        <span class="tooltip">11. Packing In Action</span>
+      </span>
     </div>
   </div>
 
