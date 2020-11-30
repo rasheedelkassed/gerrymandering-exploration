@@ -42,6 +42,11 @@
       slideToShow.style.opacity = 1;
     }
 
+    // Disable scrolling.
+    document.ontouchmove = function (e) {
+      e.preventDefault();
+    }
+
   </script>
 
   <div class="header slide fade" id="slide-0" style="display: block; opacity: 1; visibility: visible;">
