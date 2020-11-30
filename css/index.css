@@ -152,7 +152,7 @@ em {
 .chapter iframe {
     margin-top: 15px;
     margin-bottom: 15px;
-    touch-action: none;
+    touch-action: manipulation;
 }
 
 .exploration {
