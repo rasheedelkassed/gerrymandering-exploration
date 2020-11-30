@@ -85,7 +85,6 @@ em {
     -o-transform: translate(-50%, -55%);
     -webkit-transform: translate(-50%,-55%);
     transform: translate(-50%,-55%);
-    width: 650px;
 }
 
 .credits {
@@ -104,7 +103,6 @@ em {
     -o-transform: translate(-50%, -55%);
     -webkit-transform: translate(-50%,-55%);
     transform: translate(-50%,-55%);
-    width: 650px;
 }
 
 .credits-background {
