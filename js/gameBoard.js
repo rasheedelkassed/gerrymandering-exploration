@@ -65,7 +65,7 @@ canvas.addEventListener('touchleave',
 const POLITICAL_ALIGNMENT = {
     YELLOW: { name: "YELLOW", color: "#D9B573", districtColor: "#c89537" },
     PURPLE: { name: "PURPLE", color: "#A66D97", districtColor: "#8b557d" },
-    UNALIGNED: { name: 'UNALIGNED', color: "#F2F2F2", districtColor: "#F2F2F2" },
+    UNALIGNED: { name: 'UNALIGNED', color: "#D4D4D4", districtColor: "#D4D4D4" },
     NONE: { name: 'NONE', color: "#000000", districtColor: "#000000" }
 }
 
@@ -110,6 +110,7 @@ class Neighborhood {
         this.politicalAlignment = politicalAlignment.name;
         this.districted = false;
         this.winningPoliticalAlignment = POLITICAL_ALIGNMENT.NONE;
+        this.hiddenColor = false;
 
         this.districtAdjacencies = []; // What directions are part of the contained district
         this.districtDiagonals = [];
@@ -131,8 +132,13 @@ class Neighborhood {
     }
 
     draw() {
-        context.fillStyle = this.color;
-        context.strokeStyle = this.color;
+        if(this.hiddenColor){
+            context.fillStyle = POLITICAL_ALIGNMENT.UNALIGNED.color;
+            context.strokeStyle = POLITICAL_ALIGNMENT.UNALIGNED.color;
+        }else{
+            context.fillStyle = this.color;
+            context.strokeStyle = this.color;
+        }
         context.fillRect(this.xPos, this.yPos, this.width, this.height);
         context.strokeRect(this.xPos, this.yPos, this.width, this.height);
         context.drawImage(this.sprite, this.xPos, this.yPos, this.width, this.height);
@@ -143,7 +149,7 @@ class Neighborhood {
 
 // Create the "game" board
 class GameBoard {
-    constructor(width = 0, height = 0, cellWidth = 100, cellHeight = 100, maxDistrictCount = 0, maxDistrictSize = 0, minDistrictSize = 0, array = []) {
+    constructor(width = 0, height = 0, cellWidth = 100, cellHeight = 100, maxDistrictCount = 0, maxDistrictSize = 0, minDistrictSize = 0, array = [], hiddenColor = false) {
         this.width = width;                     //The number of neighborhoods horizontally
         this.height = height;                   //The number of neighborhoods vertically
         this.cellWidth = cellWidth;             //The size of a neighborhood in pixels horizontally
@@ -158,6 +164,7 @@ class GameBoard {
         this.currentDistrict = [];
         this.justDeleted = false;
         this.districtBorderWidth = 7;
+        this.hiddenColor = hiddenColor;
 
         if (array.length == 0) {
             this.createCityGrid();
@@ -201,14 +208,18 @@ class GameBoard {
         for (let currentYCell = 0; currentYCell < this.height; currentYCell++) {
             let row = [];
             for (let currentXCell = 0; currentXCell < this.width; currentXCell++) {
-                row.push(new Neighborhood(
+                let neighborhoodToPush = new Neighborhood(
                     currentXCell + currentXCell * this.cellWidth,
                     currentYCell + currentYCell * this.cellHeight,
                     this.cellWidth,
                     this.cellHeight,
                     POLITICAL_ALIGNMENT_NUMERIC[array[currentYCell][currentXCell]],
-                    "../sprites/House.png"));
+                    "../sprites/House.png")
+                console.log(this.hiddenColor)
+                neighborhoodToPush.hiddenColor = this.hiddenColor;
+                row.push(neighborhoodToPush);
             }
+            
             this.cityGrid.push(row);
         }
     }
@@ -787,7 +798,7 @@ class Menu {
 }
 
 class CanvasExplanation {
-    constructor(canvas, squareSize = 100, gridArray = [], isThereMenu = false) {
+    constructor(canvas, squareSize = 100, gridArray = [], isThereMenu = false, hiddenColor = false) {
         this.canvas = canvas;
         this.context = canvas.getContext("2d");
         this.squareSize = squareSize;
@@ -795,14 +806,16 @@ class CanvasExplanation {
         this.gameBoard = null;
         this.menu = null;
         this.isThereMenu = isThereMenu;
+        this.hiddenColor = hiddenColor;
 
         this.gridWidth = this.gridArray[0].length;
         this.gridHeight = this.gridArray.length;
 
         this.menuXPos = (this.gridWidth * this.squareSize) + this.gridWidth;
         this.menuYPos = 0;
-
+        
         this.createGameboard();
+        
         if (this.isThereMenu) {
             this.createMenu();
         }
@@ -812,7 +825,7 @@ class CanvasExplanation {
     createGameboard() {
         let districtSize = this.gridWidth;
         let maxDistrictCount = Math.ceil((this.gridWidth * this.gridHeight) / districtSize);
-        this.gameBoard = new GameBoard(this.gridWidth, this.gridHeight, this.squareSize, this.squareSize, maxDistrictCount, districtSize, districtSize, this.gridArray);
+        this.gameBoard = new GameBoard(this.gridWidth, this.gridHeight, this.squareSize, this.squareSize, maxDistrictCount, districtSize, districtSize, this.gridArray, this.hiddenColor);
     }
 
     createMenu() {
