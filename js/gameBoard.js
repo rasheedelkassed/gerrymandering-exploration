@@ -215,7 +215,6 @@ class GameBoard {
                     this.cellHeight,
                     POLITICAL_ALIGNMENT_NUMERIC[array[currentYCell][currentXCell]],
                     "../sprites/House.png")
-                console.log(this.hiddenColor)
                 neighborhoodToPush.hiddenColor = this.hiddenColor;
                 row.push(neighborhoodToPush);
             }
