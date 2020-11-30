@@ -117,12 +117,13 @@ em {
 }
 
 .chapter-button {
+    font-size: 1em;
     padding: 25px;
     border-radius: 25px;
     border-style: solid;
     border-color:  #3c3030;
     display: inline-block;
-    border-width: 1px;
+    border-width: 4px;
     cursor: pointer;
     user-select: none;
 }
@@ -137,7 +138,7 @@ em {
     border-radius: 25px;
     border-style: solid;
     border-color:  #3c3030;
-    border-width: 1px;
+    border-width: 2px;
     display: inline-block;
     position: absolute;
     left: 25px;
