@@ -135,14 +135,21 @@ em {
     visibility: hidden;
     opacity: 0;
     transition: visibility 0.25s, opacity 0.25s linear;
-  }
+}
 
-  img {
+img {
     width: 100%;
     padding: 0;
     margin-top: 15px;
     margin-bottom: 15px;
     display: block;
-  }
+    max-width: 640px;
+    max-height: 340px;
+    width: auto;
+    height: auto;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 

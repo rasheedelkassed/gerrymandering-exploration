@@ -329,42 +329,128 @@
     </div>
   </div>
 
-    <!-- Slide 11: Displaying packing -->
-    <div class="chapter slide fade" id="slide-11" style="display: block; visibility: hidden; opacity: 0">
-      <div class="chapter-content">
-        <p>
-          Here we have a state where we have a fairly even split between the two colors. What I want you to do is:
-          <br />
-          <br />
-          <b>Give Purple a fully winning district (as in, five Purple neighborhoods), and then have Orange win all other districts.</b>
-        </p>
+  <!-- Slide 11: Displaying packing -->
+  <div class="chapter slide fade" id="slide-11" style="display: block; visibility: hidden; opacity: 0">
+    <div class="chapter-content">
+      <p>
+        Here we have a state where we have a fairly even split between the two colors. What I want you to do is:
         <br />
-        <div class="exploration">
-          <iframe src="playables/packing.html" width="305" height="305" id="packingFrame"></iframe>
-        </div>
         <br />
-        <span onclick="document.getElementById('packingFrame').contentWindow.solveForMe();" class="solve-button">
-          <b>Help me solve this!</b>
-        </span>
-        <span onclick="slideShow(12)" class="chapter-button">
-          <b>So...how do we fix this?</b>
-        </span>
+        <b>Give Purple a fully winning district (as in, five Purple neighborhoods), and then have Orange win all other districts.</b>
+      </p>
+      <br />
+      <div class="exploration">
+        <iframe src="playables/packing.html" width="305" height="305" id="packingFrame"></iframe>
       </div>
+      <br />
+      <span onclick="document.getElementById('packingFrame').contentWindow.solveForMe();" class="solve-button">
+        <b>Help me solve this!</b>
+      </span>
+      <span onclick="slideShow(12)" class="chapter-button">
+        <b>So...how do we fix this?</b>
+      </span>
     </div>
+  </div>
 
-        <!-- Slide 12: Explaining solutions -->
-        <div class="chapter slide fade" id="slide-12" style="display: block; visibility: hidden; opacity: 0">
-          <div class="chapter-content">
-            <p>
-              It is clear that these methods of political influence change the democratic dynamic from people picking their representatives to representatives picking their people. 
-              Plain and simple, elections are no longer competitive if these systems exist.
-            </p>
-            <br />
-            <span onclick="slideShow(13)" class="chapter-button">
-              <b>So...in review</b>
-            </span>
-          </div>
-        </div>
+  <!-- Slide 12: Segue into solutions -->
+  <div class="chapter slide fade" id="slide-12" style="display: block; visibility: hidden; opacity: 0">
+    <div class="chapter-content">
+      <p>
+        It is clear that these methods of political influence change the democratic dynamic from people picking their representatives to representatives picking their people. 
+        Plain and simple, elections are no longer competitive if these systems exist.
+        <br />
+        <br />
+        There are a number of systems that could be put in place to ensure a competitive elections. The first, and simplest, solution is to implement a neutral or cross-party agency responsible for drawing the districts.
+        This agency would be selected from apolitcal individuals and would help ensure there was no political bias in the drawing of districts.
+         On top of this, members of this agency would be denied information such as voting patterns to ensure any biases are unable to show themselves in any meaningful way.
+      </p>
+      <br />
+      <span onclick="slideShow(13)" class="chapter-button">
+        <b>Let's try being neutral!</b>
+      </span>
+    </div>
+  </div>    
+
+  <!-- Slide 13: Neutral, or cross-party agency -->
+  <div class="chapter slide fade" id="slide-13" style="display: block; visibility: hidden; opacity: 0">
+    <div class="chapter-content">
+      <p>
+        Pretend you are an insider in an independent agency try increase the representation of the Purple party artificially.
+        The state below is still colored Orange and Purple, but you are unable to see it. With that in mind:
+        <br />
+        <br />
+        <b>Try and give Purple the majority of winning districts</b>
+      </p>
+      <br />
+      <div class="exploration">
+        <iframe src="playables/neutral_party.html" width="305" height="305" id="packingFrame"></iframe>
+      </div>
+      <br />
+      <span onclick="document.getElementById('packingFrame').contentWindow.solveForMe();" class="solve-button">
+        <b>Help me solve this!</b>
+      </span>
+      <span onclick="slideShow(14)" class="chapter-button">
+        <b>It's a bit harder without all the info</b>
+      </span>
+    </div>
+  </div>
+
+  <!-- Slide 14: Fixed borders -->
+  <div class="chapter slide fade" id="slide-14" style="display: block; visibility: hidden; opacity: 0">
+    <div class="chapter-content">
+      <p>
+        Another possible method would be to simply have fixed districts. Can't draw biased districts if you're not allowed to redraw.
+        <br />
+        <br />
+        It would be similar to trying to edit this <b><em>picture</em></b> of a state below:
+      </p>
+      <img src="sprites/fixed_borders.png"/>
+      <br />
+      <span onclick="slideShow(15)" class="chapter-button">
+        <b>Certainly a bit harder</b>
+      </span>
+    </div>
+  </div>    
+
+  <!-- Slide 15: Everything else -->
+  <div class="chapter slide fade" id="slide-14" style="display: block; visibility: hidden; opacity: 0">
+    <div class="chapter-content">
+      <p>
+        There really is a whole hose of possible solutions to this problem:
+        <br />
+        <br />
+        ◘ Change the voting system in a way that gets rid of the wasted vote effect (e.g. ranked choice).
+        <br />
+        <br />
+        ◘ Provide objective rules to guide the creation of districts, with a committee to uphold those rules.
+        <br />
+        <br />
+        ◘ Require transparency through the use of regulation.
+        <br />
+        <br />
+        <br />
+        Fret not! All hope is not lost!
+      </p>
+      
+      <br />
+      <span onclick="slideShow(15)" class="chapter-button">
+        <b>Yay for hope!</b>
+      </span>
+    </div>
+  </div>
+  
+  <!-- Slide 16: Credits -->
+  <div class="chapter slide fade" id="slide-14" style="display: block; visibility: hidden; opacity: 0">
+    <div class="chapter-content">
+      <p>
+      </p>
+      
+      <br />
+      <span onclick="slideShow(15)" class="chapter-button">
+        <b>Let's try being neutral!</b>
+      </span>
+    </div>
+  </div>   
 
   <div class="navigation-bar">
     <div class="navigation-content">
@@ -403,6 +489,21 @@
       </span>
       <span onclick="slideShow(11)" class="slide-selector" id="slide-11-select">
         <span class="tooltip">11. Packing In Action</span>
+      </span>
+      <span onclick="slideShow(12)" class="slide-selector" id="slide-12-select">
+        <span class="tooltip">12. Neutral/Cross Party Agency</span>
+      </span>
+      <span onclick="slideShow(13)" class="slide-selector" id="slide-13-select">
+        <span class="tooltip">13. Neutrality In Action</span>
+      </span>
+      <span onclick="slideShow(14)" class="slide-selector" id="slide-14-select">
+        <span class="tooltip">14. Fixed Borders</span>
+      </span>
+      <span onclick="slideShow(15)" class="slide-selector" id="slide-15-select">
+        <span class="tooltip">15. Other Solutions</span>
+      </span>
+      <span onclick="slideShow(16)" class="slide-selector" id="slide-16-select">
+        <span class="tooltip">16. Credits</span>
       </span>
     </div>
   </div>
