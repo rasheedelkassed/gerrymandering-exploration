@@ -8,7 +8,7 @@ body {
 
 .header {
     position: relative;
-    min-height: 92vh;
+    min-height: 100vh;
     background-image: url("../sprites/header_background.png");
     background-color: #D9B573;
     background-size: 100%;
