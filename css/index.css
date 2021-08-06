@@ -116,7 +116,7 @@ em {
 
 .chapter-button {
     font-size: 1em;
-    padding: 25px;
+    padding: 20px;
     border-radius: 25px;
     border-style: solid;
     border-color:  #3c3030;
@@ -125,6 +125,7 @@ em {
     cursor: pointer;
     user-select: none;
     pointer-events: auto;
+    white-space: nowrap;
 }
 
 .title-button:hover {
@@ -133,13 +134,12 @@ em {
 
 .solve-button {
     font-size: 0.75em;
+    color: #1D99BB;
+    text-decoration: underline;
     padding: 10px;
-    border-radius: 25px;
-    border-style: solid;
-    border-color:  #3c3030;
     border-width: 2px;
-    display: inline-block;
-    position: absolute;
+    display: inline;
+    float: left;
     left: 25px;
     cursor: pointer;
     user-select: none;
@@ -162,6 +162,7 @@ em {
     background-color: #3c3030;
     width: 100%;
     display: table;
+    margin: 5%;
 }
 
 .fade {
